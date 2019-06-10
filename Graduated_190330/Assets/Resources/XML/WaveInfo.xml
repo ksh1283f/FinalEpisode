@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WaveDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<WaveInfo>
+		<id>P1</id>
+		<name>Practice</name>
+		<wave>
+			<monster>ScareCrowGold</monster>
+			<monster>ScareCrowDiamond</monster>
+		</wave>
+	</WaveInfo>	
+	<WaveInfo>
+		<id>F1</id>
+		<name>Forest</name>
+		<wave>
+			<monster>Goblin</monster>
+			<monster>Goblin</monster>
+		</wave>		
+		<wave>
+			<monster>Goblin</monster>
+			<monster>Goblin</monster>
+			<monster>GoblinWarrior</monster>
+		</wave>		
+		<wave>
+			<monster>GoblinWarrior</monster>
+			<monster>GoblinWarrior</monster>
+			<monster>GoblinArcher</monster>
+		</wave>		
+		<wave>
+			<monster>GoblinWarrior</monster>
+			<monster>GoblinWarrior</monster>
+			<monster>GoblinWarrior</monster>
+			<monster>GoblinArcher</monster>
+			<monster>GoblinArcher</monster>
+		</wave>
+	</WaveInfo>
+</WaveDatabase>

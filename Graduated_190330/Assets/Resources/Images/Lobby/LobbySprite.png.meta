@@ -1,0 +1,1596 @@
+fileFormatVersion: 2
+guid: 3cb65dd03ddc63a49868845e662c3b81
+timeCreated: 1508777977
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: LobbySprite_0
+    21300002: LobbySprite_1
+    21300004: LobbySprite_2
+    21300006: LobbySprite_3
+    21300008: LobbySprite_4
+    21300010: LobbySprite_5
+    21300012: LobbySprite_6
+    21300014: LobbySprite_7
+    21300016: LobbySprite_8
+    21300018: LobbySprite_9
+    21300020: LobbySprite_10
+    21300022: LobbySprite_11
+    21300024: LobbySprite_12
+    21300026: LobbySprite_13
+    21300028: LobbySprite_14
+    21300030: LobbySprite_15
+    21300032: LobbySprite_16
+    21300034: LobbySprite_17
+    21300036: LobbySprite_18
+    21300038: LobbySprite_19
+    21300040: LobbySprite_20
+    21300042: LobbySprite_21
+    21300044: LobbySprite_22
+    21300046: LobbySprite_23
+    21300048: LobbySprite_24
+    21300050: LobbySprite_25
+    21300052: LobbySprite_26
+    21300054: LobbySprite_27
+    21300056: LobbySprite_28
+    21300058: LobbySprite_29
+    21300060: LobbySprite_30
+    21300062: LobbySprite_31
+    21300064: LobbySprite_32
+    21300066: LobbySprite_33
+    21300068: LobbySprite_34
+    21300070: LobbySprite_35
+    21300072: LobbySprite_36
+    21300074: LobbySprite_37
+    21300076: LobbySprite_38
+    21300078: LobbySprite_39
+    21300080: LobbySprite_40
+    21300082: LobbySprite_41
+    21300084: LobbySprite_42
+    21300086: LobbySprite_43
+    21300088: LobbySprite_44
+    21300090: LobbySprite_45
+    21300092: LobbySprite_46
+    21300094: LobbySprite_47
+    21300096: LobbySprite_48
+    21300098: LobbySprite_49
+    21300100: LobbySprite_50
+    21300102: LobbySprite_51
+    21300104: LobbySprite_52
+    21300106: LobbySprite_53
+    21300108: LobbySprite_54
+    21300110: LobbySprite_55
+    21300112: LobbySprite_56
+    21300114: LobbySprite_57
+    21300116: LobbySprite_58
+    21300118: LobbySprite_59
+    21300120: LobbySprite_60
+    21300122: LobbySprite_61
+    21300124: LobbySprite_62
+    21300126: LobbySprite_63
+    21300128: LobbySprite_64
+    21300130: LobbySprite_65
+    21300132: LobbySprite_66
+    21300134: LobbySprite_67
+    21300136: LobbySprite_68
+    21300138: LobbySprite_69
+    21300140: LobbySprite_70
+    21300142: LobbySprite_71
+    21300144: LobbySprite_72
+    21300146: LobbySprite_73
+    21300148: LobbySprite_74
+    21300150: LobbySprite_75
+    21300152: LobbySprite_76
+    21300154: LobbySprite_77
+    21300156: LobbySprite_78
+    21300158: LobbySprite_79
+    21300160: LobbySprite_80
+    21300162: LobbySprite_81
+    21300164: LobbySprite_82
+    21300166: LobbySprite_83
+    21300168: LobbySprite_84
+    21300170: LobbySprite_85
+    21300172: LobbySprite_86
+    21300174: LobbySprite_87
+    21300176: LobbySprite_88
+    21300178: LobbySprite_89
+    21300180: LobbySprite_90
+    21300182: LobbySprite_91
+    21300184: LobbySprite_92
+    21300186: LobbySprite_93
+    21300188: LobbySprite_94
+    21300190: LobbySprite_95
+    21300192: LobbySprite_96
+    21300194: LobbySprite_97
+    21300196: LobbySprite_98
+    21300198: LobbySprite_99
+    21300200: LobbySprite_100
+    21300202: LobbySprite_101
+    21300204: LobbySprite_102
+    21300206: LobbySprite_103
+    21300208: LobbySprite_104
+    21300210: LobbySprite_105
+    21300212: LobbySprite_106
+    21300214: LobbySprite_107
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 1
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: LobbySprite_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 648
+        width: 49
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 582
+        width: 52
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 516
+        width: 53
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 450
+        width: 53
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 385
+        width: 59
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_5
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 316
+        width: 58
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 250
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 184
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_8
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 182
+        width: 61
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_9
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 116
+        width: 62
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_10
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 116
+        width: 62
+        height: 68
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_11
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 378
+        width: 66
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_12
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 441
+        width: 66
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_13
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 440
+        width: 66
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_14
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 377
+        width: 66
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_15
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 313
+        width: 66
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_16
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 315
+        width: 66
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_17
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 244
+        width: 68
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_18
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 176
+        width: 68
+        height: 68
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_19
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 234
+        width: 18
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 134
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_21
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 0
+        width: 156
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_22
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 0
+        width: 103
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_23
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 799
+        width: 53
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_24
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 610
+        width: 58
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_25
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 555
+        width: 61
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_26
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 503
+        width: 61
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_27
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 498
+        width: 66
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_28
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 454
+        width: 66
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_29
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 443
+        width: 29
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_30
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 475
+        width: 29
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_31
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 493
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_32
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 427
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_33
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 359
+        width: 68
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_34
+      rect:
+        serializedVersion: 2
+        x: 467
+        y: 380
+        width: 24
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_35
+      rect:
+        serializedVersion: 2
+        x: 467
+        y: 251
+        width: 25
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_36
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 256
+        width: 38
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_37
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 235
+        width: 27
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_38
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 248
+        width: 9
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_39
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 188
+        width: 36
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_40
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 189
+        width: 68
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_41
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 273
+        width: 10
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_42
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 199
+        width: 10
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_43
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 150
+        width: 10
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_44
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 103
+        width: 10
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_45
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 301
+        width: 20
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_46
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 368
+        width: 14
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_47
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 541
+        width: 30
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_48
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 593
+        width: 28
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_49
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 580
+        width: 57
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_50
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 552
+        width: 59
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_51
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 611
+        width: 52
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_52
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 677
+        width: 52
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_53
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 869
+        width: 39
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_54
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 827
+        width: 41
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_55
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 975
+        width: 38
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_56
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 737
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_57
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 622
+        width: 66
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_58
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 560
+        width: 66
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_59
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 473
+        width: 30
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_60
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 317
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_61
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 389
+        width: 66
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_62
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 323
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_63
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 257
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_64
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 284
+        width: 13
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_65
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 308
+        width: 13
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_66
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 332
+        width: 13
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_67
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 356
+        width: 13
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_68
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 380
+        width: 13
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_69
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 276
+        width: 15
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_70
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 441
+        width: 17
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_71
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 942
+        width: 34
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_72
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 964
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_73
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 961
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_74
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 961
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_75
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 978
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_76
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 942
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_77
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 919
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_78
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 919
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_79
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 878
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_80
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 877
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_81
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 839
+        width: 39
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_82
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 665
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_83
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 99
+        width: 8
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_84
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 66
+        width: 14
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_85
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 198
+        width: 20
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_86
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 396
+        width: 21
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_87
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 805
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_88
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 726
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_89
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 704
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_90
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 682
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_91
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 673
+        width: 27
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_92
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 638
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_93
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 615
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_94
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 592
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_95
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 248
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_96
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 257
+        width: 14
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_97
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 710
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_98
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 899
+        width: 43
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_99
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 907
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_100
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 941
+        width: 32
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_101
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 642
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_102
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 769
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_103
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 439
+        width: 26
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_104
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 58
+        width: 8
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_105
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 339
+        width: 17
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_106
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 304
+        width: 17
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: LobbySprite_107
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 523
+        width: 9
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

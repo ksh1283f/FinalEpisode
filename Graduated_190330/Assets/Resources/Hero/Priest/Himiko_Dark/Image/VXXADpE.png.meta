@@ -1,0 +1,292 @@
+fileFormatVersion: 2
+guid: 6beb79d82ecea2449992409bcc034990
+timeCreated: 1495082029
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: VXXADpE_0
+    21300002: VXXADpE_1
+    21300004: VXXADpE_2
+    21300006: VXXADpE_3
+    21300008: VXXADpE_4
+    21300010: VXXADpE_5
+    21300012: VXXADpE_6
+    21300014: VXXADpE_7
+    21300016: VXXADpE_8
+    21300018: VXXADpE_9
+    21300020: VXXADpE_10
+    21300022: VXXADpE_11
+    21300024: VXXADpE_12
+    21300026: VXXADpE_13
+    21300028: VXXADpE_14
+    21300030: VXXADpE_15
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: -1
+    mipBias: -1
+    wrapMode: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: VXXADpE_0
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 173
+        width: 65
+        height: 64
+      alignment: 9
+      pivot: {x: 0.4, y: 0.5390625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_1
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 171
+        width: 42
+        height: 64
+      alignment: 9
+      pivot: {x: 0.20238096, y: 0.5390625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_2
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 221
+        width: 52
+        height: 35
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5285714}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_3
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 221
+        width: 52
+        height: 35
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5285714}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 190
+        width: 52
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_5
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 190
+        width: 52
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_6
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 158
+        width: 52
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_7
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 158
+        width: 52
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_8
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 59
+        width: 73
+        height: 64
+      alignment: 9
+      pivot: {x: 0.37671232, y: 0.78125}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_9
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 63
+        width: 33
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_10
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 11
+        width: 19
+        height: 19
+      alignment: 9
+      pivot: {x: 0.57894737, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_11
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 11
+        width: 19
+        height: 22
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_12
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 6.999999
+        width: 37
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5405406, y: 0.6125}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_13
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 11
+        width: 16
+        height: 22
+      alignment: 9
+      pivot: {x: 0.59375, y: 0.6363636}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_14
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 14
+        width: 19
+        height: 19
+      alignment: 9
+      pivot: {x: 0.5, y: 0.65789473}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: VXXADpE_15
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 11
+        width: 16
+        height: 22
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5681818}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    outline: []
+  spritePackingTag: 
+  userData: 100853320122368
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,292 @@
+fileFormatVersion: 2
+guid: 4de92b534cccff449b765fd252113751
+timeCreated: 1493471589
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: texture_cos_event_pr_1_halloween_1_0
+    21300002: texture_cos_event_pr_1_halloween_1_1
+    21300004: texture_cos_event_pr_1_halloween_1_2
+    21300006: texture_cos_event_pr_1_halloween_1_3
+    21300008: texture_cos_event_pr_1_halloween_1_4
+    21300010: texture_cos_event_pr_1_halloween_1_5
+    21300012: texture_cos_event_pr_1_halloween_1_6
+    21300014: texture_cos_event_pr_1_halloween_1_7
+    21300016: texture_cos_event_pr_1_halloween_1_8
+    21300018: texture_cos_event_pr_1_halloween_1_9
+    21300020: texture_cos_event_pr_1_halloween_1_10
+    21300022: texture_cos_event_pr_1_halloween_1_11
+    21300024: texture_cos_event_pr_1_halloween_1_12
+    21300026: texture_cos_event_pr_1_halloween_1_13
+    21300028: texture_cos_event_pr_1_halloween_1_14
+    21300030: texture_cos_event_pr_1_halloween_1_15
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: -1
+    mipBias: -1
+    wrapMode: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_0
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 221
+        width: 52
+        height: 35
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5285714}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_1
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 221
+        width: 52
+        height: 35
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5285714}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_2
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 167
+        width: 67
+        height: 61
+      alignment: 9
+      pivot: {x: 0.5, y: 0.49999997}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_3
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 165
+        width: 58
+        height: 61
+      alignment: 9
+      pivot: {x: 0.5, y: 0.49999997}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 190
+        width: 52
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_5
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 190
+        width: 52
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_6
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 158
+        width: 52
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_7
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 158
+        width: 52
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_8
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 59
+        width: 124
+        height: 94
+      alignment: 9
+      pivot: {x: 0.5, y: 0.49999997}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_9
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 58
+        width: 43
+        height: 94
+      alignment: 9
+      pivot: {x: 0.5, y: 0.49999997}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_10
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 11
+        width: 19
+        height: 19
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_11
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 11
+        width: 19
+        height: 22
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_12
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 16
+        width: 40
+        height: 31
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_13
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 11
+        width: 16
+        height: 22
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_14
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 14
+        width: 16
+        height: 19
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: texture_cos_event_pr_1_halloween_1_15
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 11
+        width: 16
+        height: 25
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    outline: []
+  spritePackingTag: 
+  userData: 100853320122368
+  assetBundleName: 
+  assetBundleVariant: 
