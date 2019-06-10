@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: ba9f600933235d046aeaf2e5389bc7ec
-timeCreated: 1494844853
-licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Arnitto_0
@@ -20,7 +18,8 @@ TextureImporter:
     21300026: Arnitto_13
     21300028: Arnitto_14
     21300030: Arnitto_15
-  serializedVersion: 4
+  externalObjects: {}
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -28,6 +27,8 @@ TextureImporter:
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -36,6 +37,8 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -43,10 +46,13 @@ TextureImporter:
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: 0
     aniso: -1
-    mipBias: -1
-    wrapMode: -1
+    mipBias: -100
+    wrapU: -1
+    wrapV: -1
+    wrapW: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -55,25 +61,30 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
+  singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - buildTarget: DefaultTexturePlatform
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -89,7 +100,14 @@ TextureImporter:
       pivot: {x: 0.80861247, y: 0.6426056}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ebef3f65168094e81ab7f14ca40f9ee1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_1
       rect:
@@ -102,7 +120,14 @@ TextureImporter:
       pivot: {x: 0.53061223, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: fbf4efeed5cb64af98979ce4fd9136d0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_2
       rect:
@@ -115,7 +140,14 @@ TextureImporter:
       pivot: {x: 0.53061223, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e21b81fc822db4ffaa4ee80e59e1c644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_3
       rect:
@@ -128,7 +160,14 @@ TextureImporter:
       pivot: {x: -0.36206895, y: 0.68367344}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 4740eaf9eb27d4cf9812a7f76ee99611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_4
       rect:
@@ -141,7 +180,14 @@ TextureImporter:
       pivot: {x: 0.53061223, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3049ad5d6bff541d3ab6520da4204b96
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_5
       rect:
@@ -154,7 +200,14 @@ TextureImporter:
       pivot: {x: 0.53061223, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 17901b578487d4676af86aaa81516b1c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_6
       rect:
@@ -167,7 +220,14 @@ TextureImporter:
       pivot: {x: 0.53061223, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: db09366c7e0a545caa0e665bab05e920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_7
       rect:
@@ -180,7 +240,14 @@ TextureImporter:
       pivot: {x: 0.53061223, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: a1c687f7c467f4496ad23df56e8e23af
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_8
       rect:
@@ -193,7 +260,14 @@ TextureImporter:
       pivot: {x: 0.34507042, y: 0.734375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c99ab931197d647ed83b7c882fe008c7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_9
       rect:
@@ -206,7 +280,14 @@ TextureImporter:
       pivot: {x: 1.5921053, y: 0.45945948}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7022f2d807475428a837ab9ffee905e1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_10
       rect:
@@ -219,7 +300,14 @@ TextureImporter:
       pivot: {x: 0.65789473, y: 0.65789473}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e07c0ed9d5f88457c94f26b913df307f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_11
       rect:
@@ -232,7 +320,14 @@ TextureImporter:
       pivot: {x: 0.57894737, y: 0.6363636}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 086fbb1e94b604ce598df2d50179e2b8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_12
       rect:
@@ -245,7 +340,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5810811}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 08ea24289987e429199bc61ab98d8031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_13
       rect:
@@ -258,7 +360,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.6363636}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3cdf1325b8670492d941b28ecd07b59a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_14
       rect:
@@ -271,7 +380,14 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: cc66ac801f05f46af9f896005e1c621a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: Arnitto_15
       rect:
@@ -284,9 +400,25 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.65789473}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: dedebf71e3b0641dd8762bf39de5e407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
   spritePackingTag: 
-  userData: 101093446647808
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 636784068240000000
   assetBundleName: 
   assetBundleVariant: 

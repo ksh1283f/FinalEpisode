@@ -2020,7 +2020,7 @@ public class Reporter : MonoBehaviour
 			url = System.IO.Path.Combine(streamingAssetsPath, prefFile);
 		}
 
-		if (Application.platform != RuntimePlatform.OSXWebPlayer && Application.platform != RuntimePlatform.WindowsWebPlayer)
+		if (Application.platform != RuntimePlatform.OSXPlayer && Application.platform != RuntimePlatform.WindowsPlayer)
 			if (!url.Contains("://"))
 				url = "file://" + url;
 
