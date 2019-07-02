@@ -5,13 +5,14 @@ using UnityEngine;
 public class CharacterPropertyManager : Singletone<CharacterPropertyManager>
 {
     public Dictionary<E_PropertyType, CharacterProperty> propertyDic {get; private set;}
-    public CharacterProperty selectedProperty { get; private set; }
-    [SerializeField]  // todo 현재 선택된 프로퍼티 인스펙터에서 보여주기
+    public CharacterProperty SelectedProperty { get; private set; }
+    [SerializeField] E_PropertyType seletedType = E_PropertyType.None;// todo 현재 선택된 프로퍼티 인스펙터에서 보여주기
 
     void Start()
     {
         propertyDic = new Dictionary<E_PropertyType, CharacterProperty>();
         InitProperty();
+        //todo load from user info
     }
 
     // Test code
@@ -48,10 +49,11 @@ public class CharacterPropertyManager : Singletone<CharacterPropertyManager>
 
     public void OnChangedProperty(E_PropertyType type)
     {
-        if (selectedProperty != null && selectedProperty.PropertyType.Equals(type))
+        if (SelectedProperty != null && SelectedProperty.PropertyType.Equals(type))
             return;
 
-        selectedProperty = propertyDic[type];
+        SelectedProperty = propertyDic[type];
+        seletedType = type;
     }
 
 }

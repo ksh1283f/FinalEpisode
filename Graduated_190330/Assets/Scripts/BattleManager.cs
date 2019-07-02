@@ -128,44 +128,66 @@ public class BattleManager : Singletone<BattleManager>
     }
 
     #region 버블 생성 관련
+
     public void GenerateSkillResource(E_SkillResourceType skillResourceType)
     {
         if (PhaseType == E_PhaseType.None)
             return;
 
-        // todo: 쿨타임 완료여부
         if (!IsCooldownComplite)
             return;
 
-        int createCount = 0;
+        int createCount = 1;    // 만들어질 자원 변수
+        int createdCount = 0;   // 만들어진 자원 변수
+
         switch (skillResourceType)
         {
             case E_SkillResourceType.Attack:
                 if (AttackResourceCount == MAX_SKILL_RESOURCE_COUNT)
                     return;
 
-                AttackResourceCount++;
-                createCount = AttackResourceCount;
+                if (CharacterPropertyManager.Instance.SelectedProperty != null
+                && CharacterPropertyManager.Instance.SelectedProperty.PropertyType == E_PropertyType.Atk)
+                    createCount++;
+
+                AttackResourceCount += createCount;
+                if (this.AttackResourceCount >= MAX_SKILL_RESOURCE_COUNT)
+                    this.AttackResourceCount = MAX_SKILL_RESOURCE_COUNT;
+
+                createdCount = this.AttackResourceCount;
                 break;
 
             case E_SkillResourceType.Util:
                 if (UtilResourceCount == MAX_SKILL_RESOURCE_COUNT)
                     return;
 
-                UtilResourceCount++;
-                createCount = UtilResourceCount;
+                if (CharacterPropertyManager.Instance.SelectedProperty != null
+                && CharacterPropertyManager.Instance.SelectedProperty.PropertyType == E_PropertyType.Util)
+                    createCount++;
+
+                UtilResourceCount += createCount;
+                if(this.UtilResourceCount >= MAX_SKILL_RESOURCE_COUNT)
+                    this.UtilResourceCount = MAX_SKILL_RESOURCE_COUNT;
+
+                createdCount = UtilResourceCount;
                 break;
 
             case E_SkillResourceType.Defense:
                 if (DefenseResourceCount == MAX_SKILL_RESOURCE_COUNT)
                     return;
 
-                DefenseResourceCount++;
-                createCount = DefenseResourceCount;
+                if (CharacterPropertyManager.Instance.SelectedProperty != null
+                && CharacterPropertyManager.Instance.SelectedProperty.PropertyType == E_PropertyType.Def)
+                    createCount++;
+
+                DefenseResourceCount += createCount;
+                if(this.DefenseResourceCount >= MAX_SKILL_RESOURCE_COUNT)
+                this.DefenseResourceCount = MAX_SKILL_RESOURCE_COUNT;
+                createdCount = DefenseResourceCount;
                 break;
         }
 
-        BattleUI.Instance.SetSkillResorce(skillResourceType, true, createCount);
+        BattleUI.Instance.SetSkillResorce(skillResourceType, true, createdCount);
         OnStartCooldown.Execute(Cooltime);
         Debug.Log(skillResourceType + ": " + createCount);
     }
