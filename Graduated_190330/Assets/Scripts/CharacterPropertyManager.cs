@@ -13,6 +13,7 @@ public class CharacterPropertyManager : Singletone<CharacterPropertyManager>
         propertyDic = new Dictionary<E_PropertyType, CharacterProperty>();
         InitProperty();
         //todo load from user info
+
     }
 
     // Test code
@@ -54,6 +55,16 @@ public class CharacterPropertyManager : Singletone<CharacterPropertyManager>
 
         SelectedProperty = propertyDic[type];
         seletedType = type;
+
+        // 유저정보에 변경된 사항 저장
+        UserManager.Instance.SetPropertyInUserInfo(type);
+    }
+
+    public void UpdatePropertyFromUserInfo()
+    {
+        UserInfo userInfo = UserManager.Instance.UserInfo;
+        SelectedProperty = propertyDic[userInfo.PropertyType];
+        seletedType = userInfo.PropertyType;
     }
 
 }

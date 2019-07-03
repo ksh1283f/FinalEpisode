@@ -46,6 +46,4 @@ public class PropertyImage : MonoBehaviour
             CharacterPropertyManager.Instance.OnChangedProperty(propertyType);
         }
     }
-
-
 }

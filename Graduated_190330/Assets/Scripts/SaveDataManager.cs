@@ -32,6 +32,7 @@ public class SaveDataManager : Singletone<SaveDataManager>
         try
         {
             string userJsonData = File.ReadAllText(path);
+            //todo enum값은 util parse함수를 이용하여 별도 처리가 필요할 수 있다.
             UserInfo userInfo = JsonUtility.FromJson<UserInfo>(userJsonData);
 
             return userInfo;
@@ -68,7 +69,7 @@ public class SaveDataManager : Singletone<SaveDataManager>
     /// <param name="gold"></param>
     /// <param name="unitList"></param>
     /// <param name="unitCommonPropertyList"></param>
-    public void WriteUserInfoData(string userName, int teamLevel = 1, int exp = 0, int gold = 0, List<E_Class> unitList = null, List<int> unitCommonPropertyList = null)
+    public void WriteUserInfoData(string userName, int teamLevel = 1, int exp = 0, int gold = 0, E_PropertyType property = E_PropertyType.None, List<E_Class> unitList = null)
     {
         DirectoryInfo di = new DirectoryInfo(dataFullPath);
         if (!di.Exists)
@@ -91,14 +92,7 @@ public class SaveDataManager : Singletone<SaveDataManager>
                 userInfo.UnitList = unitList;
         }
 
-        userInfo.UnitCommonPropertyList = unitCommonPropertyList;
-        if (userInfo.UnitCommonPropertyList == null)
-            userInfo.UnitCommonPropertyList = new List<int>();
-        else
-        {
-            if (unitCommonPropertyList != null)
-                userInfo.UnitCommonPropertyList = unitCommonPropertyList;
-        }
+        userInfo.PropertyType = property;
 
         JsonUtility.ToJson(userInfo);
         string toJson = JsonUtility.ToJson(userInfo, prettyPrint: true);
@@ -108,13 +102,23 @@ public class SaveDataManager : Singletone<SaveDataManager>
             PlayerPrefs.SetInt(IsSavedUserInfo, 1);
     }
 
-    public void WriteUserInfoData(UserInfo userInfo, bool isWriteLists)
+    /// <summary>
+    /// 유저정보 갱신
+    /// 기존 UserInfo.json 파일이 존재하는 경우에만
+    /// </summary>
+    /// <param name="userName"></param>
+    /// <param name="teamLevel"></param>
+    /// <param name="gold"></param>
+    /// <param name="unitList"></param>
+    /// <param name="unitCommonPropertyList"></param>
+    public void UpdateUserInfoData(UserInfo userInfo)
     {
         if (userInfo == null)
             return;
-        if (isWriteLists)
-            WriteUserInfoData(userInfo.UserName, userInfo.TeamLevel, userInfo.Exp, userInfo.Gold);
-        else
-            WriteUserInfoData(userInfo.UserName, userInfo.TeamLevel, userInfo.Exp, userInfo.Gold, userInfo.UnitList, userInfo.UnitCommonPropertyList);
+
+        string path = string.Concat(dataFullPath, userInfoData);
+        JsonUtility.ToJson(userInfo);
+        string toJson = JsonUtility.ToJson(userInfo, prettyPrint: true);
+        File.WriteAllText(path, toJson);
     }
 }

@@ -64,20 +64,32 @@ public class CharacterPropertyUI : uiSingletone<CharacterPropertyUI>, IBaseUI
             return;
         }
 
+        if(UserManager.Instance.UserInfo == null)
+        {
+            Debug.LogError("UserInfo is nul");
+            return;
+        }
+
         foreach (var item in CharacterPropertyManager.Instance.propertyDic)
         {
             switch (item.Key)
             {
                 case E_PropertyType.Atk:
                     AtkImage.SetProperty(item.Value);
+                    if(UserManager.Instance.UserInfo.PropertyType == item.Key)
+                        AtkImage.PropertyToggle.isOn = true;
                     break;
 
                 case E_PropertyType.Util:
                     UtilImage.SetProperty(item.Value);
+                    if(UserManager.Instance.UserInfo.PropertyType == item.Key)
+                        UtilImage.PropertyToggle.isOn = true;
                     break;
 
                 case E_PropertyType.Def:
                     DefImage.SetProperty(item.Value);
+                    if(UserManager.Instance.UserInfo.PropertyType == item.Key)
+                        DefImage.PropertyToggle.isOn = true;
                     break;
             }
         }

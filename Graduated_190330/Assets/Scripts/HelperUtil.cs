@@ -45,6 +45,11 @@ public static class HelperUtil
         action(t1, t2, t3, t4);
     }
 
+    public static T Parse<T>(this System.Enum aEnum, string aText)
+    {
+        return (T)System.Enum.Parse(typeof(T), aText);
+    }
+
     public static bool IsHealable(this E_Class classType)
     {
         switch (classType)

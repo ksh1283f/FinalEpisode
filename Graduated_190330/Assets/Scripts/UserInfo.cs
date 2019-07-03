@@ -11,7 +11,8 @@ public class UserInfo
     public int Exp;
     public int Gold;
     public List<E_Class> UnitList;
-    public List<int> UnitCommonPropertyList;    // 유닛 특성 리스트
+    // public List<int> UnitCommonPropertyList;    // 유닛 특성 리스트
+    public E_PropertyType PropertyType; // 전투 특성
     
     public bool isClearTutorial;    // 유저 튜토리얼 클리어 유무 
 

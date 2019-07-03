@@ -71,13 +71,15 @@ public class UserManager : Singletone<UserManager>
 
     void Start()
     {
+        // 내부 함수 이벤트
         OnEnterStartPage += OnStartPage;
         OnEnterLodingLobby += OnLodingLobby;
         OnEnterLobby += OnLobby;
         OnEnterLodingBattle += OnLodingBattle;
         OnEnterBattle += OnBattle;
 
-        
+        // 외부 함수 이벤트
+        OnEnterLobby += CharacterPropertyManager.Instance.UpdatePropertyFromUserInfo;
     }
 
     void GetUserInfo()
@@ -101,6 +103,7 @@ public class UserManager : Singletone<UserManager>
         UserSituation = E_UserSituation.Lobby;
     }
 
+    // 유저 기본 정보 갱신 함수
     public void SetUserInfo(string userName, int teamLevel, int exp, int gold)
     {
         if (UserInfo == null)
@@ -112,22 +115,16 @@ public class UserManager : Singletone<UserManager>
         UserInfo.TeamLevel = teamLevel;
         UserInfo.Exp = exp;
         UserInfo.Gold = gold;
-        SaveDataManager.Instance.WriteUserInfoData(UserInfo, false);
+        SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
     }
 
-    public void SetUserInfo(string userName, int teamLevel, int exp, int gold, List<E_Class> unitList, List<int> unitCommonPropertyList)
+    public void SetPropertyInUserInfo(E_PropertyType propertyType)
     {
-        if (UserInfo == null)
-            return;
+        if(UserInfo == null)
+        return;
 
-        SetUserInfo(userName, teamLevel, exp, gold);
-        if (unitList != null)
-            UserInfo.UnitList = unitList;
-
-        if (unitCommonPropertyList != null)
-            UserInfo.UnitCommonPropertyList = unitCommonPropertyList;
-
-        SaveDataManager.Instance.WriteUserInfoData(UserInfo,true);
+        UserInfo.PropertyType = propertyType;
+        SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
     }
 
     void OnStartPage()

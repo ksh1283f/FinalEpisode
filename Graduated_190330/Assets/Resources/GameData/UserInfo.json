@@ -4,7 +4,7 @@
     "Exp": 60,
     "Gold": 400,
     "UnitList": [],
-    "UnitCommonPropertyList": [],
+    "PropertyType": 3,
     "isClearTutorial": false,
     "Atk": 0,
     "Def": 0,
