@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
+using System.Text;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
 {
@@ -12,7 +13,9 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
     [SerializeField] Button btnStart;
     [SerializeField] Button btnCancel;
 
-    List<DungeonSelectContent> dungeonList;
+    [SerializeField] DungeonSelectContent content;  // 개수가 부족할 시 동적으로 생성할 용도
+
+    [SerializeField] List<DungeonSelectContent> dungeonList;
 
     protected override void Awake()
     {
@@ -24,10 +27,10 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
 
     void Start()
     {
-        if(btnStart != null)
+        if (btnStart != null)
             btnStart.onClick.AddListener(OnClickedStart);
-            
-        if( btnCancel != null)
+
+        if (btnCancel != null)
             btnCancel.onClick.AddListener(OnClickedCancel);
 
         Close();
@@ -45,11 +48,29 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
 
         if (titleText != null)
             titleText.text = dataList[0];
+
+        int clearStep = UserManager.Instance.UserInfo.BestDungeonStep;
+        SetDungeonList(clearStep);
     }
 
     void SetDungeonList(int clearStep)
     {
         // 클리어 단수까지 생성
+        dungeonList = GetComponentsInChildren<DungeonSelectContent>().ToList();
+        for (int i = 0; i < 10; i++)    // todo 10 convert to clearStep
+        {
+            if (i >= dungeonList.Count)
+            {
+                DungeonSelectContent newContent = Instantiate(content) as DungeonSelectContent;
+                newContent.transform.SetParent(content.transform.parent);
+                newContent.transform.localScale = Vector3.one;  // 스케일 보정
+                dungeonList.Add(newContent);
+            }
+
+            dungeonList[i].SetDataInfo(string.Concat(i, "번째 던전"), string.Empty, false);//  todo 던전 데이터를 받아와서 처리하기
+            // dungeonList[i].OnClickedShowDetail = 
+
+        }
 
     }
 
