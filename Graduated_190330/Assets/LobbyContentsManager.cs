@@ -54,7 +54,9 @@ public class LobbyContentsManager : Singletone<LobbyContentsManager>
 
             case E_LobbyContents.ToBattle:
                 // TODO 별도의 UI를 불러와서 시작할수 있도록 셋팅하기: 현재 다이렉트로 씬 로딩하도록 작업(190310)
-                StartCoroutine(BattleSceneLoad());
+              
+                DungeonUI dungeonUI = UIManager.Instance.LoadUI(E_UIType.DungeonSelect) as DungeonUI;
+                dungeonUI.Show(new string[] {"던전 정보"});
                 break;
 
             case E_LobbyContents.Etc:
@@ -65,12 +67,5 @@ public class LobbyContentsManager : Singletone<LobbyContentsManager>
         }
     }
 
-    IEnumerator BattleSceneLoad()
-    {
-        lobbyUI.Close();
-        UserManager.Instance.UserSituation = E_UserSituation.Battle;
-        AsyncOperation ao = SceneManager.LoadSceneAsync("Battle_True");
-        while (!ao.isDone)
-            yield return null;
-    }
+    
 }

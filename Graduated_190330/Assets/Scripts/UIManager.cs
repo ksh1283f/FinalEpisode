@@ -13,6 +13,7 @@ public enum E_UIType
     BattlePhaseInfo,    // obsolete
     Battle,
     CharacterProperty,
+    DungeonSelect,
 }
 
 public interface IBaseUI

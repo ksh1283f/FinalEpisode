@@ -1,13 +1,14 @@
 {
     "UserName": "knl",
     "TeamLevel": 2,
-    "Exp": 60,
-    "Gold": 400,
+    "Exp": 80,
+    "Gold": 500,
     "UnitList": [],
     "PropertyType": 3,
     "isClearTutorial": false,
     "Atk": 0,
     "Def": 0,
     "Cri": 0,
-    "Spd": 0
+    "Spd": 0,
+    "BestDungeonStep": 0
 }
