@@ -51,16 +51,20 @@ public class InteractableObject : MonoBehaviour
         //if (!canvas.activeInHierarchy)
         if (UIManager.Instance.openedUiDic.Count == 1)
         {
-            spriteRenderer.color = new Color32(150, 150, 150, 255);
+            if (lobbyContents.contentsType != E_LobbyContents.Ground)
+                spriteRenderer.color = new Color32(150, 150, 150, 255);
+
             canClick = true;
             clickCancelCount = 0;
 
             if (scrollCoroutine != null && coroutineObject != null)
             {
+
                 coroutineObject.StopCoroutine(scrollCoroutine);
             }
             if (forcusingCoroutine != null && coroutineObject != null)
             {
+
                 coroutineObject.StopCoroutine(forcusingCoroutine);
             }
         }
@@ -72,8 +76,10 @@ public class InteractableObject : MonoBehaviour
         // 1인 이유는 해당 ui가 켜져있을때는 드래그가 안되도록 하기 위함임
         if (UIManager.Instance.openedUiDic.Count == 1)
         {
-            spriteRenderer.color = new Color32(255, 255, 255, 255);
-            if (canClick)
+            if (lobbyContents.contentsType != E_LobbyContents.Ground)
+                spriteRenderer.color = new Color32(255, 255, 255, 255);
+
+            if (canClick && lobbyContents.contentsType != E_LobbyContents.Ground)
                 forcusingCoroutine = StartCoroutine(Forcusing());
 
             if (scrollCoroutine != null && coroutineObject != null)

@@ -11,6 +11,7 @@ public enum E_LobbyContents
     CharacterManage,
     ToBattle,
     Etc,    // 기타(후에 추가될 컨텐츠들 임시명)
+    Ground,
 }
 
 public class LobbyContentsManager : Singletone<LobbyContentsManager>
