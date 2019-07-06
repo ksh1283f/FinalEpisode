@@ -1,0 +1,4 @@
+﻿Id,ImagePath,Name,Description,PropertyEffectType,PropertyType,EffectValue
+0,SkillIcon/RogueIcons/Transparent/SIH_18_1,추가 공격자원,공격자원버튼 클릭 시 추가로 자원을 1개 더 얻습니다.,1,1,1
+1,SkillIcon/RogueIcons/Filled/SIH_10,추가 유틸자원,유틸자원버튼 클릭 시 추가로 자원을 1개 더 얻습니다.,2,2,1
+2,SkillIcon/WarriorIcons/Filled/Reflect_2,추가 방어자원,방어자원버튼 클릭 시 추가로 자원을 1개 더 얻습니다.,3,3,1
