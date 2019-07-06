@@ -19,10 +19,11 @@ public enum E_GameDataType
 
 public class GameDataManager : Singletone<GameDataManager>
 {
-    private const string dataDefalutPath = "/Resources/GameData/";
+    private const string dataDefalutPath = "GameData/";
+
     private const string DungeonDataName = "DungeonData.csv";
     private const string CharacterDataName = "CharacterData.csv";
-    private const string battlePropertyDataName = "BattlePropertyData.csv";
+    private const string battlePropertyDataName = "BattlePropertyData";
     private const string MarketDataName = "MarketData.csv";
     private const string LocalizeDataName = "LocalizeData.csv";
 
@@ -69,7 +70,7 @@ public class GameDataManager : Singletone<GameDataManager>
         }
         catch
         {
-            Debug.Log("알수없는 에러");
+            Debug.LogError("알수없는 에러");
             return;
         }
     }
@@ -78,26 +79,23 @@ public class GameDataManager : Singletone<GameDataManager>
     {
         if (string.IsNullOrEmpty(path))
         {
-            Debug.LogError("BattlePropertyData is null or emtpy");
+            Debug.LogError("BattlePropertyData path is null or emtpy");
             return;
         }
 
-        string dataFullPath = string.Concat(Application.dataPath, dataDefalutPath, path);
-        FileStream fs = new FileStream(dataFullPath, FileMode.Open);
-        StreamReader sr = new StreamReader(fs, Encoding.UTF8, false);
+        string dataFullPath = string.Concat(dataDefalutPath, path);
+        TextAsset assetData = Resources.Load(dataFullPath) as TextAsset;
+        string[] textData = assetData.text.Split('\n'); // 줄단위로 구분
         string strLineValue = string.Empty;
         string[] values = null;
-        int index = 0;
-        while ((strLineValue = sr.ReadLine()) != null)
+        for (int i = 0; i < textData.Length; i++)
         {
+            strLineValue = textData[i];
             if (string.IsNullOrEmpty(strLineValue))
                 return;
 
-            if (index == 0)  // 초기값일때는 키로 간주
-            {
-                index++;
+            if (i == 0)
                 continue;
-            }
 
             values = strLineValue.Split(',');
             int id = Convert.ToInt32(values[0]);
@@ -111,7 +109,35 @@ public class GameDataManager : Singletone<GameDataManager>
             CharacterProperty data = new CharacterProperty(id, imagePath, name, description, propertyType, effectType, effectValue);
 
             BattlePropertyDic.Add(data.Id, data);
-            index++;
         }
+
+        // FileStream fs = new FileStream(dataFullPath, FileMode.Open);
+        // StreamReader sr = new StreamReader(fs, Encoding.UTF8, false);
+        // int index = 0;
+        // while ((strLineValue = sr.ReadLine()) != null)
+        // {
+        //     if (string.IsNullOrEmpty(strLineValue))
+        //         return;
+
+        //     if (index == 0)  // 초기값일때는 키로 간주
+        //     {
+        //         index++;
+        //         continue;
+        //     }
+
+        //     values = strLineValue.Split(',');
+        //     int id = Convert.ToInt32(values[0]);
+        //     string imagePath = values[1];
+        //     string name = values[2];
+        //     string description = values[3];
+        //     E_PropertyEffectType effectType = (E_PropertyEffectType)Convert.ToInt32(values[4]);
+        //     E_PropertyType propertyType = (E_PropertyType)Convert.ToInt32(values[5]);
+        //     int effectValue = Convert.ToInt32(values[6]);
+
+        //     CharacterProperty data = new CharacterProperty(id, imagePath, name, description, propertyType, effectType, effectValue);
+
+        //     BattlePropertyDic.Add(data.Id, data);
+        //     index++;
+        // }
     }
 }
