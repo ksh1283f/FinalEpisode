@@ -166,7 +166,7 @@ public class BattleManager : Singletone<BattleManager>
                     createCount++;
 
                 UtilResourceCount += createCount;
-                if(this.UtilResourceCount >= MAX_SKILL_RESOURCE_COUNT)
+                if (this.UtilResourceCount >= MAX_SKILL_RESOURCE_COUNT)
                     this.UtilResourceCount = MAX_SKILL_RESOURCE_COUNT;
 
                 createdCount = UtilResourceCount;
@@ -181,8 +181,8 @@ public class BattleManager : Singletone<BattleManager>
                     createCount++;
 
                 DefenseResourceCount += createCount;
-                if(this.DefenseResourceCount >= MAX_SKILL_RESOURCE_COUNT)
-                this.DefenseResourceCount = MAX_SKILL_RESOURCE_COUNT;
+                if (this.DefenseResourceCount >= MAX_SKILL_RESOURCE_COUNT)
+                    this.DefenseResourceCount = MAX_SKILL_RESOURCE_COUNT;
                 createdCount = DefenseResourceCount;
                 break;
         }
@@ -209,10 +209,11 @@ public class BattleManager : Singletone<BattleManager>
                     return;
 
                 count = AttackResourceCount;
-                AttackResourceCount = 0;
+                
                 Debug.Log(skillResourceType + "," + "used count" + ": " + count + ", remain count: " + AttackResourceCount);
                 int damage = CalculateAttackDamage();
                 nowEnemy.GetDamaged(damage);
+                AttackResourceCount = 0;
                 break;
 
             case E_SkillResourceType.Util:
@@ -377,11 +378,11 @@ public class BattleManager : Singletone<BattleManager>
 
         //임시 데이터
         #region 임시 데이터
-        //int hp, int atk, int def
-        // UnitData unitData = new UnitData(50, 10, 10);
-
         for (int i = 0; i < PlayerUnitList.Count; i++)
         {
+            //todo 새로운 생성자 사용하기
+            // UnitData(int id, int hp, int atk, int def, 
+            //      int cri, int spd, string iconName, E_CharacterType characterType)
             UnitData unitData = new UnitData(50, 10, 10, string.Empty);
             unitDataList.Add(unitData);
             PlayerUnitList[i].HP = unitData.Hp;
@@ -400,7 +401,7 @@ public class BattleManager : Singletone<BattleManager>
         enemyPatterns.Add(new EnemyPattern(4, "유령 출몰", E_UserSkillType.Util, 4f, "Haunt", 20));
         enemyPatterns.Add(new EnemyPattern(6, "황천의 차원문", E_UserSkillType.AttackAndUtil, 5f, "Nether portal", 80));
 
-        dungeonPattern = new DungeonPattern("Wizard", 100, enemyPatterns, "잡몹스킬", 5f);
+        dungeonPattern = new DungeonPattern("Wizard", 1000, enemyPatterns, "잡몹스킬", 5f);
         for (int i = 0; i < EnemyUnitList.Count; i++)
         {
             EnemyUnitList[i].HP = dungeonPattern.EnemyHealth;
@@ -481,6 +482,7 @@ public class BattleManager : Singletone<BattleManager>
                 {
                     // 지 입기
                     CalculatedPlayerDamaged(thisPattern.Damage);
+                    Debug.Log("[Test] Damage from monster: " + thisPattern.Damage);
                 }
                 OnCorrespondPattern.Execute(result);
 
@@ -557,7 +559,7 @@ public class BattleManager : Singletone<BattleManager>
         float criValue = 0f;    // 크리확률 받아오는 작업 필요
         if (criValue < cri)
             calculatedDamage *= 2;
-
+        Debug.Log("[Test]Damage from player: " + calculatedDamage);
         return calculatedDamage;
     }
 

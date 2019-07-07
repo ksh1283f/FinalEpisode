@@ -1,0 +1,5 @@
+﻿id,HP,Atk,Def,Cri,Spd,iconName,CharacterType,Price
+0,100,30,80,1,1,ClassIcon/WarriorIcon,1,50
+1,50,80,20,5,2,ClassIcon/MageIcon,2,50
+2,70,50,50,10,1,ClassIcon/WarlockIcon,3,80
+3,40,70,20,8,10,ClassIcon/RogueIcon,4,80

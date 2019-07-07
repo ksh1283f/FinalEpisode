@@ -14,6 +14,8 @@ public enum E_UIType
     Battle,
     CharacterProperty,
     DungeonSelect,
+    TrainingCenter,
+    
 }
 
 public interface IBaseUI
