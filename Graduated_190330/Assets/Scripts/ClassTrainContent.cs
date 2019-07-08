@@ -14,10 +14,13 @@ public class ClassTrainContent : MonoBehaviour
     [SerializeField] Button btnShowDetail;
     public UnitData UnitData { get; private set; }
     public Action<UnitData> OnClickedContent { get; set; }
+    public bool IsSelected { get; private set; }
     void Start()
     {
         if (btnShowDetail != null)
-            btnShowDetail.onClick.AddListener(() => { OnClickedContent.Execute(UnitData); });
+            btnShowDetail.onClick.AddListener(OnSelectedContent);
+
+        IsSelected = false;
     }
 
     public void SetUnitData(UnitData unitData)
@@ -44,7 +47,8 @@ public class ClassTrainContent : MonoBehaviour
             return;
 
         // set class icon
-        classIcon.sprite = Resources.Load(unitData.IconName) as Sprite;
+        Sprite temp =  Resources.Load<Sprite>(unitData.IconName);
+        classIcon.sprite =temp;
 
         // set text
         StringBuilder sb = new StringBuilder();
@@ -76,7 +80,8 @@ public class ClassTrainContent : MonoBehaviour
                 break;
 
             default:
-                sb.Append("Class type ERROR");
+                sb.Append("Class type ERROR: ");
+                sb.Append(unitData.CharacterType);
                 return;
         }
 
@@ -85,5 +90,21 @@ public class ClassTrainContent : MonoBehaviour
         sb.Append("구매가: ");
         sb.Append(unitData.Price);
         valueText.text = sb.ToString();
+    }
+
+    void OnSelectedContent()
+    {
+        if (UnitData == null)
+            return;
+
+        OnClickedContent.Execute(UnitData);
+        IsSelected = true;
+    }
+
+    public void ReleaseSelected()
+    {
+        if(!IsSelected)
+            return;
+        IsSelected = false;
     }
 }

@@ -14,7 +14,6 @@ public class CharacterPropertyManager : Singletone<CharacterPropertyManager>
         InitProperty();
     }
 
-    // Test code
     void InitProperty()
     {
         foreach (var item in GameDataManager.Instance.BattlePropertyDic)

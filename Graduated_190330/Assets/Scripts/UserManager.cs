@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Graduate.GameData.UnitData;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +17,7 @@ public enum E_UserSituation
 
 public class UserManager : Singletone<UserManager>
 {
-
+    public static int MAX_CHARACTER_COUNT = 8;
     public AsyncOperation ao;
     // 유저 정보 변수
     public UserInfo UserInfo { get; private set; }
@@ -177,5 +178,29 @@ public class UserManager : Singletone<UserManager>
 
         Debug.LogError("start loadLobbyScene");
         UserSituation = E_UserSituation.LodingLobby;
+    }
+
+    public void SetMyUnitList(UnitData changedData)
+    {
+        if(changedData == null)
+        {
+            Debug.LogError("changed data is null");
+            return;
+        }
+
+        if(UserInfo == null)
+        {
+            Debug.LogError("user info is null");
+            return;
+        }
+
+        // if(!UserInfo.UnitDic.ContainsKey(changedData.Id))
+        // {
+        //     Debug.LogError("There is no id in unitDic");
+        //     return;
+        // }
+
+        UserInfo.UnitDic[changedData.Id] = changedData;
+        SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
     }
 }

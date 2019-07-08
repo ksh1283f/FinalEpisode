@@ -13,7 +13,7 @@ public class LobbyContents : MonoBehaviour
 
     void Start()
     {
-        if(contentsNameText == null)
+        if (contentsNameText == null)
         {
             Debug.LogError("contentsNameText is null");
             return;
@@ -49,6 +49,12 @@ public class LobbyContents : MonoBehaviour
                 sb.Append("던전");
                 sb.AppendLine();
                 sb.Append("<용병 훈련 및 도전모드>");
+                break;
+
+            case E_LobbyContents.CharacterTraining:
+                sb.Append("훈련소");
+                sb.AppendLine();
+                sb.Append("<캐릭터 고용>");
                 break;
         }
 

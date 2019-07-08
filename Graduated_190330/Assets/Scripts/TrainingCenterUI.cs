@@ -30,7 +30,7 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
 
     void Start()
     {
-
+        SetContentList();
         Close();
     }
 
@@ -47,7 +47,10 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
             titleText.text = dataList[0];
 
         // 전체적인 부분 업데이트
+        if (characterDetailInfoText != null)
+            characterDetailInfoText.text = string.Empty;
 
+        ReleaseContents();
     }
 
     void SetContentList()
@@ -78,8 +81,12 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
         StringBuilder sb = new StringBuilder();
         sb.Append("Lv: 1");
         sb.AppendLine();
+        sb.AppendLine();
+        sb.Append("<기본 능력치>");
+        sb.AppendLine();
         sb.Append("Atk: ");
         sb.Append(unitData.Atk);
+        sb.AppendLine();
         sb.Append("Def: ");
         sb.Append(unitData.Def);
         sb.AppendLine();
@@ -88,13 +95,82 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
         sb.AppendLine();
         sb.Append("Spd: ");
         sb.Append(unitData.Spd);
+        sb.AppendLine();
+        sb.AppendLine();
+        sb.Append(unitData.Description);
 
         characterDetailInfoText.text = sb.ToString();
+        ReleaseContents();
     }
     // 구매기능(예외처리 포함: 골드 부족 또는 캐릭터 인벤이 가득 찾는지)
     // 구매 후 수정된 데이터 갱신
     void BuyCharacter()
     {
+        // 선택된 캐릭터가 있는지
+        for (int i = 0; i < contentList.Count; i++)
+        {
+            if (contentList[i].IsSelected)
+            {
+                // if(UserManager.Instance.UserInfo.UnitDic == null)
+                // {
+                //     UserManager.Instance.UserInfo.UnitDic = new Dictionary<int, UnitData>();
+                // }
+                    
+                // 있다면 리스트가 가득 차진 않았는지
+                if (UserManager.Instance.UserInfo.UnitDic.Count >= UserManager.MAX_CHARACTER_COUNT)
+                {
+                    // todo messageUI같은걸로 표시해주는 작업
+                    Debug.LogError("There is no capacity in UnitDic");
+                    return;
+                }
 
+                // 돈은 제대로 있는지
+                if (UserManager.Instance.UserInfo.Gold < contentList[i].UnitData.Price)
+                {
+                    // todo messageUI같은걸로 표시해주는 작업
+                    Debug.LogError("Not enough your gold");
+                    return;
+                }
+
+                // 모든 조건이 충족되면, 새로운 사용가능한 id부여, 유저인포의 딕셔너리 갱신
+                UnitData purchasedUnit = contentList[i].UnitData;
+                int changedId = GetCreatedUnitID();
+                if(changedId == -1)
+                    return;
+                
+                purchasedUnit.UpdateUnitID(changedId);
+                UserManager.Instance.SetMyUnitList(purchasedUnit);
+                // TODO 골드 차감
+                return;
+            }
+        }
+        // 루프를 빠져나오면 선택된것이 없는 것 -> 함수 종료
+        Debug.LogError("There is no selected unit");
+    }
+
+    void ReleaseContents()
+    {
+        for (int i = 0; i < contentList.Count; i++)
+            contentList[i].ReleaseSelected();
+    }
+
+    int GetCreatedUnitID()
+    {
+        // 100번부터 시작
+        int retVal = -1;
+        int index = 0;
+        do
+        {
+            retVal = Random.Range(100, 200);
+            index++;
+            // if (index >= UserManager.Instance.UserInfo.UnitDic.Count)
+            // {
+            //     // 할당할 아이디를 모두 다 쓴 경우;;
+            //     Debug.LogError("unit dic is full;");
+            //     return retVal;
+            // }
+        } while (UserManager.Instance.UserInfo.UnitDic.ContainsKey(retVal));
+
+        return retVal;
     }
 }
