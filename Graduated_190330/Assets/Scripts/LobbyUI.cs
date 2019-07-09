@@ -26,6 +26,7 @@ public class LobbyUI : uiSingletone<LobbyUI>
     private void Start()
     {
         UserManager.Instance.OnCreateUserInfoData += SetUserInfoWithData;
+        UserManager.Instance.OnUpdatedUserInfo += SetUserInfoWithData;
     }
 
     public override void Show()

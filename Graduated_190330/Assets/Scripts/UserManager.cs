@@ -67,6 +67,7 @@ public class UserManager : Singletone<UserManager>
     public Action OnEnterBattle { get; set; }
 
     public Action<UserInfo> OnCreateUserInfoData { get; set; }
+    public Action<UserInfo> OnUpdatedUserInfo { get; set; }
 
     // 직업 특성
 
@@ -117,12 +118,25 @@ public class UserManager : Singletone<UserManager>
         UserInfo.Exp = exp;
         UserInfo.Gold = gold;
         SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
+        OnUpdatedUserInfo.Execute(UserInfo);
+    }
+
+    public void SetUserInfo(UserInfo userInfo)
+    {
+        if (userInfo == null)
+        {
+            Debug.LogError("userInfo is null");
+            return;
+        }
+
+        UserInfo = userInfo;
+        OnUpdatedUserInfo.Execute(UserInfo);
     }
 
     public void SetPropertyInUserInfo(E_PropertyType propertyType)
     {
-        if(UserInfo == null)
-        return;
+        if (UserInfo == null)
+            return;
 
         UserInfo.PropertyType = propertyType;
         SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
@@ -182,13 +196,13 @@ public class UserManager : Singletone<UserManager>
 
     public void SetMyUnitList(UnitData changedData)
     {
-        if(changedData == null)
+        if (changedData == null)
         {
             Debug.LogError("changed data is null");
             return;
         }
 
-        if(UserInfo == null)
+        if (UserInfo == null)
         {
             Debug.LogError("user info is null");
             return;
@@ -200,7 +214,11 @@ public class UserManager : Singletone<UserManager>
         //     return;
         // }
 
-        UserInfo.UnitDic[changedData.Id] = changedData;
+        // UserInfo.UnitDic[changedData.Id] = changedData;
+        if (UserInfo.UnitDic.ContainsKey(changedData.Id))
+            UserInfo.UnitDic[changedData.Id] = changedData;
+        else
+            UserInfo.UnitDic.Add(changedData.Id, changedData);
         SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
     }
 }

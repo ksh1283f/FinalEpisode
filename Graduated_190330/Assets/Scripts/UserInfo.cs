@@ -26,7 +26,4 @@ public class UserInfo
     public int Spd; // 표기는 퍼센트로 변환 (4당 1퍼)
 
     public int BestDungeonStep; // 최고 클리어 던전 단수
-
-    // todo 장착 아이템
-    public List<Item> EquipItemList;
 }

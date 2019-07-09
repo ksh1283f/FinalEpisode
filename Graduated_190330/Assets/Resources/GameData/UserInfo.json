@@ -1,59 +1,11 @@
 {
-    "UserName": "Drjay",
+    "UserName": "ssgr",
     "TeamLevel": 1,
     "Exp": 0,
-    "Gold": 10000,
+    "Gold": 40,
     "UnitList": [
         {
-            "Id": 107,
-            "Hp": 100,
-            "Atk": 30,
-            "Def": 80,
-            "Cri": 1,
-            "Spd": 1,
-            "IconName": "ClassIcon/WarriorIcon",
-            "CharacterType": 1,
-            "Price": 50,
-            "Description": "\"높은 체력과 방어력을 가진 캐릭터입니다.\"\r"
-        },
-        {
-            "Id": 107,
-            "Hp": 100,
-            "Atk": 30,
-            "Def": 80,
-            "Cri": 1,
-            "Spd": 1,
-            "IconName": "ClassIcon/WarriorIcon",
-            "CharacterType": 1,
-            "Price": 50,
-            "Description": "\"높은 체력과 방어력을 가진 캐릭터입니다.\"\r"
-        },
-        {
-            "Id": 175,
-            "Hp": 50,
-            "Atk": 80,
-            "Def": 20,
-            "Cri": 5,
-            "Spd": 2,
-            "IconName": "ClassIcon/MageIcon",
-            "CharacterType": 2,
-            "Price": 50,
-            "Description": "\"높은 공격력과 치명타를 가진 캐릭터입니다.\"\r"
-        },
-        {
-            "Id": 175,
-            "Hp": 50,
-            "Atk": 80,
-            "Def": 20,
-            "Cri": 5,
-            "Spd": 2,
-            "IconName": "ClassIcon/MageIcon",
-            "CharacterType": 2,
-            "Price": 50,
-            "Description": "\"높은 공격력과 치명타를 가진 캐릭터입니다.\"\r"
-        },
-        {
-            "Id": 160,
+            "Id": 101,
             "Hp": 70,
             "Atk": 50,
             "Def": 50,
@@ -65,31 +17,7 @@
             "Description": "\"높은 체력과 치명타를 가진 캐릭터입니다.\"\r"
         },
         {
-            "Id": 160,
-            "Hp": 70,
-            "Atk": 50,
-            "Def": 50,
-            "Cri": 10,
-            "Spd": 1,
-            "IconName": "ClassIcon/WarlockIcon",
-            "CharacterType": 3,
-            "Price": 80,
-            "Description": "\"높은 체력과 치명타를 가진 캐릭터입니다.\"\r"
-        },
-        {
-            "Id": 169,
-            "Hp": 40,
-            "Atk": 70,
-            "Def": 20,
-            "Cri": 8,
-            "Spd": 10,
-            "IconName": "ClassIcon/RogueIcon",
-            "CharacterType": 4,
-            "Price": 80,
-            "Description": "\"높은 공격력과 속도를 가진 캐릭터입니다.\""
-        },
-        {
-            "Id": 169,
+            "Id": 177,
             "Hp": 40,
             "Atk": 70,
             "Def": 20,

@@ -70,5 +70,10 @@
         {
             Id = unitID;
         }
+
+        public object ShallowCopy()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

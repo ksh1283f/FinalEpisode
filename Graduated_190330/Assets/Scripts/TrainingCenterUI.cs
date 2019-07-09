@@ -133,7 +133,7 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
                 }
 
                 // 모든 조건이 충족되면, 새로운 사용가능한 id부여, 유저인포의 딕셔너리 갱신
-                UnitData purchasedUnit = contentList[i].UnitData;
+                UnitData purchasedUnit = contentList[i].UnitData.ShallowCopy() as UnitData;
                 int changedId = GetCreatedUnitID();
                 if(changedId == -1)
                     return;
@@ -141,6 +141,11 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
                 purchasedUnit.UpdateUnitID(changedId);
                 UserManager.Instance.SetMyUnitList(purchasedUnit);
                 // TODO 골드 차감
+                int gold = UserManager.Instance.UserInfo.Gold;
+                gold -= purchasedUnit.Price;
+                UserInfo userInfo = UserManager.Instance.UserInfo;
+
+                UserManager.Instance.SetUserInfo(userInfo.UserName,userInfo.TeamLevel,userInfo.Exp,gold);
                 return;
             }
         }
@@ -162,13 +167,14 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
         do
         {
             retVal = Random.Range(100, 200);
+            Debug.Log("created key value: "+retVal);
             index++;
-            // if (index >= UserManager.Instance.UserInfo.UnitDic.Count)
-            // {
-            //     // 할당할 아이디를 모두 다 쓴 경우;;
-            //     Debug.LogError("unit dic is full;");
-            //     return retVal;
-            // }
+            if (index >= UserManager.MAX_CHARACTER_COUNT)
+            {
+                // 할당할 아이디를 모두 다 쓴 경우;;
+                Debug.LogError("unit dic is full;");
+                return -1;
+            }
         } while (UserManager.Instance.UserInfo.UnitDic.ContainsKey(retVal));
 
         return retVal;
