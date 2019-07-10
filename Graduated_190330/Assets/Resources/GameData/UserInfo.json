@@ -1,8 +1,8 @@
 {
     "UserName": "ssgr",
     "TeamLevel": 1,
-    "Exp": 0,
-    "Gold": 40,
+    "Exp": 20,
+    "Gold": 80,
     "UnitList": [
         {
             "Id": 101,
@@ -27,9 +27,81 @@
             "CharacterType": 4,
             "Price": 80,
             "Description": "\"높은 공격력과 속도를 가진 캐릭터입니다.\""
+        },
+        {
+            "Id": 147,
+            "Hp": 100,
+            "Atk": 30,
+            "Def": 80,
+            "Cri": 1,
+            "Spd": 1,
+            "IconName": "ClassIcon/WarriorIcon",
+            "CharacterType": 1,
+            "Price": 50,
+            "Description": "\"높은 체력과 방어력을 가진 캐릭터입니다.\"\r"
+        },
+        {
+            "Id": 132,
+            "Hp": 100,
+            "Atk": 30,
+            "Def": 80,
+            "Cri": 1,
+            "Spd": 1,
+            "IconName": "ClassIcon/WarriorIcon",
+            "CharacterType": 1,
+            "Price": 50,
+            "Description": "\"높은 체력과 방어력을 가진 캐릭터입니다.\"\r"
+        },
+        {
+            "Id": 162,
+            "Hp": 70,
+            "Atk": 50,
+            "Def": 50,
+            "Cri": 10,
+            "Spd": 1,
+            "IconName": "ClassIcon/WarlockIcon",
+            "CharacterType": 3,
+            "Price": 80,
+            "Description": "\"높은 체력과 치명타를 가진 캐릭터입니다.\"\r"
+        },
+        {
+            "Id": 198,
+            "Hp": 40,
+            "Atk": 70,
+            "Def": 20,
+            "Cri": 8,
+            "Spd": 10,
+            "IconName": "ClassIcon/RogueIcon",
+            "CharacterType": 4,
+            "Price": 80,
+            "Description": "\"높은 공격력과 속도를 가진 캐릭터입니다.\""
+        },
+        {
+            "Id": 182,
+            "Hp": 70,
+            "Atk": 50,
+            "Def": 50,
+            "Cri": 10,
+            "Spd": 1,
+            "IconName": "ClassIcon/WarlockIcon",
+            "CharacterType": 3,
+            "Price": 80,
+            "Description": "\"높은 체력과 치명타를 가진 캐릭터입니다.\"\r"
+        },
+        {
+            "Id": 197,
+            "Hp": 40,
+            "Atk": 70,
+            "Def": 20,
+            "Cri": 8,
+            "Spd": 10,
+            "IconName": "ClassIcon/RogueIcon",
+            "CharacterType": 4,
+            "Price": 80,
+            "Description": "\"높은 공격력과 속도를 가진 캐릭터입니다.\""
         }
     ],
-    "PropertyType": 0,
+    "PropertyType": 1,
     "isClearTutorial": false,
     "Atk": 0,
     "Def": 0,

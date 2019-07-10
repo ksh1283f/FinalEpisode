@@ -110,16 +110,13 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
         for (int i = 0; i < contentList.Count; i++)
         {
             if (contentList[i].IsSelected)
-            {
-                // if(UserManager.Instance.UserInfo.UnitDic == null)
-                // {
-                //     UserManager.Instance.UserInfo.UnitDic = new Dictionary<int, UnitData>();
-                // }
-                    
+            { 
                 // 있다면 리스트가 가득 차진 않았는지
                 if (UserManager.Instance.UserInfo.UnitDic.Count >= UserManager.MAX_CHARACTER_COUNT)
                 {
                     // todo messageUI같은걸로 표시해주는 작업
+                    MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+                    messageUI.Show(new string[] { "유저 메세지", "더이상 용병을 보유할 수 없습니다." });
                     Debug.LogError("There is no capacity in UnitDic");
                     return;
                 }
@@ -128,6 +125,8 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
                 if (UserManager.Instance.UserInfo.Gold < contentList[i].UnitData.Price)
                 {
                     // todo messageUI같은걸로 표시해주는 작업
+                    MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+                    messageUI.Show(new string[] { "유저 메세지", "골드가 부족합니다." });
                     Debug.LogError("Not enough your gold");
                     return;
                 }
@@ -146,6 +145,8 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
                 UserInfo userInfo = UserManager.Instance.UserInfo;
 
                 UserManager.Instance.SetUserInfo(userInfo.UserName,userInfo.TeamLevel,userInfo.Exp,gold);
+                MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+                message.Show(new string[]{"유저 메세지", "고용완료"});
                 return;
             }
         }
