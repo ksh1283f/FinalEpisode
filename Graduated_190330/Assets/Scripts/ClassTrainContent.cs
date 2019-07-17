@@ -14,7 +14,7 @@ public class ClassTrainContent : MonoBehaviour
     [SerializeField] Button btnShowDetail;
     public UnitData UnitData { get; private set; }
     public Action<UnitData> OnClickedContent { get; set; }
-    public bool IsSelected { get; private set; }
+    public bool IsSelected;//{ get; private set; }
     void Start()
     {
         if (btnShowDetail != null)
@@ -47,8 +47,8 @@ public class ClassTrainContent : MonoBehaviour
             return;
 
         // set class icon
-        Sprite temp =  Resources.Load<Sprite>(unitData.IconName);
-        classIcon.sprite =temp;
+        Sprite temp = Resources.Load<Sprite>(unitData.IconName);
+        classIcon.sprite = temp;
 
         // set text
         StringBuilder sb = new StringBuilder();
@@ -96,15 +96,19 @@ public class ClassTrainContent : MonoBehaviour
     {
         if (UnitData == null)
             return;
-
         OnClickedContent.Execute(UnitData);
         IsSelected = true;
+        // if (!IsSelected)
+        //     OnClickedContent.Execute(null);
+        // else
+            
     }
 
     public void ReleaseSelected()
     {
-        if(!IsSelected)
+        if (!IsSelected)
             return;
+
         IsSelected = false;
     }
 }

@@ -14,8 +14,9 @@ public class UserInfo
     public int Exp;
     public int Gold;
     public Dictionary<int, UnitData> UnitDic;
+    public Dictionary<int,UnitData> SelectedUnitDic;
     public List<SerializableUnitData> UnitList; // dictionary는 serialize가 불가능
-    // public List<int> UnitCommonPropertyList;    // 유닛 특성 리스트
+    public List<SerializableUnitData> SelectedUnitList;
     public E_PropertyType PropertyType; // 전투 특성
 
     public bool isClearTutorial;    // 유저 튜토리얼 클리어 유무 

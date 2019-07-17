@@ -221,4 +221,47 @@ public class UserManager : Singletone<UserManager>
             UserInfo.UnitDic.Add(changedData.Id, changedData);
         SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
     }
+
+    public void SetMySelectedUnitList(UnitData data, E_SelectedUnitListSetType setType)
+    {
+        if (data == null)
+        {
+            Debug.LogError("unit data is null");
+            return;
+        }
+
+        if (UserInfo == null)
+        {
+            Debug.LogError("user info is null");
+            return;
+        }
+        switch (setType)
+        {
+
+            case E_SelectedUnitListSetType.Insert:
+                if (UserInfo.SelectedUnitDic.Count >= 3)
+                {
+                    Debug.LogError("SelectedUnitDic's capacity is full");
+                    return;
+                }
+                UserInfo.SelectedUnitDic.Add(data.Id, data);
+                break;
+
+            case E_SelectedUnitListSetType.Remove:
+                if (!UserInfo.SelectedUnitDic.ContainsKey(data.Id))
+                {
+                    Debug.LogError("There is not in dictionary to remove data");
+                    return;
+                }
+                UserInfo.SelectedUnitDic.Remove(data.Id);
+                break;
+
+            case E_SelectedUnitListSetType.Trade:
+                //remove and insert
+                break;
+        }
+        
+        // 유저파일에 기록
+        SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
+    }
 }

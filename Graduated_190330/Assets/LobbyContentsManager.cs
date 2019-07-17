@@ -42,7 +42,8 @@ public class LobbyContentsManager : Singletone<LobbyContentsManager>
         switch (contentsType)
         {
             case E_LobbyContents.UserInfo:
-
+                UserInformationUI informationUI  = UIManager.Instance.LoadUI(E_UIType.UserInformation)as UserInformationUI;
+                informationUI.Show(new string[] {"유저정보"});
                 break;
 
             case E_LobbyContents.CharacterProperty:

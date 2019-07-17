@@ -66,20 +66,22 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
     // 목록 클릭 시 설명 갱신
     void SetDetail(UnitData unitData)
     {
-        if (unitData == null)
-        {
-            Debug.LogError("unitData is null");
-            return;
-        }
-
         if (characterDetailInfoText == null)
         {
             Debug.LogError("charcterDetailInfoText is null");
             return;
         }
 
+        if (unitData == null)
+        {
+            Debug.LogError("unitData is null");
+            characterDetailInfoText.text = string.Empty;
+            return;
+        }
+
         StringBuilder sb = new StringBuilder();
-        sb.Append("Lv: 1");
+        sb.Append("Lv: ");
+        sb.Append(unitData.Level);
         sb.AppendLine();
         sb.AppendLine();
         sb.Append("<기본 능력치>");
@@ -102,6 +104,7 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
         characterDetailInfoText.text = sb.ToString();
         ReleaseContents();
     }
+
     // 구매기능(예외처리 포함: 골드 부족 또는 캐릭터 인벤이 가득 찾는지)
     // 구매 후 수정된 데이터 갱신
     void BuyCharacter()
@@ -139,7 +142,6 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
                 
                 purchasedUnit.UpdateUnitID(changedId);
                 UserManager.Instance.SetMyUnitList(purchasedUnit);
-                // TODO 골드 차감
                 int gold = UserManager.Instance.UserInfo.Gold;
                 gold -= purchasedUnit.Price;
                 UserInfo userInfo = UserManager.Instance.UserInfo;

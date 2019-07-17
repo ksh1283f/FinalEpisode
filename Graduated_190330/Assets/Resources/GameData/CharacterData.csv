@@ -1,5 +1,5 @@
-id,HP,Atk,Def,Cri,Spd,iconName,CharacterType,Price,Description
-0,100,30,80,1,1,ClassIcon/WarriorIcon,1,50,"높은 체력과 방어력을 가진 캐릭터입니다."
-1,50,80,20,5,2,ClassIcon/MageIcon,2,50,"높은 공격력과 치명타를 가진 캐릭터입니다."
-2,70,50,50,10,1,ClassIcon/WarlockIcon,3,80,"높은 체력과 치명타를 가진 캐릭터입니다."
-3,40,70,20,8,10,ClassIcon/RogueIcon,4,80,"높은 공격력과 속도를 가진 캐릭터입니다."
+﻿id,HP,Atk,Def,Cri,Spd,iconName,CharacterType,Price,Description,level,Exp
+0,100,30,80,1,1,ClassIcon/WarriorIcon,1,50,높은 체력과 방어력을 가진 캐릭터입니다.,1,0
+1,50,80,20,5,2,ClassIcon/MageIcon,2,50,높은 공격력과 치명타를 가진 캐릭터입니다.,1,0
+2,70,50,50,10,1,ClassIcon/WarlockIcon,3,80,높은 체력과 치명타를 가진 캐릭터입니다.,1,0
+3,40,70,20,8,10,ClassIcon/RogueIcon,4,80,높은 공격력과 속도를 가진 캐릭터입니다.,1,0

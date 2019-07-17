@@ -152,7 +152,9 @@ public class GameDataManager : Singletone<GameDataManager>
             E_CharacterType characterType = (E_CharacterType)Convert.ToInt32(values[7]);
             int price = Convert.ToInt32(values[8]);
             string description = values[9];
-            UnitData data = new UnitData(id, hp, atk,def, cri, spd, iconName, characterType, price, description);
+            int level = Convert.ToInt32(values[10]);
+            int exp = Convert.ToInt32(values[11]);
+            UnitData data = new UnitData(id, hp, atk, def, cri, spd, iconName, characterType, price, description, level, exp);
 
             CharacterDataDic.Add(id, data);
         }

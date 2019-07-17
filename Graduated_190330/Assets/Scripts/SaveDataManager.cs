@@ -36,7 +36,10 @@ public class SaveDataManager : Singletone<SaveDataManager>
             string userJsonData = File.ReadAllText(path);
             UserInfo userInfo = JsonUtility.FromJson<UserInfo>(userJsonData);
             if (userInfo.UnitDic == null)
-                userInfo.UnitDic = ConvertToUnitData(userInfo);
+                userInfo.UnitDic = ConvertToUnitData(userInfo.UnitList);
+
+            if (userInfo.SelectedUnitDic == null)
+                userInfo.SelectedUnitDic = ConvertToUnitData(userInfo.SelectedUnitList);
 
             return userInfo;
         }
@@ -56,9 +59,9 @@ public class SaveDataManager : Singletone<SaveDataManager>
             Debug.LogError(ex);
             return null;
         }
-        catch(System.Exception ex)
+        catch (System.Exception ex)
         {
-            Debug.LogError("exception: "+ ex);
+            Debug.LogError("exception: " + ex);
             return null;
         }
     }
@@ -72,7 +75,7 @@ public class SaveDataManager : Singletone<SaveDataManager>
     /// <param name="gold"></param>
     /// <param name="unitList"></param>
     /// <param name="unitCommonPropertyList"></param>
-    public void WriteUserInfoData(string userName, int teamLevel = 1, int exp = 0, int gold = 0, E_PropertyType property = E_PropertyType.None, Dictionary<int, UnitData> unitDic = null)
+    public void WriteUserInfoData(string userName, int teamLevel = 1, int exp = 0, int gold = 0, E_PropertyType property = E_PropertyType.None, Dictionary<int, UnitData> unitDic = null, Dictionary<int, UnitData> selectedUnitDic = null)
     {
         DirectoryInfo di = new DirectoryInfo(dataFullPath);
         if (!di.Exists)
@@ -95,7 +98,16 @@ public class SaveDataManager : Singletone<SaveDataManager>
                 userInfo.UnitDic = unitDic;
         }
 
-        userInfo.UnitList = ConvertToSerializableUnitdata(userInfo);
+        if (userInfo.SelectedUnitDic == null)
+            userInfo.SelectedUnitDic = new Dictionary<int, UnitData>();
+        else
+        {
+            if (selectedUnitDic != null)
+                userInfo.SelectedUnitDic = selectedUnitDic;
+        }
+
+        userInfo.UnitList = ConvertToSerializableUnitdata(userInfo.UnitDic);
+        userInfo.SelectedUnitList = ConvertToSerializableUnitdata(userInfo.SelectedUnitDic);
 
         userInfo.PropertyType = property;
 
@@ -121,17 +133,18 @@ public class SaveDataManager : Singletone<SaveDataManager>
         if (userInfo == null)
             return;
 
-        userInfo.UnitList = ConvertToSerializableUnitdata(userInfo);
+        userInfo.UnitList = ConvertToSerializableUnitdata(userInfo.UnitDic);
+        userInfo.SelectedUnitList = ConvertToSerializableUnitdata(userInfo.SelectedUnitDic);
         string path = string.Concat(dataFullPath, userInfoData);
         JsonUtility.ToJson(userInfo);
         string toJson = JsonUtility.ToJson(userInfo, prettyPrint: true);
         File.WriteAllText(path, toJson);
     }
 
-    List<SerializableUnitData> ConvertToSerializableUnitdata(UserInfo userInfo)
+    List<SerializableUnitData> ConvertToSerializableUnitdata(Dictionary<int, UnitData> dataDic)
     {
         List<SerializableUnitData> convertedList = new List<SerializableUnitData>();
-        foreach (var item in userInfo.UnitDic)
+        foreach (var item in dataDic)
         {
             SerializableUnitData data = new SerializableUnitData();
             data.Id = item.Value.Id;
@@ -144,6 +157,8 @@ public class SaveDataManager : Singletone<SaveDataManager>
             data.CharacterType = item.Value.CharacterType;
             data.Price = item.Value.Price;
             data.Description = item.Value.Description;
+            data.Level = item.Value.Level;
+            data.Exp = item.Value.Exp;
 
             convertedList.Add(data);
         }
@@ -151,29 +166,31 @@ public class SaveDataManager : Singletone<SaveDataManager>
         return convertedList;
     }
 
-    Dictionary<int, UnitData> ConvertToUnitData(UserInfo userInfo)
+    Dictionary<int, UnitData> ConvertToUnitData(List<SerializableUnitData> dataList)
     {
         Dictionary<int, UnitData> convertedDic = new Dictionary<int, UnitData>();
-        if (userInfo.UnitList == null)
-        { 
-            userInfo.UnitList = new List<SerializableUnitData>();
-            return convertedDic;           
+        if (dataList == null)
+        {
+            dataList = new List<SerializableUnitData>();
+            return convertedDic;
         }
 
-        for (int i = 0; i < userInfo.UnitList.Count; i++)
+        for (int i = 0; i < dataList.Count; i++)
         {
-            int Id = userInfo.UnitList[i].Id;
-            int Hp = userInfo.UnitList[i].Hp;
-            int Atk = userInfo.UnitList[i].Atk;
-            int Def = userInfo.UnitList[i].Def;
-            int Cri = userInfo.UnitList[i].Cri;
-            int Spd = userInfo.UnitList[i].Spd;
-            string IconName = userInfo.UnitList[i].IconName;
-            E_CharacterType CharacterType = userInfo.UnitList[i].CharacterType;
-            int Price = userInfo.UnitList[i].Price;
-            string Description = userInfo.UnitList[i].Description;
+            int Id = dataList[i].Id;
+            int Hp = dataList[i].Hp;
+            int Atk = dataList[i].Atk;
+            int Def = dataList[i].Def;
+            int Cri = dataList[i].Cri;
+            int Spd = dataList[i].Spd;
+            string IconName = dataList[i].IconName;
+            E_CharacterType CharacterType = dataList[i].CharacterType;
+            int Price = dataList[i].Price;
+            string Description = dataList[i].Description;
+            int level = dataList[i].Level;
+            int exp = dataList[i].Exp;
 
-            UnitData data = new UnitData(Id, Hp, Atk, Def, Cri, Spd, IconName, CharacterType, Price, Description);
+            UnitData data = new UnitData(Id, Hp, Atk, Def, Cri, Spd, IconName, CharacterType, Price, Description, level, exp);
             convertedDic.Add(data.Id, data);
         }
 

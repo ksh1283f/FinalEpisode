@@ -15,6 +15,7 @@ public enum E_UIType
     CharacterProperty,
     DungeonSelect,
     TrainingCenter,
+    UserInformation,
     
 }
 
