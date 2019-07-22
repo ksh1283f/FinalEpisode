@@ -13,7 +13,7 @@ public class SelectCharacterIcon : MonoBehaviour
     [SerializeField] Image selectMark;
     [SerializeField] Button btnSelect;
     public UnitData unitData { get; private set; }
-    public Action<UnitData> OnClickedContent { get; set; }
+    public Action<UnitData, bool> OnClickedContent { get; set; }
 
     private bool isSelected = true;
     public bool IsSelected
@@ -48,14 +48,17 @@ public class SelectCharacterIcon : MonoBehaviour
 
         unitData = data;
         classIcon.sprite = Resources.Load<Sprite>(unitData.IconName);
-        
+
     }
 
     void OnClickedBtnSelect()
     {
-        IsSelected = !IsSelected;
+        if (unitData == null)
+            IsSelected = false;
+        else
+            IsSelected = !IsSelected;
 
         // todo ui의 selectedUnitInSelectList갱신해주기
-        OnClickedContent.Execute(unitData);
+        OnClickedContent.Execute(unitData, IsSelected);
     }
 }

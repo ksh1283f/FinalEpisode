@@ -87,6 +87,10 @@ public class CharacterSimpleInfo : MonoBehaviour
                 return;
         }
 
+        // todo 만약 출전중인 용병이라면
+        if (UserManager.Instance.UserInfo.SelectedUnitDic.ContainsKey(data.Id))
+            sb.Append("(출전)");
+
         sb.AppendLine();
         sb.Append("Lv. ");
         sb.Append(data.Level);

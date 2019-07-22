@@ -94,12 +94,12 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         UserInfo userInfo = UserManager.Instance.UserInfo;
         for (int i = 0; i < selectIconList.Count; i++)
         {
-            // selectIconList[i].OnClickedContent =
+            selectIconList[i].OnClickedContent = OnClickedSelectedIcon;
             selectIconList[i].SetUnitData(null);
         }
 
         // todo 선택된 용병들 갱신
-        int index =0;
+        int index = 0;
         foreach (var item in userInfo.SelectedUnitDic)
         {
             selectIconList[index].SetUnitData(item.Value);
@@ -107,25 +107,8 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         }
     }
 
-    void OnClickedSimpleInfo(UnitData data, bool isSelected)
+    string GetDataInfo(UnitData data)
     {
-        // 다른 선택된 리스트 선택 해제하기
-        for (int i = 0; i < simpleInfoList.Count; i++)
-        {
-            if (data.Id == simpleInfoList[i].unitData.Id)
-                continue;
-
-            simpleInfoList[i].IsSelected = false;
-        }
-
-        if (!isSelected)
-        {
-            detailInfo.text = string.Empty;
-            selectedUnitInSimpleList = null;
-            return;
-        }
-
-        selectedUnitInSimpleList = data;
         StringBuilder sb = new StringBuilder();
         sb.Append("Lv. ");
         sb.Append(data.Level);
@@ -144,7 +127,69 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         sb.AppendLine();
         sb.Append(data.Description);
 
-        detailInfo.text = sb.ToString();
+        return sb.ToString();
+    }
+
+    void OnClickedSimpleInfo(UnitData data, bool isSelected)
+    {
+        if (data == null)
+        {
+            Debug.LogError("unitData is null");
+            return;
+        }
+
+        // 다른 선택된 리스트 선택 해제하기
+        for (int i = 0; i < simpleInfoList.Count; i++)
+        {
+            if (data.Id == simpleInfoList[i].unitData.Id)
+                continue;
+
+            simpleInfoList[i].IsSelected = false;
+        }
+
+        if (!isSelected)
+        {
+            detailInfo.text = string.Empty;
+            selectedUnitInSimpleList = null;
+            return;
+        }
+
+        selectedUnitInSimpleList = data;
+        detailInfo.text = GetDataInfo(selectedUnitInSimpleList);
+    }
+
+    void OnClickedSelectedIcon(UnitData data, bool isSelected)
+    {
+        if (data == null)
+        {
+            Debug.LogError("unitData is null");
+            return;
+        }
+
+        // 다른 선택된 리스트 선택 해제하기
+        for (int i = 0; i < selectIconList.Count; i++)
+        {
+            if (selectIconList[i].unitData == null)
+            {
+                selectIconList[i].IsSelected = false;
+                continue;
+            }
+
+            if (data.Id == selectIconList[i].unitData.Id)
+                continue;
+
+            selectIconList[i].IsSelected = false;
+        }
+
+        if (!isSelected)
+        {
+            detailInfo.text = string.Empty;
+            selectedUnitInSelectList = null;
+            return;
+        }
+
+        selectedUnitInSelectList = data;
+        detailInfo.text = GetDataInfo(selectedUnitInSelectList);
     }
 
     void OnClickedBtnTrade()
@@ -168,6 +213,17 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         }
 
         // todo trading process
+        // 1. remove
+        UserManager.Instance.SetMySelectedUnitList(selectedUnitInSelectList, E_SelectedUnitListSetType.Remove);
+        
+        // 2. insert
+        UserManager.Instance.SetMySelectedUnitList(selectedUnitInSimpleList, E_SelectedUnitListSetType.Insert);
+
+        // 3. ui update
+        
+
+        selectedUnitInSelectList = null;
+        selectedUnitInSimpleList = null;
     }
 
     void OnClickedBtnInsert()
@@ -179,6 +235,14 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
             MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
             message.Show(new string[] { "유저 메세지", "보유 용병중에서 선택된 용병이 없습니다." });
             Debug.LogError("보유 용병중에서 선택된 용병이 없습니다.");
+            return;
+        }
+
+        if (UserManager.Instance.UserInfo.SelectedUnitDic.ContainsKey(selectedUnitInSimpleList.Id))
+        {
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            message.Show(new string[] { "유저 메세지", "이미 출전하는 용병입니다." });
+            Debug.LogError("이미 출전하는 용병입니다.");
             return;
         }
 
@@ -202,18 +266,77 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
                 selectIconList[index].SetUnitData(item.Value);
                 index++;
             }
+
+            for (int i = 0; i < simpleInfoList.Count; i++)
+            {
+                if (simpleInfoList[i].unitData.Id == selectedUnitInSimpleList.Id)
+                {
+                    simpleInfoList[i].SetData(selectedUnitInSimpleList);
+                    break;
+                }
+            }
         }
+        else
+        {
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            message.Show(new string[] { "유저 메세지", "출전리스트가 가득 찼습니다." });
+            Debug.LogError("출전리스트가 가득 찼습니다.");
+            return;
+        }
+        
+        selectedUnitInSelectList = null;
+        selectedUnitInSimpleList = null;
     }
 
     void OnClickedBtnDelete()
     {
         //<예외>
         // 선택리스트에 아무것도 없는 경우
+        UserInfo userInfo = UserManager.Instance.UserInfo;
+        if (userInfo.SelectedUnitDic.Count == 0)
+        {
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            message.Show(new string[] { "유저 메세지", "출전할 용병이 없습니다." });
+            Debug.LogError("출전할 용병이 없습니다.");
+            return;
+        }
+
         // 선택리스트 중에서 선택된 것이 없는 경우
+        if (selectedUnitInSelectList == null)
+        {
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            message.Show(new string[] { "유저 메세지", "선택된 용병이 없습니다." });
+            Debug.LogError("선택된 용병이 없습니다.");
+            return;
+        }
+
+        UserManager.Instance.SetMySelectedUnitList(selectedUnitInSelectList, E_SelectedUnitListSetType.Remove);
+
+        int index = 0;
+        for (int i = 0; i < selectIconList.Count; i++)  // 초기화
+            selectIconList[i].SetUnitData(null);
+
+        foreach (var item in userInfo.SelectedUnitDic)
+        {
+            selectIconList[index].SetUnitData(item.Value);  // 남은 데이터 갱신
+            index++;
+        }
+
+        for (int i = 0; i < simpleInfoList.Count; i++)
+        {
+            if(UserManager.Instance.UserInfo.SelectedUnitDic.ContainsKey(simpleInfoList[i].unitData.Id))
+                continue;
+
+            simpleInfoList[i].SetData(simpleInfoList[i].unitData);  // 출전리스트에 빠진 용병들 정보 다시 갱신
+        }
+        selectedUnitInSelectList = null;
+        selectedUnitInSimpleList = null;
     }
 
     void OnClickedBtnBack()
     {
+        selectedUnitInSelectList = null;
+        selectedUnitInSimpleList = null;
         Close();
     }
 }
