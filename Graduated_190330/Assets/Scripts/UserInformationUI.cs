@@ -212,6 +212,15 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
             return;
         }
 
+        // 이미 출전중인 유닛일 경우의 예외처리
+        if(UserManager.Instance.UserInfo.SelectedUnitDic.ContainsKey(selectedUnitInSimpleList.Id))
+        {
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            message.Show(new string[] { "유저 메세지", "교환하려는 용병이 이미 출전중입니다." });
+            Debug.LogError("교환하려는 용병이 이미 출전중입니다.");
+            return;
+        }
+
         // todo trading process
         // 1. remove
         UserManager.Instance.SetMySelectedUnitList(selectedUnitInSelectList, E_SelectedUnitListSetType.Remove);
@@ -220,7 +229,19 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         UserManager.Instance.SetMySelectedUnitList(selectedUnitInSimpleList, E_SelectedUnitListSetType.Insert);
 
         // 3. ui update
-        
+        // 보유 리스트도 업데이트 하기
+        for (int i = 0; i < selectIconList.Count; i++)  // 초기화
+            selectIconList[i].SetUnitData(null);
+            
+        int index = 0;
+        foreach (var item in UserManager.Instance.UserInfo.SelectedUnitDic)
+        {
+            selectIconList[index].SetUnitData(item.Value);
+            index++;
+        }
+
+        for (int i = 0; i < simpleInfoList.Count; i++)
+            simpleInfoList[i].SetData(simpleInfoList[i].unitData);
 
         selectedUnitInSelectList = null;
         selectedUnitInSimpleList = null;

@@ -119,7 +119,21 @@
     ],
     "SelectedUnitList": [
         {
-            "Id": 189,
+            "Id": 175,
+            "Hp": 40,
+            "Atk": 70,
+            "Def": 20,
+            "Cri": 8,
+            "Spd": 10,
+            "IconName": "ClassIcon/RogueIcon",
+            "CharacterType": 4,
+            "Price": 80,
+            "Description": "높은 공격력과 속도를 가진 캐릭터입니다.",
+            "Level": 1,
+            "Exp": 0
+        },
+        {
+            "Id": 165,
             "Hp": 70,
             "Atk": 50,
             "Def": 50,
@@ -129,6 +143,20 @@
             "CharacterType": 3,
             "Price": 80,
             "Description": "높은 체력과 치명타를 가진 캐릭터입니다.",
+            "Level": 1,
+            "Exp": 0
+        },
+        {
+            "Id": 130,
+            "Hp": 100,
+            "Atk": 30,
+            "Def": 80,
+            "Cri": 1,
+            "Spd": 1,
+            "IconName": "ClassIcon/WarriorIcon",
+            "CharacterType": 1,
+            "Price": 50,
+            "Description": "높은 체력과 방어력을 가진 캐릭터입니다.",
             "Level": 1,
             "Exp": 0
         }
