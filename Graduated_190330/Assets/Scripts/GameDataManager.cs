@@ -9,9 +9,11 @@ using Graduate.GameData.UnitData;
 
 public enum E_GameDataType
 {
-    DungeonData, //- 몬스터 종류, 스킬, 텀 등의 던전데이터
+
     CharacterData,// - 캐릭터 종류에 관한 데이터
     BattlePropertyData,// - 전투 속성
+    EnemyPatternData,  // 몬스터 별 사용 스킬, 데미지 수치등의 상세 데이터
+    DungeonPatternData, //- 몬스터 종류, 체력 등의 전반적인 데이터
     MarketData,// - 시장 정보
     LocalizeData,// - 언어(후순위)
 
@@ -21,8 +23,8 @@ public enum E_GameDataType
 public class GameDataManager : Singletone<GameDataManager>
 {
     private const string dataDefalutPath = "GameData/";
-
-    private const string DungeonDataName = "DungeonData";
+    private const string DungeonPatternDataName = "DungeonPatternData";
+    private const string EnemyPatternDataName = "EnemyPatternData";
     private const string CharacterDataName = "CharacterData";
     private const string battlePropertyDataName = "BattlePropertyData";
     private const string MarketDataName = "MarketData.csv";
@@ -31,17 +33,22 @@ public class GameDataManager : Singletone<GameDataManager>
 
     public Dictionary<int, CharacterProperty> BattlePropertyDic { get; private set; }
     public Dictionary<int, UnitData> CharacterDataDic { get; private set; }
+    public Dictionary<int, DungeonPattern> DungeonPatternDataDic { get; private set; }
+    public Dictionary<int, EnemyPattern> EnemyPatternDataDic { get; private set; }
 
     void Awake()
     {
         // todo 기타 다른 데이터 딕셔너리도 추가
         BattlePropertyDic = new Dictionary<int, CharacterProperty>();
         CharacterDataDic = new Dictionary<int, UnitData>();
+        DungeonPatternDataDic = new Dictionary<int, DungeonPattern>();
+        EnemyPatternDataDic = new Dictionary<int, EnemyPattern>();
         for (int i = 0; i < (int)E_GameDataType.DataTypeCount; i++)
         {
             E_GameDataType type = (E_GameDataType)i;
             LoadGameData(type);
         }
+        Debug.Log("parsing Complete");
     }
 
     void LoadGameData(E_GameDataType dataType)
@@ -57,6 +64,15 @@ public class GameDataManager : Singletone<GameDataManager>
                 case E_GameDataType.CharacterData:
                     ReadCharacterData(CharacterDataName);
                     break;
+
+                case E_GameDataType.EnemyPatternData:
+                    ReadEnemyPatternData(EnemyPatternDataName);
+                    break;
+
+                case E_GameDataType.DungeonPatternData:
+                    ReadDungeonPatternData(DungeonPatternDataName);
+                    break;
+
             }
         }
         catch (FileNotFoundException ex)
@@ -157,6 +173,83 @@ public class GameDataManager : Singletone<GameDataManager>
             UnitData data = new UnitData(id, hp, atk, def, cri, spd, iconName, characterType, price, description, level, exp);
 
             CharacterDataDic.Add(id, data);
+        }
+    }
+
+    void ReadEnemyPatternData(string path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            Debug.LogError("ReadEnemyPatternData path is null or emtpy");
+            return;
+        }
+
+        string dataFullPath = string.Concat(dataDefalutPath, path);
+        TextAsset assetData = Resources.Load(dataFullPath) as TextAsset;
+        string[] textData = assetData.text.Split('\n'); // 줄단위로 구분
+        string strLineValue = string.Empty;
+        string[] values = null;
+        for (int i = 0; i < textData.Length; i++)
+        {
+            strLineValue = textData[i];
+            if (string.IsNullOrEmpty(strLineValue))
+                return;
+
+            if (i == 0)
+                continue;
+
+            values = strLineValue.Split(',');
+            int id = Convert.ToInt32(values[0]);
+            string skillName = values[1];
+            E_UserSkillType skillType = (E_UserSkillType)Convert.ToInt32(values[2]);
+            int castTime = Convert.ToInt32(values[3]);
+            string skillDescription = values[4];
+            int damage = Convert.ToInt32(values[5]);
+            EnemyPattern pattern = new EnemyPattern(id, skillName, skillType, castTime, skillDescription, damage);
+
+            EnemyPatternDataDic.Add(pattern.SkillId, pattern);
+        }
+    }
+
+    void ReadDungeonPatternData(string path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            Debug.LogError("ReadDungeonPatternData path is null or emtpy");
+            return;
+        }
+
+        string dataFullPath = string.Concat(dataDefalutPath, path);
+        TextAsset assetData = Resources.Load(dataFullPath) as TextAsset;
+        string[] textData = assetData.text.Split('\n'); // 줄단위로 구분
+        string strLineValue = string.Empty;
+        string[] values = null;
+        for (int i = 0; i < textData.Length; i++)
+        {
+            strLineValue = textData[i];
+            if (string.IsNullOrEmpty(strLineValue))
+                return;
+
+            if (i == 0)
+                continue;
+
+            values = strLineValue.Split(',');
+            int id = Convert.ToInt32(values[0]);
+            string enemyName = values[1];
+            int enemyHealth = Convert.ToInt32(values[2]);
+            string patternDescription = values[3];
+            int patternTerm = Convert.ToInt32(values[4]);
+            int skillCount = Convert.ToInt32(values[5]);
+            List<EnemyPattern> enemyPatternList = new List<EnemyPattern>();
+            for (int j = 0; j < skillCount; j++)
+            {
+                int skillId = Convert.ToInt32(values[6 + j]);
+                EnemyPattern enemyPattern = EnemyPatternDataDic[skillId];
+                enemyPatternList.Add(enemyPattern);
+            }
+
+            DungeonPattern pattern = new DungeonPattern(id, enemyName, enemyHealth, enemyPatternList, patternDescription, patternTerm);
+            DungeonPatternDataDic.Add(pattern.Id, pattern);
         }
     }
 }

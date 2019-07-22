@@ -12,7 +12,7 @@ public enum E_UserSkillType
 
 public class EnemyPattern
 {
-    public int ID { get; private set; }
+    public int SkillId { get; private set; }
     public string Name { get; private set; }
     public E_UserSkillType SkillType { get; private set; }
     public float CastTime { get; private set; }
@@ -20,9 +20,9 @@ public class EnemyPattern
     public float PatternTerm { get; private set; }
     public int Damage { get; private set; }
 
-    public EnemyPattern(int id, string name, E_UserSkillType skillType, float castTime, string skillDescription, int damage)
+    public EnemyPattern(int skillId, string name, E_UserSkillType skillType, float castTime, string skillDescription, int damage)
     {
-        this.ID = id;
+        this.SkillId = skillId;
         this.Name = name;
         this.SkillType = skillType;
         this.CastTime = castTime;

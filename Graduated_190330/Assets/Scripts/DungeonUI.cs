@@ -57,9 +57,10 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
     {
         // 클리어 단수까지 생성
         dungeonList = GetComponentsInChildren<DungeonSelectContent>().ToList();
-        for (int i = 0; i < 10; i++)    // todo 10 convert to clearStep
+        //for (int i = 0; i < clearStep + 1; i++)    // todo 10 convert to clearStep
+        for (int i = 0; i < 10 + 1; i++)    // todo 10 convert to clearStep
         {
-            if (i >= dungeonList.Count)
+            if (i >= dungeonList.Count) // todo 클리어 단수에 맞게
             {
                 DungeonSelectContent newContent = Instantiate(content) as DungeonSelectContent;
                 newContent.transform.SetParent(content.transform.parent);

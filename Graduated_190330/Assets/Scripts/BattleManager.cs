@@ -209,7 +209,7 @@ public class BattleManager : Singletone<BattleManager>
                     return;
 
                 count = AttackResourceCount;
-                
+
                 Debug.Log(skillResourceType + "," + "used count" + ": " + count + ", remain count: " + AttackResourceCount);
                 int damage = CalculateAttackDamage();
                 nowEnemy.GetDamaged(damage);
