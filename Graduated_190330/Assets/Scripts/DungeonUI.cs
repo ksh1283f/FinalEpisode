@@ -57,22 +57,39 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
     {
         // 클리어 단수까지 생성
         dungeonList = GetComponentsInChildren<DungeonSelectContent>().ToList();
-        //for (int i = 0; i < clearStep + 1; i++)    // todo 10 convert to clearStep
-        for (int i = 0; i < 10 + 1; i++)    // todo 10 convert to clearStep
+        if (clearStep >= dungeonList.Count)
         {
-            if (i >= dungeonList.Count) // todo 클리어 단수에 맞게
+            for (int i = 0; i < clearStep + 1; i++)
             {
-                DungeonSelectContent newContent = Instantiate(content) as DungeonSelectContent;
-                newContent.transform.SetParent(content.transform.parent);
-                newContent.transform.localScale = Vector3.one;  // 스케일 보정
-                dungeonList.Add(newContent);
+                if (i >= dungeonList.Count) // 기존에 있는 개수를 넘어갈 경우
+                {
+                    // 새로 생성
+                    DungeonSelectContent newContent = Instantiate(content) as DungeonSelectContent;
+                    newContent.transform.SetParent(content.transform.parent);
+                    newContent.transform.localScale = Vector3.one;  // 스케일 보정
+                    dungeonList.Add(newContent);
+                }
+
+                // 데이터 갱신
+                // to parse from dungeonPatternData, rewardData
+                dungeonList[i].SetDataInfo(string.Concat(i + 1, "번째 던전"), string.Empty, false);
+                //     dungeonList[i].OnClickedShowDetail = 
             }
-
-            dungeonList[i].SetDataInfo(string.Concat(i, "번째 던전"), string.Empty, false);//  todo 던전 데이터를 받아와서 처리하기
-            // dungeonList[i].OnClickedShowDetail = 
-
         }
+        else
+        {
+            for (int i = 0; i < dungeonList.Count; i++)
+            {
+                if (i >= clearStep + 1)
+                {
+                    dungeonList[i].gameObject.SetActive(false);
+                    continue;
+                }
 
+                dungeonList[i].SetDataInfo(string.Concat(i + 1, "번째 던전"), string.Empty, false);
+                //     dungeonList[i].OnClickedShowDetail = 
+            }
+        }
     }
 
     // 클릭되었을 때 실행하기

@@ -14,6 +14,8 @@ public enum E_GameDataType
     BattlePropertyData,// - 전투 속성
     EnemyPatternData,  // 몬스터 별 사용 스킬, 데미지 수치등의 상세 데이터
     DungeonPatternData, //- 몬스터 종류, 체력 등의 전반적인 데이터
+    RewardData, // - 던전 보상 정보
+    EnemyStatCorrectionData,    // 던전 단계별 몬스터 능력치 보정 데이터
     MarketData,// - 시장 정보
     LocalizeData,// - 언어(후순위)
 
@@ -27,14 +29,18 @@ public class GameDataManager : Singletone<GameDataManager>
     private const string EnemyPatternDataName = "EnemyPatternData";
     private const string CharacterDataName = "CharacterData";
     private const string battlePropertyDataName = "BattlePropertyData";
+    private const string rewardDataName = "RewardData";
+    private const string EnemyStatCorrectionDataName = "EnemyStatCorrectionData";
     private const string MarketDataName = "MarketData.csv";
     private const string LocalizeDataName = "LocalizeData.csv";
-
 
     public Dictionary<int, CharacterProperty> BattlePropertyDic { get; private set; }
     public Dictionary<int, UnitData> CharacterDataDic { get; private set; }
     public Dictionary<int, DungeonPattern> DungeonPatternDataDic { get; private set; }
     public Dictionary<int, EnemyPattern> EnemyPatternDataDic { get; private set; }
+    public Dictionary<int, RewardData> RewardDataDic { get; private set; }
+    public Dictionary<int, EnemyStatCorrectionData> EnemyStatCorrectionDataDic { get; private set; }
+
 
     void Awake()
     {
@@ -43,6 +49,9 @@ public class GameDataManager : Singletone<GameDataManager>
         CharacterDataDic = new Dictionary<int, UnitData>();
         DungeonPatternDataDic = new Dictionary<int, DungeonPattern>();
         EnemyPatternDataDic = new Dictionary<int, EnemyPattern>();
+        RewardDataDic = new Dictionary<int, RewardData>();
+        EnemyStatCorrectionDataDic = new Dictionary<int, EnemyStatCorrectionData>();
+
         for (int i = 0; i < (int)E_GameDataType.DataTypeCount; i++)
         {
             E_GameDataType type = (E_GameDataType)i;
@@ -73,6 +82,12 @@ public class GameDataManager : Singletone<GameDataManager>
                     ReadDungeonPatternData(DungeonPatternDataName);
                     break;
 
+                case E_GameDataType.RewardData:
+                    ReadRewardData(rewardDataName);
+                    break;
+
+                case E_GameDataType.EnemyStatCorrectionData:
+                    break;
             }
         }
         catch (FileNotFoundException ex)
@@ -252,4 +267,67 @@ public class GameDataManager : Singletone<GameDataManager>
             DungeonPatternDataDic.Add(pattern.Id, pattern);
         }
     }
+
+    void ReadRewardData(string path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            Debug.LogError("ReadRewardData path is null or emtpy");
+            return;
+        }
+
+        string dataFullPath = string.Concat(dataDefalutPath, path);
+        TextAsset assetData = Resources.Load(dataFullPath) as TextAsset;
+        string[] textData = assetData.text.Split('\n'); // 줄단위로 구분
+        string strLineValue = string.Empty;
+        string[] values = null;
+        for (int i = 0; i < textData.Length; i++)
+        {
+            strLineValue = textData[i];
+            if (string.IsNullOrEmpty(strLineValue))
+                return;
+
+            if (i == 0)
+                continue;
+
+            values = strLineValue.Split(',');
+            int dungeonId = Convert.ToInt32(values[0]);
+            int gold = Convert.ToInt32(values[1]);
+            int exp = Convert.ToInt32(values[2]);
+            RewardData data = new RewardData(dungeonId, gold, exp);
+            RewardDataDic.Add(data.DungeonId, data);
+        }
+    }
+
+    void ReadEnemyStartCorrectionData(string path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            Debug.LogError("ReadDungeonPatternData path is null or emtpy");
+            return;
+        }
+
+        string dataFullPath = string.Concat(dataDefalutPath, path);
+        TextAsset assetData = Resources.Load(dataFullPath) as TextAsset;
+        string[] textData = assetData.text.Split('\n'); // 줄단위로 구분
+        string strLineValue = string.Empty;
+        string[] values = null;
+        for (int i = 0; i < textData.Length; i++)
+        {
+            strLineValue = textData[i];
+            if (string.IsNullOrEmpty(strLineValue))
+                return;
+
+            if (i == 0)
+                continue;
+
+            values = strLineValue.Split(',');
+            int id = Convert.ToInt32(values[0]);
+            int correction = Convert.ToInt32(values[1]);
+
+            EnemyStatCorrectionData data = new EnemyStatCorrectionData(id, correction);
+            EnemyStatCorrectionDataDic.Add(data.Id, data);
+        }
+    }
+
 }
