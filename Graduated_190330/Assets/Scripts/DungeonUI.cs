@@ -49,6 +49,9 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
         if (titleText != null)
             titleText.text = dataList[0];
 
+        if(detailText != null)
+            detailText.text = string.Empty;
+            
         int clearStep = UserManager.Instance.UserInfo.BestDungeonStep;
         SetDungeonList(clearStep);
     }
@@ -72,28 +75,34 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
 
                 // 데이터 갱신
                 // to parse from dungeonPatternData, rewardData
-                dungeonList[i].SetDataInfo(string.Concat(i + 1, "번째 던전"), string.Empty, false);
-                //     dungeonList[i].OnClickedShowDetail = 
+                DungeonPattern dungeonPatternData = DungeonStepManager.Instance.DungeonStepDic[i];
+                RewardData rewardData = GameDataManager.Instance.RewardDataDic[i];
+                dungeonList[i].SetSimpleDataInfo(string.Concat(i + 1, "번째 던전"), i < clearStep ? true : false);
+                dungeonList[i].SetDetailInfo(dungeonPatternData, rewardData);
+                dungeonList[i].OnClickedShowDetail = SetDetailInfo;
             }
         }
         else
         {
             for (int i = 0; i < dungeonList.Count; i++)
             {
-                if (i >= clearStep + 1)
+                if (i > clearStep + 1)
                 {
                     dungeonList[i].gameObject.SetActive(false);
                     continue;
                 }
 
-                dungeonList[i].SetDataInfo(string.Concat(i + 1, "번째 던전"), string.Empty, false);
-                //     dungeonList[i].OnClickedShowDetail = 
+                DungeonPattern dungeonPatternData = DungeonStepManager.Instance.DungeonStepDic[i];
+                RewardData rewardData = GameDataManager.Instance.RewardDataDic[i];
+                dungeonList[i].SetSimpleDataInfo(string.Concat(i + 1, "번째 던전"), i < clearStep ? true : false);
+                dungeonList[i].SetDetailInfo(dungeonPatternData, rewardData);
+                dungeonList[i].OnClickedShowDetail = SetDetailInfo;
             }
         }
     }
 
     // 클릭되었을 때 실행하기
-    void SetDetailInfo(string name, int hp, int atk, int exp, int gold)
+    void SetDetailInfo(string detail)
     {
         if (detailText == null)
         {
@@ -101,30 +110,7 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
             return;
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.Append(name);
-        sb.AppendLine();
-        sb.AppendLine();
-        sb.Append("<몬스터 정보>");
-        sb.AppendLine();
-        sb.Append("체력: ");
-        sb.Append(hp);
-        sb.Append("공격력: +");
-        sb.Append(atk);
-        sb.Append("%");
-        sb.AppendLine();
-        sb.AppendLine();
-        sb.AppendLine();
-
-        sb.Append("<보상 정보>");
-        sb.AppendLine();
-        sb.Append("exp: ");
-        sb.Append(exp);
-        sb.AppendLine();
-        sb.Append("gold: ");
-        sb.Append(gold);
-
-        detailText.text = sb.ToString();
+        detailText.text = detail;
     }
 
     void OnClickedStart()

@@ -52,7 +52,7 @@ public class DungeonPattern
 
     public bool SetEnemyHealth(int health)
     {
-        if(health <= 0|| health >Int32.MaxValue)
+        if (health <= 0 || health > Int32.MaxValue)
             return false;
 
         EnemyHealth = health;

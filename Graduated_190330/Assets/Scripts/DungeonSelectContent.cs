@@ -21,13 +21,15 @@ public class DungeonSelectContent : MonoBehaviour
         if (btnShowDetail == null)
         {
             btnShowDetail = GetComponent<Button>();
-            return;
+            if(btnShowDetail == null)
+                btnShowDetail.gameObject.AddComponent<Button>();
         }
 
         btnShowDetail.onClick.AddListener(() => { OnClickedShowDetail.Execute(detailInfo); });
+        
     }
 
-    public void SetDataInfo(string simple, string detail, bool isClear)
+    public void SetSimpleDataInfo(string simple, bool isClear)
     {
         if (simpleInfo == null)
         {
@@ -36,11 +38,12 @@ public class DungeonSelectContent : MonoBehaviour
         }
 
         simpleInfo.text = simple;
-        detailInfo = detail;
 
         ClearMarker.gameObject.SetActive(isClear);
     }
-    private void SetDetailInfo(DungeonPattern dungeonPatternData, RewardData rewardData)
+
+    // 실제 데미지 증가보정은 다른 곳에서
+    public void SetDetailInfo(DungeonPattern dungeonPatternData, RewardData rewardData)
     {
         // 단수
         // 체력(증가치)
@@ -63,31 +66,30 @@ public class DungeonSelectContent : MonoBehaviour
         int enemyHP = dungeonPatternData.EnemyHealth;
         int enemyAtkPer = step * 5; // 공격력 증가치
 
-
-
-
         StringBuilder sb = new StringBuilder();
-        // sb.Append(name);
-        // sb.AppendLine();
-        // sb.AppendLine();
-        // sb.Append("<몬스터 정보>");
-        // sb.AppendLine();
-        // sb.Append("체력: ");
-        // sb.Append(hp);
-        // sb.Append("공격력: +");
-        // sb.Append(atk);
-        // sb.Append("%");
-        // sb.AppendLine();
-        // sb.AppendLine();
-        // sb.AppendLine();
+        sb.Append(step);
+        sb.Append("단계 던전");
+        sb.AppendLine();
+        sb.AppendLine();
+        sb.Append("<몬스터 정보>");
+        sb.AppendLine();
+        sb.Append("체력: ");
+        sb.Append(dungeonPatternData.EnemyHealth);
+        sb.AppendLine();
+        sb.Append("공격력: +");
+        sb.Append(GameDataManager.Instance.EnemyStatCorrectionDataDic[step-1].Correction);
+        sb.Append("%");
+        sb.AppendLine();
+        sb.AppendLine();
+        sb.AppendLine();
 
-        // sb.Append("<보상 정보>");
-        // sb.AppendLine();
-        // sb.Append("exp: ");
-        // sb.Append(exp);
-        // sb.AppendLine();
-        // sb.Append("gold: ");
-        // sb.Append(gold);
+        sb.Append("<보상 정보>");
+        sb.AppendLine();
+        sb.Append("exp: ");
+        sb.Append(rewardData.Exp);
+        sb.AppendLine();
+        sb.Append("gold: ");
+        sb.Append(rewardData.Gold);
 
         detailInfo = sb.ToString();
     }

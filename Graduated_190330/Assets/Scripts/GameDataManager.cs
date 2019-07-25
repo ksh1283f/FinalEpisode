@@ -16,6 +16,7 @@ public enum E_GameDataType
     DungeonPatternData, //- 몬스터 종류, 체력 등의 전반적인 데이터
     RewardData, // - 던전 보상 정보
     EnemyStatCorrectionData,    // 던전 단계별 몬스터 능력치 보정 데이터
+    DungeonMonsterData, // 던전별로 어떤 몬스터가 출현하는지에 관한 데이터
     MarketData,// - 시장 정보
     LocalizeData,// - 언어(후순위)
 
@@ -31,6 +32,7 @@ public class GameDataManager : Singletone<GameDataManager>
     private const string battlePropertyDataName = "BattlePropertyData";
     private const string rewardDataName = "RewardData";
     private const string EnemyStatCorrectionDataName = "EnemyStatCorrectionData";
+    private const string DungeonMonsterDataName = "DungeonMonsterData";
     private const string MarketDataName = "MarketData.csv";
     private const string LocalizeDataName = "LocalizeData.csv";
 
@@ -40,6 +42,7 @@ public class GameDataManager : Singletone<GameDataManager>
     public Dictionary<int, EnemyPattern> EnemyPatternDataDic { get; private set; }
     public Dictionary<int, RewardData> RewardDataDic { get; private set; }
     public Dictionary<int, EnemyStatCorrectionData> EnemyStatCorrectionDataDic { get; private set; }
+    public Dictionary<int, DungeonMonsterData> DungeonMonsterDataDic { get; private set; }
 
 
     void Awake()
@@ -51,6 +54,7 @@ public class GameDataManager : Singletone<GameDataManager>
         EnemyPatternDataDic = new Dictionary<int, EnemyPattern>();
         RewardDataDic = new Dictionary<int, RewardData>();
         EnemyStatCorrectionDataDic = new Dictionary<int, EnemyStatCorrectionData>();
+        DungeonMonsterDataDic = new Dictionary<int, DungeonMonsterData>();
 
         for (int i = 0; i < (int)E_GameDataType.DataTypeCount; i++)
         {
@@ -87,6 +91,10 @@ public class GameDataManager : Singletone<GameDataManager>
                     break;
 
                 case E_GameDataType.EnemyStatCorrectionData:
+                    ReadEnemyStatCorrectionData(EnemyStatCorrectionDataName);
+                    break;
+
+                case E_GameDataType.DungeonMonsterData:
                     break;
             }
         }
@@ -299,7 +307,7 @@ public class GameDataManager : Singletone<GameDataManager>
         }
     }
 
-    void ReadEnemyStartCorrectionData(string path)
+    void ReadEnemyStatCorrectionData(string path)
     {
         if (string.IsNullOrEmpty(path))
         {
@@ -329,5 +337,35 @@ public class GameDataManager : Singletone<GameDataManager>
             EnemyStatCorrectionDataDic.Add(data.Id, data);
         }
     }
+    
+    void ReadDungeonMonsterData(string path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            Debug.LogError("ReadDungeonPatternData path is null or emtpy");
+            return;
+        }
 
+        string dataFullPath = string.Concat(dataDefalutPath, path);
+        TextAsset assetData = Resources.Load(dataFullPath) as TextAsset;
+        string[] textData = assetData.text.Split('\n'); // 줄단위로 구분
+        string strLineValue = string.Empty;
+        string[] values = null;
+        for (int i = 0; i < textData.Length; i++)
+        {
+            strLineValue = textData[i];
+            if (string.IsNullOrEmpty(strLineValue))
+                return;
+
+            if (i == 0)
+                continue;
+
+            values = strLineValue.Split(',');
+            int id = Convert.ToInt32(values[0]);
+            int monsterId = Convert.ToInt32(values[1]);
+
+            DungeonMonsterData data = new DungeonMonsterData(id, monsterId);
+            DungeonMonsterDataDic.Add(data.Id, data);
+        }
+    }
 }
