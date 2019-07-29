@@ -95,6 +95,7 @@ public class GameDataManager : Singletone<GameDataManager>
                     break;
 
                 case E_GameDataType.DungeonMonsterData:
+                    ReadDungeonMonsterData(DungeonMonsterDataName);
                     break;
             }
         }
@@ -331,13 +332,14 @@ public class GameDataManager : Singletone<GameDataManager>
 
             values = strLineValue.Split(',');
             int id = Convert.ToInt32(values[0]);
-            int correction = Convert.ToInt32(values[1]);
+            int hpCorrection = Convert.ToInt32(values[1]);
+            int atkCorrection = Convert.ToInt32(values[2]);
 
-            EnemyStatCorrectionData data = new EnemyStatCorrectionData(id, correction);
+            EnemyStatCorrectionData data = new EnemyStatCorrectionData(id, hpCorrection, atkCorrection);
             EnemyStatCorrectionDataDic.Add(data.Id, data);
         }
     }
-    
+
     void ReadDungeonMonsterData(string path)
     {
         if (string.IsNullOrEmpty(path))
@@ -363,8 +365,9 @@ public class GameDataManager : Singletone<GameDataManager>
             values = strLineValue.Split(',');
             int id = Convert.ToInt32(values[0]);
             int monsterId = Convert.ToInt32(values[1]);
+            int limitTime = Convert.ToInt32(values[2]);
 
-            DungeonMonsterData data = new DungeonMonsterData(id, monsterId);
+            DungeonMonsterData data = new DungeonMonsterData(id, monsterId, limitTime);
             DungeonMonsterDataDic.Add(data.Id, data);
         }
     }

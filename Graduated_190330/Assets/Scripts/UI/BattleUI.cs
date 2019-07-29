@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleUI : uiSingletone<BattleUI>
 {
@@ -11,6 +12,7 @@ public class BattleUI : uiSingletone<BattleUI>
     [SerializeField] StatWindow statWindow;
     [SerializeField] PhaseLogoWindow phaseLogoWindow;
     [SerializeField] BattleEndUI battleEndWindow;
+    [SerializeField] Text RemainText;
 
     protected override void Awake()
     {
@@ -51,6 +53,7 @@ public class BattleUI : uiSingletone<BattleUI>
         BattleManager.Instance.OnGameEnd += battleEndWindow.ShowResultText;
         BattleManager.Instance.OnStartCooldown += buttonWindow.StartCooldown;
         BattleManager.Instance.OnCorrespondPattern += castWindow.ShowSuccessMessage;
+        BattleManager.Instance.OnCalculatedRemainTime += SetTimerText;
         
         buttonWindow.gameObject.SetActive(false);
         castWindow.ShowCastWindow(false);
@@ -104,5 +107,21 @@ public class BattleUI : uiSingletone<BattleUI>
             resourceWindow.CreateBubble(skillResourceType, skillCount);
         else
             resourceWindow.UseBubble(skillResourceType, skillCount);
+    }
+
+    private void SetUnitIcon()
+    {
+
+    }
+
+    private void SetTimerText(float time)
+    {
+        if(RemainText == null)
+        {
+            Debug.LogError("remainText is null");
+            return;
+        }
+
+        RemainText.text = time.ToString();
     }
 }

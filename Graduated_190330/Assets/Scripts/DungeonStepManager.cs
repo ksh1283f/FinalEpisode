@@ -16,14 +16,13 @@ public class DungeonStepManager : Singletone<DungeonStepManager>
     // 단수에 따라서 체력, 공격력 수치 변경
     void SetStepData()
     {
-        int index = 0;
         // todo 190725 추가된 던전 몬스터 데이터로 변경(단수마다 적용하도록)
-        foreach (var item in GameDataManager.Instance.DungeonPatternDataDic)
+        foreach (var item in GameDataManager.Instance.DungeonMonsterDataDic)
         {
-            DungeonPattern pattern = item.Value.ShallowCopy() as DungeonPattern;
+            DungeonMonsterData monsterData = item.Value.ShallowCopy() as DungeonMonsterData;
+            DungeonPattern pattern = GameDataManager.Instance.DungeonPatternDataDic[monsterData.MonsterId].ShallowCopy() as DungeonPattern;
 
-            // 체력 보정값 계산
-            float cor = GameDataManager.Instance.EnemyStatCorrectionDataDic[index].Correction;
+            float cor = GameDataManager.Instance.EnemyStatCorrectionDataDic[monsterData.Id].HpCorrection;
             // 20 -> 1.20
             cor = cor / 100 + 1;   // 소수점으로 변경
             int healthCorrected = (int)(cor <= 0 ? pattern.EnemyHealth : cor * pattern.EnemyHealth);
@@ -33,8 +32,7 @@ public class DungeonStepManager : Singletone<DungeonStepManager>
                 return;
             }
 
-            DungeonStepDic.Add(index, pattern);
-            index++;
+            DungeonStepDic.Add(monsterData.Id, pattern);
         }
     }
 }

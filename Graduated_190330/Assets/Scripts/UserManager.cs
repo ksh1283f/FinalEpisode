@@ -60,6 +60,8 @@ public class UserManager : Singletone<UserManager>
         }
     }
 
+    public DungeonMonsterData SelectedDungeonMonsterData;
+
     public Action OnEnterStartPage { get; set; }
     public Action OnEnterLodingLobby { get; set; }
     public Action OnEnterLobby { get; set; }

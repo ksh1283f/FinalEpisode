@@ -52,6 +52,7 @@ public class BattleManager : Singletone<BattleManager>
     public Action<EnemyPattern> OnExecuteMonsterCasting { get; set; }
     public Action OnCastingEnd { get; set; }
     public Action<float> OnCastProgress { get; set; }
+    public Action<float> OnCalculatedRemainTime { get; set; }
 
     public int AttackResourceCount { get; private set; }    // 보유중인 공격 자원 개수
     public int UtilResourceCount { get; private set; }  // 보유중인 유틸 자원 개수
@@ -90,6 +91,20 @@ public class BattleManager : Singletone<BattleManager>
         }
     }
 
+    private float remainTime = 0f;
+    public float RemainTime
+    {
+        get { return remainTime; }
+        set
+        {
+            if (value == remainTime)
+                return;
+
+            remainTime = value;
+            OnCalculatedRemainTime.Execute(remainTime);
+        }
+    }
+
     public Graduate.Unit.Enemy.EnemyUnit nowEnemy { get; private set; }
     bool isCorrespondPattern = false;   // 패턴대응여부
     public float Cooltime { get; private set; }
@@ -98,6 +113,8 @@ public class BattleManager : Singletone<BattleManager>
 
     void Start()
     {
+        // todo 현재 선택돤 던전의 데이터를 바탕으로 시간 셋팅
+        RemainTime = UserManager.Instance.SelectedDungeonMonsterData.LimitTime;
         OnExecuteInit += InitBattle;
         OnExecuteShowLogo += BattleUI.Instance.ShowBattleLogo;
         OnExecuteStartBattle += BattleUI.Instance.ShowBattleUI;
@@ -341,6 +358,7 @@ public class BattleManager : Singletone<BattleManager>
         PlayerState = Graduate.Unit.E_UnitState.None;
         if (aliveEnemyCount == 0)
         {
+            StopCoroutine(CalculateRemainCount());
             CalculateReward(true);
             OnGameEnd.Execute(true);
             isBattleEnd = true;
@@ -425,12 +443,47 @@ public class BattleManager : Singletone<BattleManager>
         nowEnemy = enemy;
         float hpValue = nowEnemy.HP / dungeonPattern.EnemyHealth;
         OnUpdateEnemyHpBar.Execute(dungeonPattern.EnemyName, hpValue);
+
+
         #endregion
         BattlePhase = E_BattlePhase.Battle;
     }
 
+    void StartCountTime()
+    {
+        StopCoroutine(CalculateRemainCount());
+        StartCoroutine(CalculateRemainCount());
+    }
+
+    IEnumerator CalculateRemainCount()
+    {
+        while (!isBattleEnd)
+        {
+            // todo 190727 던전별 데이터에 제한시간을 추가, 받아와서 처리해야함
+            if (RemainTime < 0)
+            {
+                isBattleEnd = true;
+                // 기존의 게임 끝났을때(플레이어가 죽었을 때)의 처리 -> 참고
+                // if (nowplayerHealth <= 0)
+                // {
+                //     nowplayerHealth = 0;
+                //     PlayerState = Graduate.Unit.E_UnitState.Death;
+                //     CalculateReward(false);
+                //     OnGameEnd.Execute(false);
+                //     isBattleEnd = true;
+                //     BattlePhase = E_BattlePhase.End;
+                // }
+                yield break;
+            }
+
+            RemainTime -= 1;
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
     void StartBattle()
     {
+        StartCountTime();
         StopCoroutine(Battle());
         StartCoroutine(Battle());
     }
@@ -586,6 +639,7 @@ public class BattleManager : Singletone<BattleManager>
         nowplayerHealth -= damage;
         if (nowplayerHealth <= 0)
         {
+            StopCoroutine(CalculateRemainCount());
             nowplayerHealth = 0;
             PlayerState = Graduate.Unit.E_UnitState.Death;
             CalculateReward(false);

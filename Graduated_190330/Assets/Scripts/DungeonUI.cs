@@ -49,9 +49,9 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
         if (titleText != null)
             titleText.text = dataList[0];
 
-        if(detailText != null)
+        if (detailText != null)
             detailText.text = string.Empty;
-            
+
         int clearStep = UserManager.Instance.UserInfo.BestDungeonStep;
         SetDungeonList(clearStep);
     }
@@ -76,10 +76,12 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
                 // 데이터 갱신
                 // to parse from dungeonPatternData, rewardData
                 DungeonPattern dungeonPatternData = DungeonStepManager.Instance.DungeonStepDic[i];
+                DungeonMonsterData dungeonMonsterData = GameDataManager.Instance.DungeonMonsterDataDic[i];
                 RewardData rewardData = GameDataManager.Instance.RewardDataDic[i];
                 dungeonList[i].SetSimpleDataInfo(string.Concat(i + 1, "번째 던전"), i < clearStep ? true : false);
                 dungeonList[i].SetDetailInfo(dungeonPatternData, rewardData);
-                dungeonList[i].OnClickedShowDetail = SetDetailInfo;
+                dungeonList[i].SetDungeonMonsterData(dungeonMonsterData);
+                dungeonList[i].OnClickedShowDetail = OnClickedShowDetail;
             }
         }
         else
@@ -93,12 +95,20 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
                 }
 
                 DungeonPattern dungeonPatternData = DungeonStepManager.Instance.DungeonStepDic[i];
+                DungeonMonsterData dungeonMonsterData = GameDataManager.Instance.DungeonMonsterDataDic[i];
                 RewardData rewardData = GameDataManager.Instance.RewardDataDic[i];
                 dungeonList[i].SetSimpleDataInfo(string.Concat(i + 1, "번째 던전"), i < clearStep ? true : false);
                 dungeonList[i].SetDetailInfo(dungeonPatternData, rewardData);
-                dungeonList[i].OnClickedShowDetail = SetDetailInfo;
+                dungeonList[i].SetDungeonMonsterData(dungeonMonsterData);
+                dungeonList[i].OnClickedShowDetail = OnClickedShowDetail;
             }
         }
+    }
+
+    void OnClickedShowDetail(string detailText, DungeonMonsterData patternData)
+    {
+        UserManager.Instance.SelectedDungeonMonsterData = patternData;
+        SetDetailInfo(detailText);
     }
 
     // 클릭되었을 때 실행하기
@@ -116,6 +126,13 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
     void OnClickedStart()
     {
         //todo 던전 단수에 맞게 데이터 조정- battlemanager 안의 initBattle 참조
+        if (UserManager.Instance.SelectedDungeonMonsterData == null)
+        {
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            message.Show(new string[] { "유저 메세지", "선택된 던전이 없습니다." });
+            return;
+        }
+
         StartCoroutine(BattleSceneLoad());
     }
 
