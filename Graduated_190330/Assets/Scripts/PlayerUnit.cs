@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using UnityEngine;
     using Graduate.Unit;
+    using Graduate.GameData.UnitData;
 
     public enum E_DistanceWithTarget
     {
@@ -15,6 +16,7 @@
     {
         Animator ani;
         float speed;
+        public E_CharacterType CharacterType {get; private set;}
         public Unit Target;
         public E_UnitState PlayerUnitState
         {
@@ -124,6 +126,11 @@
         public void StartAniAttack()
         {
             ani.Play("Attack");
+        }
+
+        public void SetCharacterType(E_CharacterType type)
+        {
+            CharacterType = type;
         }
 
         private void OnTriggerEnter(Collider other)

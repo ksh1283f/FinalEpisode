@@ -117,7 +117,6 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
                 // 있다면 리스트가 가득 차진 않았는지
                 if (UserManager.Instance.UserInfo.UnitDic.Count >= UserManager.MAX_CHARACTER_COUNT)
                 {
-                    // todo messageUI같은걸로 표시해주는 작업
                     MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
                     messageUI.Show(new string[] { "유저 메세지", "더이상 용병을 보유할 수 없습니다." });
                     Debug.LogError("There is no capacity in UnitDic");
@@ -127,7 +126,6 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
                 // 돈은 제대로 있는지
                 if (UserManager.Instance.UserInfo.Gold < contentList[i].UnitData.Price)
                 {
-                    // todo messageUI같은걸로 표시해주는 작업
                     MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
                     messageUI.Show(new string[] { "유저 메세지", "골드가 부족합니다." });
                     Debug.LogError("Not enough your gold");

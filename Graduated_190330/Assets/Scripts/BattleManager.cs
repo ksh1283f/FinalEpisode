@@ -109,6 +109,7 @@ public class BattleManager : Singletone<BattleManager>
     bool isCorrespondPattern = false;   // 패턴대응여부
     public float Cooltime { get; private set; }
     public bool IsCooldownComplite = true;
+    public RewardData thisBattleRewardData { get; private set; }
     public Action<float> OnStartCooldown { get; set; }
 
     void Start()
@@ -389,6 +390,18 @@ public class BattleManager : Singletone<BattleManager>
 
     void InitBattle()
     {
+        /*
+            - 자신의 출전 용병 정보들 
+            - 선택된 dungeonMonsterData로 단수, 몬스터 정보, 제한시간 찾기
+            - 단수에 맞는 몬스터 출현 정보
+            - 단수에 따른 몬스터 스탯 보정
+            - 보상정보 갱신
+        */
+
+        // 출전캐릭터 usermanager.instance.userinfo.selectedUnitDic
+        // 출현 몬스터 UserManager.Instance.SelectedDungeonMonsterData -> 
+        // 보상정보 rewardData
+
         // TODO: unit 데이터 초기화
         // TODO: dungeon 데이터 초기화
         PlayerUnitList = FindObjectsOfType<Graduate.Unit.Player.PlayerUnit>().ToList();
@@ -396,20 +409,48 @@ public class BattleManager : Singletone<BattleManager>
 
         //임시 데이터
         #region 임시 데이터
-        for (int i = 0; i < PlayerUnitList.Count; i++)
+        // 1. 플레이어 정보
+        int index = 0;
+        foreach (var item in UserManager.Instance.UserInfo.SelectedUnitDic)
         {
-            //todo 새로운 생성자 사용하기
-            // UnitData(int id, int hp, int atk, int def, 
-            //      int cri, int spd, string iconName, E_CharacterType characterType)
-            UnitData unitData = new UnitData(50, 10, 10, string.Empty);
-            unitDataList.Add(unitData);
-            PlayerUnitList[i].HP = unitData.Hp;
-            PlayerUnitList[i].Atk = unitData.Atk;
-            PlayerUnitList[i].Def = unitData.Def;
-            MaxPlayerHealth += unitData.Hp;
+            PlayerUnitList[index].SetCharacterType(item.Value.CharacterType);
+            unitDataList.Add(item.Value);
+            PlayerUnitList[index].HP = item.Value.Hp;
+            PlayerUnitList[index].Atk = item.Value.Atk;
+            PlayerUnitList[index].Def = item.Value.Def;
+            MaxPlayerHealth += item.Value.Hp;
+
+            index++;
         }
+
+        // for (int i = 0; i < PlayerUnitList.Count; i++)
+        // {
+        //     //todo 새로운 생성자 사용하기
+        //     // UnitData(int id, int hp, int atk, int def, 
+        //     //      int cri, int spd, string iconName, E_CharacterType characterType)
+        //     UnitData unitData = new UnitData(50, 10, 10, string.Empty);
+        //     unitDataList.Add(unitData);
+        //     PlayerUnitList[i].HP = unitData.Hp;
+        //     PlayerUnitList[i].Atk = unitData.Atk;
+        //     PlayerUnitList[i].Def = unitData.Def;
+        //     MaxPlayerHealth += unitData.Hp;
+        // }
         nowplayerHealth = MaxPlayerHealth;
         OnUpdateUserStat.Execute(unitDataList);
+
+        // 2. 적 정보
+        DungeonMonsterData dungeonMonsterData = UserManager.Instance.SelectedDungeonMonsterData;
+        DungeonPattern dungeonPatternData = GameDataManager.Instance.DungeonPatternDataDic[dungeonMonsterData.MonsterId].ShallowCopy() as DungeonPattern;
+        EnemyStatCorrectionData corData = GameDataManager.Instance.EnemyStatCorrectionDataDic[dungeonMonsterData.Id];
+        // todo 체력 보정
+        int correctedHealth = dungeonPatternData.EnemyHealth*corData.HpCorrection;
+        // cor = cor / 100 + 1;   // 소수점으로 변경
+        //     int healthCorrected = (int)(cor <= 0 ? pattern.EnemyHealth : cor * pattern.EnemyHealth);
+        for (int i = 0; i < dungeonPatternData.PatternList.Count; i++)
+        {
+            // todo 스킬 공격력 보정
+        }
+
 
         enemyPatterns = new List<EnemyPattern>();
         enemyPatterns.Add(new EnemyPattern(0, "고통", E_UserSkillType.Defense, 4f, "agony", 10));
@@ -533,7 +574,7 @@ public class BattleManager : Singletone<BattleManager>
                 }
                 else
                 {
-                    // 지 입기
+                    // 데미지 입기
                     CalculatedPlayerDamaged(thisPattern.Damage);
                     Debug.Log("[Test] Damage from monster: " + thisPattern.Damage);
                 }
