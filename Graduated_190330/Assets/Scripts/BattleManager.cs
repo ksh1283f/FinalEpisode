@@ -57,6 +57,10 @@ public class BattleManager : Singletone<BattleManager>
     public int AttackResourceCount { get; private set; }    // 보유중인 공격 자원 개수
     public int UtilResourceCount { get; private set; }  // 보유중인 유틸 자원 개수
     public int DefenseResourceCount { get; private set; }   // 보유중인 방어 자원 개수
+    public int AllAtk = 0;
+    public int AllDef = 0;
+    public int AllCri = 0;
+    public int AllSpd = 0;
     public List<PhaseChecker> PhaseCheckerList = new List<PhaseChecker>();
     public E_PhaseType PhaseType { get; private set; }
 
@@ -329,7 +333,6 @@ public class BattleManager : Singletone<BattleManager>
     #region 임시 데이터
     DungeonPattern dungeonPattern;
     EnemyPattern thisPattern;
-    List<EnemyPattern> enemyPatterns;
     List<UnitData> unitDataList = new List<UnitData>();
     int MaxPlayerHealth = 0;
     int nowplayerHealth = 0;
@@ -417,50 +420,49 @@ public class BattleManager : Singletone<BattleManager>
             unitDataList.Add(item.Value);
             PlayerUnitList[index].HP = item.Value.Hp;
             PlayerUnitList[index].Atk = item.Value.Atk;
+            AllAtk += item.Value.Atk;
+            AllDef += item.Value.Def;
+            AllCri += item.Value.Cri;
             PlayerUnitList[index].Def = item.Value.Def;
             MaxPlayerHealth += item.Value.Hp;
 
             index++;
         }
 
-        // for (int i = 0; i < PlayerUnitList.Count; i++)
-        // {
-        //     //todo 새로운 생성자 사용하기
-        //     // UnitData(int id, int hp, int atk, int def, 
-        //     //      int cri, int spd, string iconName, E_CharacterType characterType)
-        //     UnitData unitData = new UnitData(50, 10, 10, string.Empty);
-        //     unitDataList.Add(unitData);
-        //     PlayerUnitList[i].HP = unitData.Hp;
-        //     PlayerUnitList[i].Atk = unitData.Atk;
-        //     PlayerUnitList[i].Def = unitData.Def;
-        //     MaxPlayerHealth += unitData.Hp;
-        // }
         nowplayerHealth = MaxPlayerHealth;
         OnUpdateUserStat.Execute(unitDataList);
+        // todo 유닛 아이콘 갱신
 
         // 2. 적 정보
         DungeonMonsterData dungeonMonsterData = UserManager.Instance.SelectedDungeonMonsterData;
         DungeonPattern dungeonPatternData = GameDataManager.Instance.DungeonPatternDataDic[dungeonMonsterData.MonsterId].ShallowCopy() as DungeonPattern;
         EnemyStatCorrectionData corData = GameDataManager.Instance.EnemyStatCorrectionDataDic[dungeonMonsterData.Id];
         // todo 체력 보정
-        int correctedHealth = dungeonPatternData.EnemyHealth*corData.HpCorrection;
-        // cor = cor / 100 + 1;   // 소수점으로 변경
-        //     int healthCorrected = (int)(cor <= 0 ? pattern.EnemyHealth : cor * pattern.EnemyHealth);
+        float correctedHealth = (float)corData.HpCorrection / 100 + 1;
+        int healthCorrected = (int)(correctedHealth <= 1 ? dungeonPatternData.EnemyHealth : correctedHealth * dungeonPatternData.EnemyHealth);
+        if (!dungeonPatternData.SetEnemyHealth(healthCorrected))
+        {
+            Debug.LogError("Invalid result, healthCorrected value: " + healthCorrected);
+            BattlePhase = E_BattlePhase.End;
+            return;
+        }
+
         for (int i = 0; i < dungeonPatternData.PatternList.Count; i++)
         {
             // todo 스킬 공격력 보정
+            EnemyPattern enemyPattern = dungeonPatternData.PatternList[i];
+            float corDamage = (float)corData.AtkCorrection / 100 + 1;
+            int damageCorrected = (int)(corDamage <= 1 ? enemyPattern.Damage : enemyPattern.Damage * corDamage);
+            enemyPattern.SetElements(EnemyPattern.E_ElementType.Damage, damageCorrected);
+            if (!dungeonPatternData.SetEnemyStat(enemyPattern))
+            {
+                Debug.LogError("Invalid result, damageCorrected value: " + damageCorrected);
+                BattlePhase = E_BattlePhase.End;
+                return;
+            }
         }
 
-
-        enemyPatterns = new List<EnemyPattern>();
-        enemyPatterns.Add(new EnemyPattern(0, "고통", E_UserSkillType.Defense, 4f, "agony", 10));
-        enemyPatterns.Add(new EnemyPattern(1, "부패", E_UserSkillType.Util, 4f, "curruption", 10));
-        enemyPatterns.Add(new EnemyPattern(2, "생명력 착취", E_UserSkillType.Defense, 4f, "생명력 흡수", 8));
-        enemyPatterns.Add(new EnemyPattern(3, "혼돈의 화살", E_UserSkillType.AttackAndUtil, 4f, "caos balt", 30));
-        enemyPatterns.Add(new EnemyPattern(4, "유령 출몰", E_UserSkillType.Util, 4f, "Haunt", 20));
-        enemyPatterns.Add(new EnemyPattern(6, "황천의 차원문", E_UserSkillType.AttackAndUtil, 5f, "Nether portal", 80));
-
-        dungeonPattern = new DungeonPattern("Wizard", 1000, enemyPatterns, "잡몹스킬", 5f);
+        dungeonPattern = dungeonPatternData;
         for (int i = 0; i < EnemyUnitList.Count; i++)
         {
             EnemyUnitList[i].HP = dungeonPattern.EnemyHealth;
@@ -560,10 +562,9 @@ public class BattleManager : Singletone<BattleManager>
                     yield break;
 
                 yield return new WaitForSeconds(dungeonPattern.PatternTerm);
-                thisPattern = enemyPatterns[index];
+                thisPattern = dungeonPattern.PatternList[index];
                 OnExecuteMonsterCasting.Execute(thisPattern);
                 yield return new WaitForSeconds(thisPattern.CastTime);
-
 
                 // 4.대응
                 bool result = false;
@@ -576,12 +577,11 @@ public class BattleManager : Singletone<BattleManager>
                 {
                     // 데미지 입기
                     CalculatedPlayerDamaged(thisPattern.Damage);
-                    Debug.Log("[Test] Damage from monster: " + thisPattern.Damage);
                 }
                 OnCorrespondPattern.Execute(result);
 
                 // 5.처리
-                if (index + 1 <= enemyPatterns.Count - 1)
+                if (index + 1 <= dungeonPattern.PatternList.Count - 1)
                     index++;
                 else
                     index = 0;  // 처음으로
@@ -644,6 +644,7 @@ public class BattleManager : Singletone<BattleManager>
         // 1. 버블 소모값 + 공격력 + 크리확률
         // 버블대미지는 공격력 총합에 비례
         int calculatedDamage = 0;
+        // todo 초기화할때 계산한 총 데미지량을 이용하기(현재는 비효율적인 방법)
         for (int i = 0; i < unitDataList.Count; i++)
             calculatedDamage += unitDataList[i].Atk;
 
@@ -653,6 +654,7 @@ public class BattleManager : Singletone<BattleManager>
         float criValue = 0f;    // 크리확률 받아오는 작업 필요
         if (criValue < cri)
             calculatedDamage *= 2;
+            
         Debug.Log("[Test]Damage from player: " + calculatedDamage);
         return calculatedDamage;
     }
@@ -677,7 +679,13 @@ public class BattleManager : Singletone<BattleManager>
 
     void CalculatedPlayerDamaged(int damage)
     {
-        nowplayerHealth -= damage;
+        // todo 뎀감 계산
+        int finalDamage =damage;
+        finalDamage -= AllDef/10;   // 캐릭터들 방어력 적용
+        if(finalDamage <=0)
+            finalDamage = 1;    // 최소 1 데미지는 들어가야함
+
+        nowplayerHealth -= finalDamage;
         if (nowplayerHealth <= 0)
         {
             StopCoroutine(CalculateRemainCount());
@@ -691,6 +699,7 @@ public class BattleManager : Singletone<BattleManager>
 
         float playerHealthPer = (float)nowplayerHealth / (float)MaxPlayerHealth;
         OnDamagedPlayer.Execute(playerHealthPer);
+        Debug.Log("[Test] Damage from monster: " + finalDamage);
     }
 
     void CalculateReward(bool isClear)
@@ -720,6 +729,9 @@ public class BattleManager : Singletone<BattleManager>
         {
 
         }
+        UserInfo userInfo = UserManager.Instance.UserInfo;
+        userInfo.BestDungeonStep++;
+        UserManager.Instance.SetUserInfo(userInfo);
         OnUpdatedUserInfoAfterGameEnd.Execute(userName, teamLevel, exp, gold);
         OnGameEnd.Execute(isClear);
 

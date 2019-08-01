@@ -37,12 +37,11 @@ public class DungeonPattern
     // ex) if (!SetEnemyStat(pattern)) Debug.LogError("There is no pattern in list.."); 
     public bool SetEnemyStat(EnemyPattern pattern)
     {
-        EnemyPattern target = null;
         for (int i = 0; i < PatternList.Count; i++)
         {
             if (pattern.SkillId == PatternList[i].SkillId)
             {
-                target = PatternList[i];
+                PatternList[i] = pattern;
                 return true;
             }
         }

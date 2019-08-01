@@ -25,7 +25,7 @@ public class DungeonStepManager : Singletone<DungeonStepManager>
             float cor = GameDataManager.Instance.EnemyStatCorrectionDataDic[monsterData.Id].HpCorrection;
             // 20 -> 1.20
             cor = cor / 100 + 1;   // 소수점으로 변경
-            int healthCorrected = (int)(cor <= 0 ? pattern.EnemyHealth : cor * pattern.EnemyHealth);
+            int healthCorrected = (int)(cor <= 1 ? pattern.EnemyHealth : cor * pattern.EnemyHealth);
             if (!pattern.SetEnemyHealth(healthCorrected))
             {
                 Debug.LogError("invalid Health value! : " + healthCorrected);

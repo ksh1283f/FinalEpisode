@@ -12,6 +12,17 @@ public enum E_UserSkillType
 
 public class EnemyPattern
 {
+    public enum E_ElementType
+    {
+        ID,
+        Name,
+        SkillType,
+        CastTime,
+        SkillDescription,
+        PatternTerm,
+        Damage,
+    }
+
     public int SkillId { get; private set; }
     public string Name { get; private set; }
     public E_UserSkillType SkillType { get; private set; }
@@ -28,5 +39,44 @@ public class EnemyPattern
         this.CastTime = castTime;
         this.SkillDescription = skillDescription;
         this.Damage = damage;
+    }
+
+    public object ShallowCopy()
+    {
+        return this.MemberwiseClone();
+    }
+
+    public void SetElements(E_ElementType type, object value)
+    {
+        switch (type)
+        {
+            case E_ElementType.ID:
+                SkillId = (int)value;
+                break;
+
+            case E_ElementType.Name:
+                Name = value.ToString();
+                break;
+
+            case E_ElementType.SkillType:
+                SkillType = (E_UserSkillType)value;
+                break;
+
+            case E_ElementType.CastTime:
+                CastTime = (float)value;
+                break;
+
+            case E_ElementType.SkillDescription:
+                SkillDescription = value.ToString();
+                break;
+
+            case E_ElementType.PatternTerm:
+                PatternTerm = (float)value;
+                break;
+
+            case E_ElementType.Damage:
+                Damage = (int)value;
+                break;
+        }
     }
 }

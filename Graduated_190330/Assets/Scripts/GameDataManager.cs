@@ -268,7 +268,7 @@ public class GameDataManager : Singletone<GameDataManager>
             for (int j = 0; j < skillCount; j++)
             {
                 int skillId = Convert.ToInt32(values[6 + j]);
-                EnemyPattern enemyPattern = EnemyPatternDataDic[skillId];
+                EnemyPattern enemyPattern = EnemyPatternDataDic[skillId].ShallowCopy() as EnemyPattern;
                 enemyPatternList.Add(enemyPattern);
             }
 
