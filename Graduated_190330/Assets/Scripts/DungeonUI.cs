@@ -147,7 +147,7 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
         LobbyUI lobbyUI = UIManager.Instance.LoadUI(E_UIType.Lobby) as LobbyUI;
         lobbyUI.Close();
         UserManager.Instance.UserSituation = E_UserSituation.Battle;
-        AsyncOperation ao = SceneManager.LoadSceneAsync("Battle_True");
+        AsyncOperation ao = SceneManager.LoadSceneAsync("Battle_TrueTest");
         while (!ao.isDone)
             yield return null;
     }

@@ -3,41 +3,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using Lofle.Tween;
 using UnityEngine.UI;
+using System;
+using System.Text;
 
 public class BattleEndUI : uiSingletone<BattleEndUI>, IBaseUI
 {
-	[SerializeField] UITweenColorAlpha tweenTextAlpha;
-	Text text;
+    [SerializeField] Button btnOK;
+    [SerializeField] Text text;
+    public Action OnClickedBtnOk { get; set; }
 
     protected override void Awake()
     {
         uiType = E_UIType.BattleEnd;
         base.Awake();
+
+        text.text = string.Empty;
+        btnOK.onClick.AddListener(() => { OnClickedBtnOk.Execute(); });
+		Text btnText = btnOK.GetComponentInChildren<Text>();
+		btnText.text = "받기";
     }
 
     void Start()
     {
-        text = tweenTextAlpha.GetComponent<Text>();
-		text.text = string.Empty;
 
-		// GameManager.Instance.OnExecuteResult += ShowResultText;
-		// end 이벤트로 게임화면을 바꿀수 있다.
-	}
+        // GameManager.Instance.OnExecuteResult += ShowResultText;
+        // end 이벤트로 게임화면을 바꿀수 있다.
+    }
 
 
-	public void ShowResultText(bool isClear)
-	{
-		if(text == null)
-			return;
+    public void ShowResultWindow(bool isClear, RewardData rewardData)
+    {
+        if (text == null)
+            return;
 
-		if(tweenTextAlpha == null)
-			return;
+        if (rewardData == null)
+            return;
 
-		if(isClear)
-			text.text = "Clear";
-		else
-			text.text = "Fail";
+        if (btnOK == null)
+            return;
+        StringBuilder sb = new StringBuilder();
 
-		tweenTextAlpha.PlayForward();
-	}
+
+        if (isClear)
+        {
+            sb.Append("Clear");
+            sb.AppendLine();
+            sb.Append("Gold: +");
+            sb.Append(rewardData.Gold);
+            sb.AppendLine();
+            sb.Append("Exp: +");
+            sb.Append(rewardData.Exp);
+        }
+        else
+        {
+            sb.Append("Fail");
+            sb.AppendLine();
+            sb.Append("Gold: +0");
+            sb.AppendLine();
+            sb.Append("Exp: +0");
+        }
+
+        text.text = sb.ToString();
+    }
 }

@@ -36,7 +36,7 @@ public class BattleManager : Singletone<BattleManager>
      */
 
     public const int MAX_SKILL_RESOURCE_COUNT = 5;
-    public Action<bool> OnGameEnd { get; set; }
+    public Action<bool, RewardData> OnGameEnd { get; set; }
     public Action<string, int, int, int> OnUpdatedUserInfoAfterGameEnd { get; set; }    //userName, teamLevel, gold, exp
 
     public Action OnExecuteInit { get; set; }   // 던전진행에 필요한 데이터 초기화
@@ -363,8 +363,10 @@ public class BattleManager : Singletone<BattleManager>
         if (aliveEnemyCount == 0)
         {
             StopCoroutine(CalculateRemainCount());
+            // ui상으로 보여주기
+
             CalculateReward(true);
-            OnGameEnd.Execute(true);
+            OnGameEnd.Execute(true, thisBattleRewardData);
             isBattleEnd = true;
             BattlePhase = E_BattlePhase.End;
         }
@@ -437,6 +439,7 @@ public class BattleManager : Singletone<BattleManager>
         DungeonMonsterData dungeonMonsterData = UserManager.Instance.SelectedDungeonMonsterData;
         DungeonPattern dungeonPatternData = GameDataManager.Instance.DungeonPatternDataDic[dungeonMonsterData.MonsterId].ShallowCopy() as DungeonPattern;
         EnemyStatCorrectionData corData = GameDataManager.Instance.EnemyStatCorrectionDataDic[dungeonMonsterData.Id];
+        thisBattleRewardData = GameDataManager.Instance.RewardDataDic[dungeonMonsterData.Id];
         // todo 체력 보정
         float correctedHealth = (float)corData.HpCorrection / 100 + 1;
         int healthCorrected = (int)(correctedHealth <= 1 ? dungeonPatternData.EnemyHealth : correctedHealth * dungeonPatternData.EnemyHealth);
@@ -502,20 +505,14 @@ public class BattleManager : Singletone<BattleManager>
     {
         while (!isBattleEnd)
         {
-            // todo 190727 던전별 데이터에 제한시간을 추가, 받아와서 처리해야함
             if (RemainTime < 0)
             {
                 isBattleEnd = true;
-                // 기존의 게임 끝났을때(플레이어가 죽었을 때)의 처리 -> 참고
-                // if (nowplayerHealth <= 0)
-                // {
-                //     nowplayerHealth = 0;
-                //     PlayerState = Graduate.Unit.E_UnitState.Death;
-                //     CalculateReward(false);
-                //     OnGameEnd.Execute(false);
-                //     isBattleEnd = true;
-                //     BattlePhase = E_BattlePhase.End;
-                // }
+                PlayerState = Graduate.Unit.E_UnitState.Death;
+                OnGameEnd.Execute(false, thisBattleRewardData);// 결과 ui를 보여준다
+                CalculateReward(false); // 결과를 계산하여 유저데이터에 갱신
+                BattlePhase = E_BattlePhase.End;    // 로비씬 로딩
+
                 yield break;
             }
 
@@ -654,7 +651,7 @@ public class BattleManager : Singletone<BattleManager>
         float criValue = 0f;    // 크리확률 받아오는 작업 필요
         if (criValue < cri)
             calculatedDamage *= 2;
-            
+
         Debug.Log("[Test]Damage from player: " + calculatedDamage);
         return calculatedDamage;
     }
@@ -680,9 +677,9 @@ public class BattleManager : Singletone<BattleManager>
     void CalculatedPlayerDamaged(int damage)
     {
         // todo 뎀감 계산
-        int finalDamage =damage;
-        finalDamage -= AllDef/10;   // 캐릭터들 방어력 적용
-        if(finalDamage <=0)
+        int finalDamage = damage;
+        finalDamage -= AllDef / 10;   // 캐릭터들 방어력 적용
+        if (finalDamage <= 0)
             finalDamage = 1;    // 최소 1 데미지는 들어가야함
 
         nowplayerHealth -= finalDamage;
@@ -692,7 +689,7 @@ public class BattleManager : Singletone<BattleManager>
             nowplayerHealth = 0;
             PlayerState = Graduate.Unit.E_UnitState.Death;
             CalculateReward(false);
-            OnGameEnd.Execute(false);
+            OnGameEnd.Execute(false, thisBattleRewardData);
             isBattleEnd = true;
             BattlePhase = E_BattlePhase.End;
         }
@@ -713,8 +710,8 @@ public class BattleManager : Singletone<BattleManager>
 
         if (isClear)
         {
-            gold += 100;
-            exp += 20;
+            gold += thisBattleRewardData.Gold;
+            exp += thisBattleRewardData.Exp;
             if (exp >= 100)    // todo exp 테이블로 값 맞추기 필요
             {
                 int tempExp = exp;
@@ -729,13 +726,15 @@ public class BattleManager : Singletone<BattleManager>
         {
 
         }
+
+        // 변경정보 갱신
         UserInfo userInfo = UserManager.Instance.UserInfo;
-        userInfo.BestDungeonStep++;
+        int thisDungeonStep = thisBattleRewardData.DungeonId + 1;
+
+        if (thisDungeonStep == userInfo.BestDungeonStep+1) // 기록단수 보다 높으면 경신 
+            userInfo.BestDungeonStep++;
+
         UserManager.Instance.SetUserInfo(userInfo);
         OnUpdatedUserInfoAfterGameEnd.Execute(userName, teamLevel, exp, gold);
-        OnGameEnd.Execute(isClear);
-
     }
-
-
 }

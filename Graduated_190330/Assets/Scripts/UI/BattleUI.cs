@@ -50,17 +50,18 @@ public class BattleUI : uiSingletone<BattleUI>
         BattleManager.Instance.OnUpdateEnemyHpBar += buttonWindow.InitEnemyHpBar;
         BattleManager.Instance.OnAttackEnemy += buttonWindow.UpdateHpBar;
         BattleManager.Instance.OnDamagedPlayer += statWindow.UpdateHpBar;
-        BattleManager.Instance.OnGameEnd += battleEndWindow.ShowResultText;
+        BattleManager.Instance.OnGameEnd += battleEndWindow.ShowResultWindow;
         BattleManager.Instance.OnStartCooldown += buttonWindow.StartCooldown;
         BattleManager.Instance.OnCorrespondPattern += castWindow.ShowSuccessMessage;
         BattleManager.Instance.OnCalculatedRemainTime += SetTimerText;
+        battleEndWindow.OnClickedBtnOk += LoadLobbyScene;
         
         buttonWindow.gameObject.SetActive(false);
         castWindow.ShowCastWindow(false);
 
         resourceWindow.gameObject.SetActive(false);
         statWindow.gameObject.SetActive(false);
-        // battleEndWindow.gameObject.SetActive(false);
+        battleEndWindow.gameObject.SetActive(false);
     }
 
     public void ShowCastWindow(bool isShow)
@@ -123,5 +124,10 @@ public class BattleUI : uiSingletone<BattleUI>
         }
 
         RemainText.text = time.ToString();
+    }
+
+    private void LoadLobbyScene()
+    {
+
     }
 }
