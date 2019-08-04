@@ -365,10 +365,10 @@ public class BattleManager : Singletone<BattleManager>
             StopCoroutine(CalculateRemainCount());
             // ui상으로 보여주기
 
-            CalculateReward(true);
             OnGameEnd.Execute(true, thisBattleRewardData);
-            isBattleEnd = true;
-            BattlePhase = E_BattlePhase.End;
+            CalculateReward(true);
+            //isBattleEnd = true;
+            //BattlePhase = E_BattlePhase.End;
         }
         else
         {
@@ -511,7 +511,7 @@ public class BattleManager : Singletone<BattleManager>
                 PlayerState = Graduate.Unit.E_UnitState.Death;
                 OnGameEnd.Execute(false, thisBattleRewardData);// 결과 ui를 보여준다
                 CalculateReward(false); // 결과를 계산하여 유저데이터에 갱신
-                BattlePhase = E_BattlePhase.End;    // 로비씬 로딩
+                //BattlePhase = E_BattlePhase.End;    // 로비씬 로딩
 
                 yield break;
             }
@@ -690,8 +690,8 @@ public class BattleManager : Singletone<BattleManager>
             PlayerState = Graduate.Unit.E_UnitState.Death;
             CalculateReward(false);
             OnGameEnd.Execute(false, thisBattleRewardData);
-            isBattleEnd = true;
-            BattlePhase = E_BattlePhase.End;
+            //isBattleEnd = true;
+            //BattlePhase = E_BattlePhase.End;
         }
 
         float playerHealthPer = (float)nowplayerHealth / (float)MaxPlayerHealth;
@@ -736,5 +736,11 @@ public class BattleManager : Singletone<BattleManager>
 
         UserManager.Instance.SetUserInfo(userInfo);
         OnUpdatedUserInfoAfterGameEnd.Execute(userName, teamLevel, exp, gold);
+    }
+
+    public void LoadLobbyScene()
+    {
+        isBattleEnd = true;
+        BattlePhase = E_BattlePhase.End;
     }
 }

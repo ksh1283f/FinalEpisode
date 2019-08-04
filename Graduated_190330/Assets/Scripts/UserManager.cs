@@ -185,7 +185,7 @@ public class UserManager : Singletone<UserManager>
 
     IEnumerator LoadLobbyScene()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         BattleUI.Instance.Close();
         Debug.LogError("ready start loadLobbyScene");
         ao = SceneManager.LoadSceneAsync("Lobby");

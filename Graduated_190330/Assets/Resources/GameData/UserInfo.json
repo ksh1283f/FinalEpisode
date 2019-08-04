@@ -1,8 +1,8 @@
 {
     "UserName": "DrJay",
-    "TeamLevel": 2,
-    "Exp": 60,
-    "Gold": 995,
+    "TeamLevel": 3,
+    "Exp": 80,
+    "Gold": 1260,
     "UnitList": [
         {
             "Id": 130,
@@ -161,7 +161,7 @@
             "Exp": 0
         }
     ],
-    "PropertyType": 0,
+    "PropertyType": 2,
     "isClearTutorial": false,
     "Atk": 0,
     "Def": 0,
