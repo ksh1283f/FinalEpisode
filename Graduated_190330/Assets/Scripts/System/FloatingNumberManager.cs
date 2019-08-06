@@ -41,7 +41,8 @@ public  class FloatingNumberManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        floatingObject = Resources.Load<FloatingObject>("Prefabs/System/FloatingSystem/FloatingObject");
+        // floatingObject = Resources.Load<FloatingObject>("Prefabs/System/FloatingSystem/FloatingObject");
+        floatingObject = Resources.Load<FloatingObject>("Prefabs/FloatingObject");
         foreach(FloatingObject gamaobject in FindObjectsOfType<FloatingObject>())
         {
             if(gamaobject.name== "FloatingArea")
