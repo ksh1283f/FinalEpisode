@@ -1,8 +1,8 @@
 {
     "UserName": "DrJay",
-    "TeamLevel": 3,
-    "Exp": 80,
-    "Gold": 1260,
+    "TeamLevel": 4,
+    "Exp": 85,
+    "Gold": 1515,
     "UnitList": [
         {
             "Id": 130,
@@ -167,5 +167,5 @@
     "Def": 0,
     "Cri": 0,
     "Spd": 0,
-    "BestDungeonStep": 13
+    "BestDungeonStep": 14
 }

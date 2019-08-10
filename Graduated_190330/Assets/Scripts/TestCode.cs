@@ -3,31 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Lofle.Tween;
+using TMPro;
 
 public class TestCode : Singletone<Testcode>
 {
 
     [SerializeField] GameObject Object;
-
-    void Update()
+    [SerializeField] TextMeshProUGUI textMesh;
+    
+    void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.NonpenetratingDamage);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.FullPenetrationDamage);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.CriticalDamage);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.Heal);
-        }
+        textMesh.text = "sfsfsfsfsf";
     }
+
+    // void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Alpha1))
+    //     {
+    //         FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.NonpenetratingDamage);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.Alpha2))
+    //     {
+    //         FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.FullPenetrationDamage);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.Alpha3))
+    //     {
+    //         FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.CriticalDamage);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.Alpha4))
+    //     {
+    //         FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.Heal);
+    //     }
+    // }
 
     // [SerializeField] UITweenColorAlpha tweenColorAlpha;
 
