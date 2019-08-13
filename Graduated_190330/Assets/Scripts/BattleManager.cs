@@ -656,7 +656,7 @@ public class BattleManager : Singletone<BattleManager>
         return calculatedDamage;
     }
 
-    void CalculatedEnemyDamaged(int damge)
+    void CalculatedEnemyDamaged(int damage)
     {
         if (nowEnemy == null)
             return;
@@ -668,6 +668,8 @@ public class BattleManager : Singletone<BattleManager>
             return;
 
         //ui 갱신
+        // todo 데미지 폰트 표시(damageFloatManager)
+        DamageFloatManager.Instance.ShowDamageFont(nowEnemy.gameObject, damage, E_DamageType.Normal);
         float enemyHealthPer = (float)nowEnemy.HP / (float)dungeonPattern.EnemyHealth;
         if (enemyHealthPer <= 0)
             enemyHealthPer = 0;
@@ -677,11 +679,13 @@ public class BattleManager : Singletone<BattleManager>
     void CalculatedPlayerDamaged(int damage)
     {
         // todo 뎀감 계산
+        
         int finalDamage = damage;
         finalDamage -= AllDef / 10;   // 캐릭터들 방어력 적용
         if (finalDamage <= 0)
             finalDamage = 1;    // 최소 1 데미지는 들어가야함
-
+        
+        DamageFloatManager.Instance.ShowDamageFont(PlayerUnitList[0].gameObject, finalDamage, E_DamageType.Normal);
         nowplayerHealth -= finalDamage;
         if (nowplayerHealth <= 0)
         {
@@ -724,7 +728,7 @@ public class BattleManager : Singletone<BattleManager>
         }
         else
         {
-
+            // todo 졌을때는 보상정보를 보여주지않는다
         }
 
         // 변경정보 갱신

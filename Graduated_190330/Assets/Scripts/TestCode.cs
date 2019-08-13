@@ -3,16 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Lofle.Tween;
+using TMPro;
 
 public class TestCode : Singletone<Testcode>
 {
 
-    [SerializeField] UITweenColorAlpha tweenColorAlpha;
-
+    [SerializeField] GameObject Object;
+    [SerializeField] TextMeshProUGUI textMesh;
+    
     void Start()
     {
-        tweenColorAlpha.PlayForward();
+        textMesh.text = "sfsfsfsfsf";
     }
+
+    // void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Alpha1))
+    //     {
+    //         FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.NonpenetratingDamage);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.Alpha2))
+    //     {
+    //         FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.FullPenetrationDamage);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.Alpha3))
+    //     {
+    //         FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.CriticalDamage);
+    //     }
+    //     if (Input.GetKeyDown(KeyCode.Alpha4))
+    //     {
+    //         FloatingNumberManager.FloatingNumber(Object, 3000, E_FloatingType.Heal);
+    //     }
+    // }
+
+    // [SerializeField] UITweenColorAlpha tweenColorAlpha;
+
+    // void Start()
+    // {
+    //     tweenColorAlpha.PlayForward();
+    // }
     // public float minimum = 0.0f;
     // public float maximum = 1f;
     // public float duration = 5.0f;
