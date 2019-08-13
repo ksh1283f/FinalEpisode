@@ -60,4 +60,10 @@ public class LobbyContents : MonoBehaviour
 
         contentsNameText.text = sb.ToString();
     }
+
+    // todo 빌보드 방식 추가하기
+    // void Update()
+    // {
+
+    // }
 }

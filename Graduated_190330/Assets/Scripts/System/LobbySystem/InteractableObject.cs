@@ -51,7 +51,7 @@ public class InteractableObject : MonoBehaviour
         //if (!canvas.activeInHierarchy)
         if (UIManager.Instance.openedUiDic.Count == 1)
         {
-            if (lobbyContents.contentsType != E_LobbyContents.Ground)
+            if (lobbyContents.contentsType != E_LobbyContents.Ground && spriteRenderer != null)
                 spriteRenderer.color = new Color32(150, 150, 150, 255);
 
             canClick = true;
@@ -76,7 +76,7 @@ public class InteractableObject : MonoBehaviour
         // 1인 이유는 해당 ui가 켜져있을때는 드래그가 안되도록 하기 위함임
         if (UIManager.Instance.openedUiDic.Count == 1)
         {
-            if (lobbyContents.contentsType != E_LobbyContents.Ground)
+            if (lobbyContents.contentsType != E_LobbyContents.Ground && spriteRenderer != null)
                 spriteRenderer.color = new Color32(255, 255, 255, 255);
 
             if (canClick && lobbyContents.contentsType != E_LobbyContents.Ground)
