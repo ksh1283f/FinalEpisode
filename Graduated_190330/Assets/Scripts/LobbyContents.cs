@@ -61,6 +61,24 @@ public class LobbyContents : MonoBehaviour
         contentsNameText.text = sb.ToString();
     }
 
+    void OnMouseDown()
+    {
+        if (UIManager.Instance.openedUiDic.Count == 1)
+        {
+            Debug.LogError("Lobby contents OnMouseDown");
+            OnExecuteContets.Execute(contentsType);
+        }
+    }
+
+    void OnMouseUp()
+    {
+        if (UIManager.Instance.openedUiDic.Count == 1)
+        {
+            Debug.LogError("Lobby contents OnMouseUp");
+            OnExecuteContets.Execute(contentsType);
+        }
+    }
+
     // todo 빌보드 방식 추가하기
     // void Update()
     // {
