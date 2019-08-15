@@ -81,7 +81,7 @@ public class StartSceneDirecting : MonoBehaviour
     IEnumerator LobbySceneLoad()
     {
         startUI.Close();
-        UserManager.Instance.ao  = SceneManager.LoadSceneAsync("Lobby");
+        UserManager.Instance.ao  = SceneManager.LoadSceneAsync("NewLobby");
         while (!UserManager.Instance.ao.isDone)
             yield return null;
 
