@@ -61,7 +61,6 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         if (detailInfo != null)
             detailInfo.text = string.Empty;
 
-        // todo 데이터 갱신 작업
         SetSimpleInfoList();
         SetSelectedList();
     }
@@ -124,6 +123,7 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         sb.AppendLine();
         sb.Append("Spd: ");
         sb.Append(data.Spd);
+        sb.AppendLine();
         sb.AppendLine();
         sb.Append(data.Description);
 

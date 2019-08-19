@@ -16,6 +16,7 @@ public enum E_UIType
     DungeonSelect,
     TrainingCenter,
     UserInformation,
+    UnitMarket,
     
 }
 

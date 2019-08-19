@@ -20,7 +20,11 @@ public class MarketManager : Singletone<MarketManager>
         뉴스 시스템
         - ex. 조만간 어떤 사건이 발생하여 어떤 용병이 많이 필요해질것이다.
         - ex. 
+
+        - marketSpecialEventData: 구매 또는 판매 쪽에서 value값만큼(퍼센트) 보너스를 받을 수 있다.
+        
     */
+
     void Start()
     {
         
