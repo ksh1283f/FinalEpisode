@@ -16,7 +16,7 @@ public enum E_MarketContents
 
 public class MarketUI : uiSingletone<MarketUI>
 {
-    enum E_TabType
+    public enum E_TabType
     {
         None,
         Sell,
@@ -33,12 +33,23 @@ public class MarketUI : uiSingletone<MarketUI>
 
     [SerializeField] Text titleText;
     [SerializeField] NewsWindow newsWindow;
-    [SerializeField] Toggle sellToggle;
-    [SerializeField] Toggle purchaseToggle;
-
+    [SerializeField] ToggleWrapper sellToggle;
+    [SerializeField] ToggleWrapper purchaseToggle;
+    List<ToggleWrapper> toggleList;
     UnitData selectedUnitInSimpleList;
     E_TabType selectedTabType = E_TabType.None;
+    E_TabType SelectedTabType
+    {
+        get
+        {
+            if (toggleList == null)
+                return E_TabType.None;
 
+            selectedTabType = (E_TabType)toggleList.Find(x => (x.toggle.isOn == true)).ToggleType;
+
+            return selectedTabType;
+        }
+    }
 
     protected override void Awake()
     {
@@ -47,9 +58,13 @@ public class MarketUI : uiSingletone<MarketUI>
 
         simpleInfoList = GetComponentsInChildren<CharacterSimpleInfo>().ToList();
         selectedMarketContents = E_MarketContents.None;
+        toggleList = new List<ToggleWrapper>();
+        toggleList.Add(sellToggle);
+        toggleList.Add(purchaseToggle);
+
 
         //todo 버튼 기능 연결
-        string result = ConectBtnWithMethod();
+        string result = ConnectBtnWithMethod();
         if (!string.IsNullOrEmpty(result))
             Debug.LogError(result);
     }
@@ -66,8 +81,8 @@ public class MarketUI : uiSingletone<MarketUI>
         if (titleText != null)
             titleText.text = dataList[0];
 
-        if(sellToggle != null)
-            sellToggle.isOn = true; // 콜백으로 등록된 함수를 호출하여 리스트 갱신
+        if (sellToggle != null)
+            sellToggle.toggle.isOn = true; // 콜백으로 등록된 함수를 호출하여 리스트 갱신
         //SetSimpleInfoList();
     }
 
@@ -91,17 +106,20 @@ public class MarketUI : uiSingletone<MarketUI>
     {
         // 선택된 탭이 무엇인지 체크해야한다.
         // todo 갱신을 하는것이 유효한지 검사(MarketManager에서..)
-
+        List<UnitData> unitList = new List<UnitData>();
         switch (selectedMarketContents)
         {
             case E_MarketContents.Purchase:
+                // 데이터를 기반으로 산출된 용병들
                 break;
 
             case E_MarketContents.Sell:
+                // 보유하고 있는 용병들
+                unitList = UserManager.Instance.UserInfo.UnitDic.Values.ToList();
                 break;
         }
 
-        return null;    // 임시
+        return unitList;    // 임시
     }
 
     void OnClickedBtnBack()
@@ -139,6 +157,24 @@ public class MarketUI : uiSingletone<MarketUI>
         textInfo.text = GetDataInfo(selectedUnitInSimpleList);
     }
 
+    void OnClickedBtnSell()
+    {
+        // 선택된 탭이 판매인지
+        if (SelectedTabType != E_TabType.Sell)
+            return;
+
+        // 선택된 용병이 있는지
+    }
+
+    void OnClickBtnPurchase()
+    {
+        // 선택된 탭이 구매인지
+        if (SelectedTabType != E_TabType.Purchase)
+            return;
+
+        // 선택된 용병이 있는지
+    }
+
     string GetDataInfo(UnitData data)
     {
         StringBuilder sb = new StringBuilder();
@@ -171,13 +207,20 @@ public class MarketUI : uiSingletone<MarketUI>
         if (!isOn)
             return;
 
-        // selectedTabType = 
+        switch (SelectedTabType)
+        {
+            case E_TabType.Purchase:
+                break;
+
+            case E_TabType.Sell:
+                break;
+        }
 
         // todo 새로운 리스트 갱신, 버튼 갱신
 
     }
 
-    string ConectBtnWithMethod()
+    string ConnectBtnWithMethod()
     {
         string resultMessage = string.Empty;
         if (sellToggle == null)
@@ -193,8 +236,8 @@ public class MarketUI : uiSingletone<MarketUI>
         }
 
         // todo other btns
-        sellToggle.onValueChanged.AddListener(OnChangedToggle);
-        purchaseToggle.onValueChanged.AddListener(OnChangedToggle);
+        sellToggle.toggle.onValueChanged.AddListener(OnChangedToggle);
+        purchaseToggle.toggle.onValueChanged.AddListener(OnChangedToggle);
 
         return resultMessage;
     }

@@ -17,7 +17,8 @@ public enum E_GameDataType
     RewardData, // - 던전 보상 정보
     EnemyStatCorrectionData,    // 던전 단계별 몬스터 능력치 보정 데이터
     DungeonMonsterData, // 던전별로 어떤 몬스터가 출현하는지에 관한 데이터
-    MarketData,// - 시장 정보
+    MarketBasisData,// - 시장 기본 정보
+    MarketSpecialEventData, // 시장 특별 이벤트 관련 데이터
     LocalizeData,// - 언어(후순위)
 
     DataTypeCount,  // 데이터 타입 개수
@@ -370,5 +371,15 @@ public class GameDataManager : Singletone<GameDataManager>
             DungeonMonsterData data = new DungeonMonsterData(id, monsterId, limitTime);
             DungeonMonsterDataDic.Add(data.Id, data);
         }
+    }
+
+    void ReadMarketBasisData(string path)
+    {
+
+    }
+
+    void ReadMarketSpecialEventData(string path)
+    {
+        
     }
 }

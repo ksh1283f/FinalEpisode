@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Graduate.GameData.UnitData;
 using UnityEngine;
 
 public enum E_MarketEventType
@@ -25,8 +26,36 @@ public class MarketManager : Singletone<MarketManager>
         
     */
 
+    public int RemainTurn { get; private set; }
+    public List<UnitData> PurchaseableUnitList;
+
     void Start()
     {
-        
+        PurchaseableUnitList = new List<UnitData>();
     }
+
+    // 이벤트의 남은 턴, 구매 가능한 용병 리스트
+    public void SetMarketBasisData()
+    {
+
+    }
+
+    public UnitData MakeEventUnitData(int userLevel)
+    {
+        UnitData resultUnitData = null;
+        
+        // todo 유닛 생성 작업
+        // 1. Select character type(random)
+        // 2. Select unit level(from userLevel)
+        // 3. Make Stat(from MarketSpecialData)
+
+
+        return resultUnitData;
+    }
+
+    public void BuySpecialUnit(UnitData boughtUnit)
+    {
+        // todo 구매한 유닛은 유닛id를 갱신해줘야함
+    }
+
 }
