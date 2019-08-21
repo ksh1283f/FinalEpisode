@@ -34,8 +34,9 @@ public class GameDataManager : Singletone<GameDataManager>
     private const string rewardDataName = "RewardData";
     private const string EnemyStatCorrectionDataName = "EnemyStatCorrectionData";
     private const string DungeonMonsterDataName = "DungeonMonsterData";
-    private const string MarketDataName = "MarketData.csv";
     private const string LocalizeDataName = "LocalizeData.csv";
+    private const string MarketBasisDataName = "MarketBasisData";
+    private const string MarketSpecialEventDataName = "MarketSpecialEventData";
 
     public Dictionary<int, CharacterProperty> BattlePropertyDic { get; private set; }
     public Dictionary<int, UnitData> CharacterDataDic { get; private set; }
@@ -44,7 +45,8 @@ public class GameDataManager : Singletone<GameDataManager>
     public Dictionary<int, RewardData> RewardDataDic { get; private set; }
     public Dictionary<int, EnemyStatCorrectionData> EnemyStatCorrectionDataDic { get; private set; }
     public Dictionary<int, DungeonMonsterData> DungeonMonsterDataDic { get; private set; }
-
+    public Dictionary<int, MarketBasisData> MarketBasisDataDic { get; private set; }
+    public Dictionary<int, MarketSpecialEventData> MarketSpecialEventDataDic { get; private set; }
 
     void Awake()
     {
@@ -56,6 +58,8 @@ public class GameDataManager : Singletone<GameDataManager>
         RewardDataDic = new Dictionary<int, RewardData>();
         EnemyStatCorrectionDataDic = new Dictionary<int, EnemyStatCorrectionData>();
         DungeonMonsterDataDic = new Dictionary<int, DungeonMonsterData>();
+        MarketBasisDataDic = new Dictionary<int, MarketBasisData>();
+        MarketSpecialEventDataDic = new Dictionary<int, MarketSpecialEventData>();
 
         for (int i = 0; i < (int)E_GameDataType.DataTypeCount; i++)
         {
@@ -97,6 +101,14 @@ public class GameDataManager : Singletone<GameDataManager>
 
                 case E_GameDataType.DungeonMonsterData:
                     ReadDungeonMonsterData(DungeonMonsterDataName);
+                    break;
+
+                case E_GameDataType.MarketBasisData:
+                    ReadMarketBasisData(MarketBasisDataName);
+                    break;
+
+                case E_GameDataType.MarketSpecialEventData:
+                    ReadMarketSpecialEventData(MarketSpecialEventDataName);
                     break;
             }
         }
@@ -375,11 +387,66 @@ public class GameDataManager : Singletone<GameDataManager>
 
     void ReadMarketBasisData(string path)
     {
+        if (string.IsNullOrEmpty(path))
+        {
+            Debug.LogError("ReadMarketBasisData path is null or emtpy");
+            return;
+        }
 
+        string dataFullPath = string.Concat(dataDefalutPath, path);
+        TextAsset assetData = Resources.Load(dataFullPath) as TextAsset;
+        string[] textData = assetData.text.Split('\n'); // 줄단위로 구분
+        string strLineValue = string.Empty;
+        string[] values = null;
+        for (int i = 0; i < textData.Length; i++)
+        {
+            strLineValue = textData[i];
+            if (string.IsNullOrEmpty(strLineValue))
+                return;
+
+            if (i == 0)
+                continue;
+
+            values = strLineValue.Split(',');
+            int id = Convert.ToInt32(values[0]);
+            int unitCount = Convert.ToInt32(values[1]);
+            int limitTurn = Convert.ToInt32(values[2]);
+
+            MarketBasisData basisData = new MarketBasisData(id, unitCount, limitTurn);
+            MarketBasisDataDic.Add(basisData.Id, basisData);
+        }
     }
 
     void ReadMarketSpecialEventData(string path)
     {
-        
+        if (string.IsNullOrEmpty(path))
+        {
+            Debug.LogError("ReadMarketBasisData path is null or emtpy");
+            return;
+        }
+
+        string dataFullPath = string.Concat(dataDefalutPath, path);
+        TextAsset assetData = Resources.Load(dataFullPath) as TextAsset;
+        string[] textData = assetData.text.Split('\n'); // 줄단위로 구분
+        string strLineValue = string.Empty;
+        string[] values = null;
+        for (int i = 0; i < textData.Length; i++)
+        {
+            strLineValue = textData[i];
+            if (string.IsNullOrEmpty(strLineValue))
+                return;
+
+            if (i == 0)
+                continue;
+
+            values = strLineValue.Split(',');
+            int id = Convert.ToInt32(values[0]);
+            E_MarketEventType marketEventType = (E_MarketEventType)Convert.ToInt32(values[1]);
+            int eventValue = Convert.ToInt32(values[2]);
+            string description = values[3];
+
+            MarketSpecialEventData specialEventData = new MarketSpecialEventData(id, marketEventType, eventValue, description);
+            MarketSpecialEventDataDic.Add(specialEventData.Id, specialEventData);
+        }
     }
 }

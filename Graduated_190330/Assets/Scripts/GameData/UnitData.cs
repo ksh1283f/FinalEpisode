@@ -29,6 +29,7 @@
         Mage,   // 법뻔뻔
         Warlock,    // 생석
         Rogue,  // 돚거
+        EnumDataCount,  // 타입 개수
     }
 
     [Serializable]

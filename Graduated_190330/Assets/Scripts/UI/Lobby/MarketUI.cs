@@ -110,7 +110,7 @@ public class MarketUI : uiSingletone<MarketUI>
         switch (selectedMarketContents)
         {
             case E_MarketContents.Purchase:
-                // 데이터를 기반으로 산출된 용병들
+                // 데이터를 기반으로 산출된 용병들(어떻게 산출할 것인가)
                 break;
 
             case E_MarketContents.Sell:
@@ -164,6 +164,11 @@ public class MarketUI : uiSingletone<MarketUI>
             return;
 
         // 선택된 용병이 있는지
+        if (selectedUnitInSimpleList == null)
+        {
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            message.Show(new string[] { "유저 메세지", "선택된 용병이 없습니다." });
+        }
     }
 
     void OnClickBtnPurchase()
@@ -173,6 +178,23 @@ public class MarketUI : uiSingletone<MarketUI>
             return;
 
         // 선택된 용병이 있는지
+        if (selectedUnitInSimpleList == null)
+        {
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            message.Show(new string[] { "유저 메세지", "선택된 용병이 없습니다." });
+        }
+    }
+
+    void OnClickedBtnShowNews()
+    {
+        // todo newsWindow popup
+        if (newsWindow == null)
+        {
+            Debug.LogError("news window is null");
+            return;
+        }
+
+        newsWindow.ShowWindow(true);
     }
 
     string GetDataInfo(UnitData data)
@@ -235,9 +257,36 @@ public class MarketUI : uiSingletone<MarketUI>
             return resultMessage;
         }
 
-        // todo other btns
+        if (btnBack == null)
+        {
+            resultMessage = "btnBack is null";
+            return resultMessage;
+        }
+
+        if (btnShowNews == null)
+        {
+            resultMessage = "btnShowNews is null";
+            return resultMessage;
+        }
+
+        if (btnPurchase == null)
+        {
+            resultMessage = "btnPurchase is null";
+            return resultMessage;
+        }
+
+        if (btnSell == null)
+        {
+            resultMessage = "btnSell is null";
+            return resultMessage;
+        }
+
         sellToggle.toggle.onValueChanged.AddListener(OnChangedToggle);
         purchaseToggle.toggle.onValueChanged.AddListener(OnChangedToggle);
+        btnBack.onClick.AddListener(OnClickedBtnBack);
+        btnShowNews.onClick.AddListener(OnClickedBtnShowNews);
+        btnPurchase.onClick.AddListener(OnClickBtnPurchase);
+        btnSell.onClick.AddListener(OnClickedBtnSell);
 
         return resultMessage;
     }

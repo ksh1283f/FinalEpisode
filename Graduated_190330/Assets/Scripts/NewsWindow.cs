@@ -8,6 +8,9 @@ public class NewsWindow : MonoBehaviour
     [SerializeField] Button btnClose;
     [SerializeField] Text newsInfoText;
 
+    [SerializeField] GameObject child;
+    [SerializeField] Image background;
+
     void Start()
     {
         if (btnClose == null)
@@ -21,7 +24,7 @@ public class NewsWindow : MonoBehaviour
 
     void OnClickedBtnClose()
     {
-        gameObject.SetActive(false);
+        ShowWindow(false);
     }
 
     // GameDataManager에서 받아오기
@@ -34,5 +37,11 @@ public class NewsWindow : MonoBehaviour
         }
 
         newsInfoText.text = data;
+    }
+
+    public void ShowWindow(bool isShow)
+    {
+        child.SetActive(isShow);
+        background.enabled = isShow;        
     }
 }

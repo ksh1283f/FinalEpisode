@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MarketSpecialEventData : MonoBehaviour
+public class MarketSpecialEventData
 {
     public int Id {get; private set;}
     public E_MarketEventType MarketEventType {get; private set;}
