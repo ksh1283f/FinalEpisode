@@ -79,15 +79,38 @@
             Id = unitID;
         }
 
-        public void UpdateUnitLevel(int level)
+        public void UpdateLevel(int level)
         {
-            if (level <= Level)
+            if(level < Level)
             {
-                Debug.LogError("invalid level value");
+                Debug.LogError("Invalid Level: it is lower than present level");
                 return;
             }
 
             Level = level;
+        }
+        
+        public void UpdateExp(int gainedExp)
+        {
+            Exp += gainedExp;
+            int splitValue = 100;   // todo 추후에 데이터로 받아오는 방식으로도 작업할 수 있다.
+            int levelUpValue = Exp / splitValue;
+            Level += levelUpValue;  // level-up
+            Exp = Exp % splitValue;
+        }
+
+        public void UpdateUnitStat(int hp, int atk, int def, int cri, int spd)
+        {
+            Hp = hp;
+            Atk = atk;
+            Def = def;
+            Cri = cri;
+            Spd = spd;
+        }
+
+        public void UpdatePrice(int price)
+        {
+            Price = price;
         }
 
         public object ShallowCopy()

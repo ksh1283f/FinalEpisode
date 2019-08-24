@@ -56,9 +56,11 @@ public class MarketManager : Singletone<MarketManager>
         // 2. Select unit level(from userLevel) -> level
         int offset = RandomProcess(1, 11);
         int level = RandomProcess(userLevel - offset, userLevel + offset + 1);
+        resultUnitData.UpdateLevel(level);
 
         // 3. price: 기본가 + 레벨*10
         int price = GameDataManager.Instance.CharacterDataDic[characterTypeKey - 1].Price + level * 10;
+        resultUnitData.UpdatePrice(price);
 
         // 4. Make Stat(from MarketSpecialData)-> ??
         // 4-1. 50% 확률로 보너스가 붙을지 안붙을지를 계산
@@ -68,6 +70,7 @@ public class MarketManager : Singletone<MarketManager>
         {
             float bonusValue = RandomProcess(1,11);
             // todo
+            
         }
 
 
