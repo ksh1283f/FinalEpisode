@@ -144,6 +144,16 @@ public class UserManager : Singletone<UserManager>
         SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
     }
 
+    public void SetUserGold(int gold)
+    {
+        if (UserInfo == null)
+            return;
+
+        UserInfo.Gold = gold;
+        SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
+        OnUpdatedUserInfo.Execute(UserInfo);
+    }
+
     void OnStartPage()
     {
 
@@ -225,6 +235,24 @@ public class UserManager : Singletone<UserManager>
         SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
     }
 
+    public void RemoveUnitInList(int unitId)
+    {
+        if (UserInfo == null)
+        {
+            Debug.LogError("userInfo is null");
+            return;
+        }
+
+        if (!UserInfo.UnitDic.ContainsKey(unitId))
+        {
+            Debug.LogError("There is no id in UnitList");
+            return;
+        }
+
+        UserInfo.UnitDic.Remove(unitId);
+        SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
+    }
+
     public void SetMySelectedUnitList(UnitData data, E_SelectedUnitListSetType setType)
     {
         if (data == null)
@@ -263,7 +291,7 @@ public class UserManager : Singletone<UserManager>
                 //remove and insert
                 break;
         }
-        
+
         // 유저파일에 기록
         SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
     }

@@ -29,7 +29,36 @@ public class MarketUI : uiSingletone<MarketUI>
     [SerializeField] Button btnShowNews;
     [SerializeField] Text textInfo;
     public List<CharacterSimpleInfo> simpleInfoList; // 임시
-    public E_MarketContents selectedMarketContents;
+    public E_MarketContents selectedMarketContents
+    {
+        get
+        {
+            switch (SelectedTabType)
+            {
+                case E_TabType.Sell:
+                    return E_MarketContents.Sell;
+
+                case E_TabType.Purchase:
+                    return E_MarketContents.Purchase;
+            }
+
+            return E_MarketContents.None;
+        }
+        set
+        {
+            switch (value)
+            {
+
+                case E_MarketContents.Purchase:
+                    selectedTabType = E_TabType.Purchase;
+                    break;
+
+                case E_MarketContents.Sell:
+                    selectedTabType = E_TabType.Sell;
+                    break;
+            }
+        }
+    }
 
     [SerializeField] Text titleText;
     [SerializeField] NewsWindow newsWindow;
@@ -69,6 +98,11 @@ public class MarketUI : uiSingletone<MarketUI>
             Debug.LogError(result);
     }
 
+    void Start()
+    {
+        Close();
+    }
+
     public override void Show(string[] dataList)
     {
         base.Show();
@@ -83,7 +117,10 @@ public class MarketUI : uiSingletone<MarketUI>
 
         if (sellToggle != null)
             sellToggle.toggle.isOn = true; // 콜백으로 등록된 함수를 호출하여 리스트 갱신
-        //SetSimpleInfoList();
+
+        selectedMarketContents = E_MarketContents.Sell;
+        newsWindow.ShowWindow(false);
+
     }
 
     void SetSimpleInfoList()
@@ -140,6 +177,9 @@ public class MarketUI : uiSingletone<MarketUI>
         // 다른 선택된 리스트 선택 해제하기
         for (int i = 0; i < simpleInfoList.Count; i++)
         {
+            if (simpleInfoList[i].unitData == null)
+                continue;
+
             if (data.Id == simpleInfoList[i].unitData.Id)
                 continue;
 
@@ -168,7 +208,34 @@ public class MarketUI : uiSingletone<MarketUI>
         {
             MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
             message.Show(new string[] { "유저 메세지", "선택된 용병이 없습니다." });
+            return;
         }
+
+        // 출전 중인 용병인지
+        if (UserManager.Instance.UserInfo.SelectedUnitDic.ContainsKey(selectedUnitInSimpleList.Id))
+        {
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            message.Show(new string[] { "유저 메세지", "출전 중인 용병은 판매할 수 없습니다." });
+            return;
+        }
+
+        // todo 판매 프로세스
+        // 1. 유닛의 가격만큼 골드량 상승
+        int price = selectedUnitInSimpleList.Price;
+        int finalGoldValue = UserManager.Instance.UserInfo.Gold + price;
+        // 1-1. todo 이벤트 유무 체크하여 상승 골드량 보정
+        UserManager.Instance.SetUserGold(finalGoldValue);
+
+        // 2. 리스트에서 유닛 제거
+        UserManager.Instance.RemoveUnitInList(selectedUnitInSimpleList.Id);
+
+        // 3. ui에 변경된 리스트 사항 갱신
+        SetSimpleInfoList();
+        selectedUnitInSimpleList = null;
+
+        MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+        messageUI.Show(new string[] { "유저 메세지", "판매 완료" });
+
     }
 
     void OnClickBtnPurchase()
@@ -229,14 +296,17 @@ public class MarketUI : uiSingletone<MarketUI>
         if (!isOn)
             return;
 
-        switch (SelectedTabType)
-        {
-            case E_TabType.Purchase:
-                break;
+        // switch (SelectedTabType)
+        // {
+        //     case E_TabType.Purchase:
+        //         // todo 구매가능한 용병들을 산출하여 보여주기
+        //         break;
 
-            case E_TabType.Sell:
-                break;
-        }
+        //     case E_TabType.Sell:
+        //         SetSimpleInfoListWithMyUnits();
+        //         break;
+        // }
+        SetSimpleInfoList();
 
         // todo 새로운 리스트 갱신, 버튼 갱신
 

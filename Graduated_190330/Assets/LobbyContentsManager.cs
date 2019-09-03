@@ -42,8 +42,8 @@ public class LobbyContentsManager : Singletone<LobbyContentsManager>
         switch (contentsType)
         {
             case E_LobbyContents.UserInfo:
-                UserInformationUI informationUI  = UIManager.Instance.LoadUI(E_UIType.UserInformation)as UserInformationUI;
-                informationUI.Show(new string[] {"유저정보"});
+                UserInformationUI informationUI = UIManager.Instance.LoadUI(E_UIType.UserInformation) as UserInformationUI;
+                informationUI.Show(new string[] { "유저정보" });
                 break;
 
             case E_LobbyContents.CharacterProperty:
@@ -63,14 +63,16 @@ public class LobbyContentsManager : Singletone<LobbyContentsManager>
                 break;
 
             case E_LobbyContents.Etc:
-                MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
-                // TODO 별도의 텍스트 데이터파일을 받아서 UI를 셋팅하기: 현재 더미로 작업(190310)
-                messageUI.Show(new string[] { "유저 메세지", "컨텐츠 업데이트 준비중입니다." });
+                // MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+                // // TODO 별도의 텍스트 데이터파일을 받아서 UI를 셋팅하기: 현재 더미로 작업(190310)
+                // messageUI.Show(new string[] { "유저 메세지", "컨텐츠 업데이트 준비중입니다." });
+                MarketUI marketUI = UIManager.Instance.LoadUI(E_UIType.UnitMarket) as MarketUI;
+                marketUI.Show(new string[] { "용병시장" });
                 break;
 
             case E_LobbyContents.CharacterTraining:
                 TrainingCenterUI trainingUI = UIManager.Instance.LoadUI(E_UIType.TrainingCenter) as TrainingCenterUI;
-                trainingUI.Show(new string[] {"훈련소"});
+                trainingUI.Show(new string[] { "훈련소" });
                 break;
         }
     }

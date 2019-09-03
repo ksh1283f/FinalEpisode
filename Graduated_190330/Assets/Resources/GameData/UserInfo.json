@@ -2,7 +2,7 @@
     "UserName": "DrJay",
     "TeamLevel": 4,
     "Exp": 85,
-    "Gold": 1515,
+    "Gold": 1955,
     "UnitList": [
         {
             "Id": 130,
@@ -19,48 +19,6 @@
             "Exp": 0
         },
         {
-            "Id": 170,
-            "Hp": 50,
-            "Atk": 80,
-            "Def": 20,
-            "Cri": 5,
-            "Spd": 2,
-            "IconName": "ClassIcon/MageIcon",
-            "CharacterType": 2,
-            "Price": 50,
-            "Description": "높은 공격력과 치명타를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
-        },
-        {
-            "Id": 143,
-            "Hp": 70,
-            "Atk": 50,
-            "Def": 50,
-            "Cri": 10,
-            "Spd": 1,
-            "IconName": "ClassIcon/WarlockIcon",
-            "CharacterType": 3,
-            "Price": 80,
-            "Description": "높은 체력과 치명타를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
-        },
-        {
-            "Id": 189,
-            "Hp": 70,
-            "Atk": 50,
-            "Def": 50,
-            "Cri": 10,
-            "Spd": 1,
-            "IconName": "ClassIcon/WarlockIcon",
-            "CharacterType": 3,
-            "Price": 80,
-            "Description": "높은 체력과 치명타를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
-        },
-        {
             "Id": 165,
             "Hp": 70,
             "Atk": 50,
@@ -73,65 +31,9 @@
             "Description": "높은 체력과 치명타를 가진 캐릭터입니다.",
             "Level": 1,
             "Exp": 0
-        },
-        {
-            "Id": 175,
-            "Hp": 40,
-            "Atk": 70,
-            "Def": 20,
-            "Cri": 8,
-            "Spd": 10,
-            "IconName": "ClassIcon/RogueIcon",
-            "CharacterType": 4,
-            "Price": 80,
-            "Description": "높은 공격력과 속도를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
-        },
-        {
-            "Id": 111,
-            "Hp": 50,
-            "Atk": 80,
-            "Def": 20,
-            "Cri": 5,
-            "Spd": 2,
-            "IconName": "ClassIcon/MageIcon",
-            "CharacterType": 2,
-            "Price": 50,
-            "Description": "높은 공격력과 치명타를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
-        },
-        {
-            "Id": 199,
-            "Hp": 50,
-            "Atk": 80,
-            "Def": 20,
-            "Cri": 5,
-            "Spd": 2,
-            "IconName": "ClassIcon/MageIcon",
-            "CharacterType": 2,
-            "Price": 50,
-            "Description": "높은 공격력과 치명타를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
         }
     ],
     "SelectedUnitList": [
-        {
-            "Id": 170,
-            "Hp": 50,
-            "Atk": 80,
-            "Def": 20,
-            "Cri": 5,
-            "Spd": 2,
-            "IconName": "ClassIcon/MageIcon",
-            "CharacterType": 2,
-            "Price": 50,
-            "Description": "높은 공격력과 치명타를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
-        },
         {
             "Id": 165,
             "Hp": 70,
@@ -161,7 +63,7 @@
             "Exp": 0
         }
     ],
-    "PropertyType": 2,
+    "PropertyType": 3,
     "isClearTutorial": false,
     "Atk": 0,
     "Def": 0,
