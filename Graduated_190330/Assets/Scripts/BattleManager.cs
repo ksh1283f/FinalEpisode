@@ -5,6 +5,7 @@ using System.Linq;
 using Graduate.GameData.UnitData;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Graduate.Unit.Player;
 
 public enum E_BattlePhase {
     None,
@@ -107,6 +108,11 @@ public class BattleManager : Singletone<BattleManager> {
     public RewardData thisBattleRewardData { get; private set; }
     public Action<float> OnStartCooldown { get; set; }
 
+    [SerializeField] List<Transform> playerPosList = new List<Transform>();
+    [SerializeField] List<Graduate.Unit.Player.PlayerUnit> playerObjList = new List<Graduate.Unit.Player.PlayerUnit>();
+    Follow mainFollowCam;
+    
+
     void Start () {
         // todo 현재 선택돤 던전의 데이터를 바탕으로 시간 셋팅
         RemainTime = UserManager.Instance.SelectedDungeonMonsterData.LimitTime;
@@ -122,6 +128,44 @@ public class BattleManager : Singletone<BattleManager> {
         DefenseResourceCount = 0;
         Cooltime = 1.5f; //todo 임시값: 플레이어 능력치에 맞게 조정필요
         OnExecuteMonsterCasting += (pattern) => { StartCoroutine (MonsterCast (pattern.CastTime)); };
+        mainFollowCam = Camera.main.GetComponent<Follow>();
+
+        // PlayerUnitList = new List<PlayerUnit>();
+        int index = 0;
+        foreach (var item in UserManager.Instance.UserInfo.SelectedUnitDic) {
+            
+            PlayerUnit player=null;
+            switch (item.Value.CharacterType)
+            {
+                case E_CharacterType.Warrior:
+                case E_CharacterType.Mage:
+                case E_CharacterType.Warlock:
+                case E_CharacterType.Rogue:
+                    player = Instantiate(playerObjList.Find(x => {return x.CharacterType == item.Value.CharacterType;}),playerPosList[index].position,playerPosList[index].rotation);
+                    break;
+            }
+            if(player == null)
+            {
+                Debug.LogError("Player is null");
+                return;
+            }
+
+            player.SetCharacterType (item.Value.CharacterType);
+            unitDataList.Add (item.Value);
+            player.HP = item.Value.Hp;
+            player.Atk = item.Value.Atk;
+            AllAtk += item.Value.Atk;
+            AllDef += item.Value.Def;
+            AllCri += item.Value.Cri;
+            player.Def = item.Value.Def;
+            MaxPlayerHealth += item.Value.Hp;
+            PlayerUnitList.Add(player);
+
+            if(index == 0)
+                mainFollowCam.target = player.transform;
+
+            index++;
+        }
 
         BattlePhase = E_BattlePhase.ShowLogo;
         PhaseCheckerList = FindObjectsOfType<PhaseChecker> ().ToList ();
@@ -337,7 +381,7 @@ public class BattleManager : Singletone<BattleManager> {
 
             OnGameEnd.Execute (true, thisBattleRewardData);
             CalculateReward (true);
-            //isBattleEnd = true;
+            isBattleEnd = true;
             //BattlePhase = E_BattlePhase.End;
         } else {
             nowEnemy = null;
@@ -374,26 +418,13 @@ public class BattleManager : Singletone<BattleManager> {
 
         // TODO: unit 데이터 초기화
         // TODO: dungeon 데이터 초기화
-        PlayerUnitList = FindObjectsOfType<Graduate.Unit.Player.PlayerUnit> ().ToList ();
+        
         EnemyUnitList = FindObjectsOfType<Graduate.Unit.Enemy.EnemyUnit> ().ToList ();
-
+        // PlayerUnitList = FindObjectsOfType<Graduate.Unit.Player.PlayerUnit> ().ToList ();
         //임시 데이터
         #region 임시 데이터
         // 1. 플레이어 정보
-        int index = 0;
-        foreach (var item in UserManager.Instance.UserInfo.SelectedUnitDic) {
-            PlayerUnitList[index].SetCharacterType (item.Value.CharacterType);
-            unitDataList.Add (item.Value);
-            PlayerUnitList[index].HP = item.Value.Hp;
-            PlayerUnitList[index].Atk = item.Value.Atk;
-            AllAtk += item.Value.Atk;
-            AllDef += item.Value.Def;
-            AllCri += item.Value.Cri;
-            PlayerUnitList[index].Def = item.Value.Def;
-            MaxPlayerHealth += item.Value.Hp;
-
-            index++;
-        }
+        
 
         nowplayerHealth = MaxPlayerHealth;
         OnUpdateUserStat.Execute (unitDataList);
@@ -461,6 +492,7 @@ public class BattleManager : Singletone<BattleManager> {
         while (!isBattleEnd) {
             if (RemainTime < 0) {
                 isBattleEnd = true;
+                // StopCoroutine(Battle());
                 PlayerState = Graduate.Unit.E_UnitState.Death;
                 OnGameEnd.Execute (false, thisBattleRewardData); // 결과 ui를 보여준다
                 CalculateReward (false); // 결과를 계산하여 유저데이터에 갱신
@@ -484,7 +516,8 @@ public class BattleManager : Singletone<BattleManager> {
     public Graduate.Unit.Enemy.EnemyUnit Target;
     public bool isBattleEnd = false;
     IEnumerator Battle () {
-        while (!isBattleEnd) {
+        while (!isBattleEnd)
+        {
             Target = nowEnemy;
             IsEncounterEnemy = false;
 
@@ -644,7 +677,7 @@ public class BattleManager : Singletone<BattleManager> {
             PlayerState = Graduate.Unit.E_UnitState.Death;
             CalculateReward (false);
             OnGameEnd.Execute (false, thisBattleRewardData);
-            //isBattleEnd = true;
+            isBattleEnd = true;
             //BattlePhase = E_BattlePhase.End;
         }
 

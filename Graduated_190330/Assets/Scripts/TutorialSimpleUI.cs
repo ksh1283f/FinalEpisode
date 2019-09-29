@@ -14,13 +14,9 @@ public class TutorialSimpleUI : uiSingletone<TutorialSimpleUI> {
     public E_SimpleTutorialType PresentTutorialType {get; private set;}
     private int dicIndex =0;
     private string title;
+    [SerializeField] E_UIType thisTutorialSimpleType;
     protected override void Awake () {
-            
-        if (UserManager.Instance.UserSituation == E_UserSituation.LoadingBattle|| UserManager.Instance.UserSituation == E_UserSituation.Battle)
-            uiType = E_UIType.TutorialSimpleBattle;
-        else
-            uiType = E_UIType.TutorialSimpleLobby;
-        
+        uiType = thisTutorialSimpleType;
         base.Awake ();
     }
 
@@ -107,5 +103,13 @@ public class TutorialSimpleUI : uiSingletone<TutorialSimpleUI> {
 
         TutorialSimpleData data = presentTutorialDic[PresentTutorialType][dicIndex];
         SetTutorialContents(title, data.Dialogue, data.ImagePath);
+    }
+
+    public void ChangeUI_Type(bool isLobby)
+    {
+        if(isLobby)
+            uiType = E_UIType.TutorialSimpleLobby;
+        else
+            uiType = E_UIType.TutorialSimpleBattle;
     }
 }

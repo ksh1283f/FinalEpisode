@@ -83,6 +83,8 @@ public class LobbyUI : uiSingletone<LobbyUI>
         int percentage = (int)(value * 100);
         expBar.value = value;
         textExp.text = string.Concat(percentage.ToString(), "%");
+
+        
     }
 
     float ConvertCameraPosToScrollValue(bool isFromCam)

@@ -16,7 +16,8 @@
     {
         Animator ani;
         float speed;
-        public E_CharacterType CharacterType {get; private set;}
+        [SerializeField] E_CharacterType characterType;
+        public E_CharacterType CharacterType {get{return characterType;}}
         public Unit Target;
         public E_UnitState PlayerUnitState
         {
@@ -130,7 +131,7 @@
 
         public void SetCharacterType(E_CharacterType type)
         {
-            CharacterType = type;
+            characterType = type;
         }
 
         private void OnTriggerEnter(Collider other)

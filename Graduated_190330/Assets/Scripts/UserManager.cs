@@ -103,6 +103,11 @@ public class UserManager : Singletone<UserManager>
                 SaveDataManager.Instance.WriteUserInfoData(inputValue);
                 UserInfo = SaveDataManager.Instance.ReadUserInfoData();
                 OnCreateUserInfoData.Execute(UserInfo);
+                MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+                message.Show(new string [] {"게임 안내","전투를 하기 위해서는 훈련소에서 용병을 고용한 후, 출전 리스트에 등록해야 합니다."});
+                
+                // 용병 고용을 위한 100골드 제공
+                SetUserGold(100);
             };
         }
         else
@@ -184,12 +189,11 @@ public class UserManager : Singletone<UserManager>
         lobbyUI.Show();
 
         // todo 튜토리얼이 남아있는지
-
-
     }
 
     void OnLoadingBattle()
     {
+
     }
 
     void OnBattle()

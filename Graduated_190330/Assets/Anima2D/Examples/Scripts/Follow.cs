@@ -17,6 +17,9 @@ public class Follow : MonoBehaviour
 
     void LateUpdate()
     {
+        if(target == null)
+            return;
+
         if (target & (Mathf.Abs(targetTransform.position.x - transform.position.x) > 0.02f))
         {
             transform.position = Vector3.Lerp(new Vector3(targetTransform.position.x + correction, transform.position.y, transform.position.z), transform.position, 0.1f);

@@ -140,6 +140,14 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
             return;
         }
 
+        // 출전 용병이 없는 경우에는 전투 불가
+        if(UserManager.Instance.UserInfo.SelectedUnitDic.Count == 0)
+        {
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            message.Show(new string[] { "유저 메세지", "출전할 용병이 없습니다.\n사무소에서 출전할 용병을 선택해주세요\n용병이 없는 경우 훈련소에서 용병을 고용할 수 있습니다." });
+            return;
+        }
+
         StartCoroutine(BattleSceneLoad());
     }
 
