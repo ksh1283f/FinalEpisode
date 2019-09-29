@@ -42,6 +42,14 @@ public class CharacterPropertyUI : uiSingletone<CharacterPropertyUI>, IBaseUI
 		if(titleText != null)
 			titleText.text = title;
         UpdateData();
+
+        if(!UserManager.Instance.UserInfo.TutorialClearList[(int)E_SimpleTutorialType.BattleProperty])
+        {
+            //show
+            TutorialSimpleUI tutorialUI = UIManager.Instance.LoadUI(E_UIType.TutorialSimpleLobby) as TutorialSimpleUI;
+            tutorialUI.Show(new string[]{"연구소 소개"});
+            tutorialUI.SetTutorialType(E_SimpleTutorialType.BattleProperty);
+        }
     }
 
     void UpdateData()

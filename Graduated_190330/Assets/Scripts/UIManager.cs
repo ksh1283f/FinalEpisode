@@ -17,7 +17,9 @@ public enum E_UIType
     TrainingCenter,
     UserInformation,
     UnitMarket,
-    
+    Tutorial,
+    TutorialSimpleLobby,
+    TutorialSimpleBattle,
 }
 
 public interface IBaseUI

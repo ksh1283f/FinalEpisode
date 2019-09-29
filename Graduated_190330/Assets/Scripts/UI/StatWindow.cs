@@ -8,6 +8,7 @@ using System.Text;
 
 public class StatWindow : MonoBehaviour
 {
+    private const string defaultIconPath = "EtcIcon/Aura118";
     [SerializeField] Text statText;
     [SerializeField] Image hpBar;
     [SerializeField] List<Image> iconUnitList;
@@ -39,7 +40,12 @@ public class StatWindow : MonoBehaviour
             return;
         }
         #endregion
+
+        // todo 미리 초상화를 디폴트 이미지로 초기화 후 갱신
         for (int i = 0; i < iconUnitList.Count; i++)
+            iconUnitList[i].sprite = Resources.Load<Sprite>(defaultIconPath);
+
+        for (int i = 0; i < unitDataList.Count; i++)
             iconUnitList[i].sprite = Resources.Load<Sprite>(unitDataList[i].IconName);
 
         hpBar.color = Color.green;

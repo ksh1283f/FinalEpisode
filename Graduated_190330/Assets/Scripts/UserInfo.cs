@@ -19,12 +19,11 @@ public class UserInfo
     public List<SerializableUnitData> SelectedUnitList;
     public E_PropertyType PropertyType; // 전투 특성
 
-    public bool isClearTutorial;    // 유저 튜토리얼 클리어 유무 
-
     public int Atk;
     public int Def;
     public int Cri; // 표기는 퍼센트로 변환 (4당 1퍼)
     public int Spd; // 표기는 퍼센트로 변환 (4당 1퍼)
 
     public int BestDungeonStep; // 최고 클리어 던전 단수
+    public List<bool> TutorialClearList;
 }

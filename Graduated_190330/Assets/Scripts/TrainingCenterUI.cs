@@ -51,6 +51,16 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
             characterDetailInfoText.text = string.Empty;
 
         ReleaseContents();
+
+        if(!UserManager.Instance.UserInfo.TutorialClearList[(int)E_SimpleTutorialType.HireUnit])
+        {
+            //show
+            TutorialSimpleUI tutorialUI = UIManager.Instance.LoadUI(E_UIType.TutorialSimpleLobby) as TutorialSimpleUI;
+            tutorialUI.Show(new string[]{"훈련소 소개"});
+            tutorialUI.SetTutorialType(E_SimpleTutorialType.HireUnit);
+            // settype
+        }
+
     }
 
     void SetContentList()
@@ -103,6 +113,8 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
 
         characterDetailInfoText.text = sb.ToString();
         ReleaseContents();
+
+        
     }
 
     // 구매기능(예외처리 포함: 골드 부족 또는 캐릭터 인벤이 가득 찾는지)

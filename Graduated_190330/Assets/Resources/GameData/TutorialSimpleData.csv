@@ -1,0 +1,14 @@
+id,DetailId,TutorialType,Dialogue,ImagePath
+0,0,0,<용병의 종류>\n- 전사: 방어력과 체력 특화\n-마법사: 공격력과 치명타 특화 \n- 흑마법사: 체력과 치명타 특화\n- 도적: 공격력과 속도 특화",TutorialImage/HireUnitImage
+1,1,0,확인' 버튼으로 고용\n'뒤로가기' 버튼으로 창을 끌 수 있습니다.,TutorialImage/HireUnitImage
+2,0,1,왼쪽: 현재 클리어한 던전과 새로 도전할 수 있는 던전 목록이 나옵니다.\n클리어할 때마다 상위 던전이 열리게 됩니다.,TutorialImage/DungeonSelectImage
+3,1,1,오른쪽: 해당 던전의 정보가 간단하게 나옵니다.,TutorialImage/DungeonSelectImage
+4,2,1,던전 선택 후 확인 버튼으로 전투를 시작할 수 있습니다.,TutorialImage/DungeonSelectImage
+5,0,2,<전투의 기본>\n왼쪽 하단의 버튼으로 능력에 필요한 자원을 생성 + 생성한 자원을 바탕으로 능력을 사용\n첫번째버튼: 공격자원 생성버튼입니다. 적을 공격하는 능력에 사용됩니다.\n두번째버튼: 유틸자원 생성버튼입니다. 적의 능력에 대응할 때 사용됩니다.\n세번째 버튼 방어자원 생성버튼입니다. 적의 공격에 대응할 때 사용됩니다.",TutorialImage/BattleImage
+6,1,2,왼쪽상단에 현재 생성한 능력의 자원이 표시됩니다.\n쌓인 자원이 많을수록 강력한 능력이 발휘됩니다.,TutorialImage/BattleImage
+7,2,2,왼쪽 중간에는 플레이어의 현재 hp가 막대형으로 표시되며 현재 출전한 용병의 능력을 바탕으로 능력치가 합산되어 표시됩니다.",TutorialImage/BattleImage
+8,3,2,능력은 오른쪽 하단의 버튼들로 사용할 수 있습니다.\n첫번째 버튼: 공격능력\n두번째 버튼:유틸능력\n세번째 버튼: 유틸+방어 능력입니다. 적의 특수한 패턴에 대응할 때 사용되며 유틸자원과 방어자원이 모두 있을때만 사용이 가능합니다.\n네번째:방어능력,TutorialImage/BattleImage
+9,4,2,적의 공격이 시작되면 시전 바와 현재 패턴에 대응할 수 있는 아이콘이 표시됩니다. 패턴에 맞는 대응으로 무력화할 수 있습니다.,TutorialImage/BattleImage
+10,0,3,<사무소의 기능>\n현재 보유중인 용병목록 확인\n출전시킬 용병 결정 가능,TutorialImage/UnitManageImage
+11,0,4,<연구소의 기능>\n전투에 도움이 되는 능력을 선택,TutorialImage/PropertyImage
+12,0,5,<용병시장의 기능>\n'용병구매': 용병을 때때로 값싸게 구매 가능\n'용병판매': 용병을 때때로 좀 더 비싼 값으로 판매 가능\n'새로운 소식':어떤 용병을 값싸게 살 수 있는지 혹인 비싸게 팔 수 있는지 추측할 수 있는 정보 획득,TutorialImage/MarketImage

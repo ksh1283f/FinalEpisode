@@ -120,7 +120,16 @@ public class MarketUI : uiSingletone<MarketUI>
 
         selectedMarketContents = E_MarketContents.Sell;
         newsWindow.ShowWindow(false);
+        textInfo.text = string.Empty;
 
+        if(!UserManager.Instance.UserInfo.TutorialClearList[(int)E_SimpleTutorialType.IntroduceMarket])
+        {
+            //show
+            TutorialSimpleUI tutorialUI = UIManager.Instance.LoadUI(E_UIType.TutorialSimpleLobby) as TutorialSimpleUI;
+            tutorialUI.Show(new string[]{"용병시장 소개"});
+            tutorialUI.SetTutorialType(E_SimpleTutorialType.IntroduceMarket);
+            // settype
+        }
     }
 
     void SetSimpleInfoList()

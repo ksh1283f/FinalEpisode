@@ -92,11 +92,18 @@
         
         public void UpdateExp(int gainedExp)
         {
-            Exp += gainedExp;
-            int splitValue = 100;   // todo 추후에 데이터로 받아오는 방식으로도 작업할 수 있다.
-            int levelUpValue = Exp / splitValue;
-            Level += levelUpValue;  // level-up
-            Exp = Exp % splitValue;
+            // Exp += gainedExp;
+            // int splitValue = 100;   // todo 추후에 데이터로 받아오는 방식으로도 작업할 수 있다.
+            // int levelUpValue = Exp / splitValue;
+            // Level += levelUpValue;  // level-up
+            // Exp = Exp % splitValue;
+            if(gainedExp < 1)
+            {
+                Debug.LogError("exp value can't be negative");
+                return;
+            }
+
+            Exp = gainedExp;
         }
 
         public void UpdateUnitStat(int hp, int atk, int def, int cri, int spd)

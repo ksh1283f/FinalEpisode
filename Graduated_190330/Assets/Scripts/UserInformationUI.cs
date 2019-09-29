@@ -63,6 +63,15 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
 
         SetSimpleInfoList();
         SetSelectedList();
+
+        if(!UserManager.Instance.UserInfo.TutorialClearList[(int)E_SimpleTutorialType.UnitManagement])
+        {
+            //show
+            TutorialSimpleUI tutorialUI = UIManager.Instance.LoadUI(E_UIType.TutorialSimpleLobby) as TutorialSimpleUI;
+            tutorialUI.Show(new string[]{"사무소 소개"});
+            tutorialUI.SetTutorialType(E_SimpleTutorialType.UnitManagement);
+            // settype
+        }
     }
 
     void Start()
@@ -124,6 +133,10 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         sb.Append("Spd: ");
         sb.Append(data.Spd);
         sb.AppendLine();
+        sb.Append("exp: ");
+        sb.Append(data.Exp);
+        sb.Append(" / 100");
+        sb.AppendLine();
         sb.AppendLine();
         sb.Append(data.Description);
 
@@ -141,6 +154,9 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         // 다른 선택된 리스트 선택 해제하기
         for (int i = 0; i < simpleInfoList.Count; i++)
         {
+            if(simpleInfoList[i].unitData == null)
+                continue;
+
             if (data.Id == simpleInfoList[i].unitData.Id)
                 continue;
 
@@ -345,6 +361,9 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
 
         for (int i = 0; i < simpleInfoList.Count; i++)
         {
+            if(simpleInfoList[i].unitData == null)
+                continue;
+
             if(UserManager.Instance.UserInfo.SelectedUnitDic.ContainsKey(simpleInfoList[i].unitData.Id))
                 continue;
 

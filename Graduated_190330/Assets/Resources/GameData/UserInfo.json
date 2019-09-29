@@ -1,73 +1,22 @@
 {
-    "UserName": "DrJay",
-    "TeamLevel": 4,
-    "Exp": 85,
-    "Gold": 1955,
-    "UnitList": [
-        {
-            "Id": 130,
-            "Hp": 100,
-            "Atk": 30,
-            "Def": 80,
-            "Cri": 1,
-            "Spd": 1,
-            "IconName": "ClassIcon/WarriorIcon",
-            "CharacterType": 1,
-            "Price": 50,
-            "Description": "높은 체력과 방어력을 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
-        },
-        {
-            "Id": 165,
-            "Hp": 70,
-            "Atk": 50,
-            "Def": 50,
-            "Cri": 10,
-            "Spd": 1,
-            "IconName": "ClassIcon/WarlockIcon",
-            "CharacterType": 3,
-            "Price": 80,
-            "Description": "높은 체력과 치명타를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
-        }
-    ],
-    "SelectedUnitList": [
-        {
-            "Id": 165,
-            "Hp": 70,
-            "Atk": 50,
-            "Def": 50,
-            "Cri": 10,
-            "Spd": 1,
-            "IconName": "ClassIcon/WarlockIcon",
-            "CharacterType": 3,
-            "Price": 80,
-            "Description": "높은 체력과 치명타를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
-        },
-        {
-            "Id": 130,
-            "Hp": 100,
-            "Atk": 30,
-            "Def": 80,
-            "Cri": 1,
-            "Spd": 1,
-            "IconName": "ClassIcon/WarriorIcon",
-            "CharacterType": 1,
-            "Price": 50,
-            "Description": "높은 체력과 방어력을 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 0
-        }
-    ],
-    "PropertyType": 3,
-    "isClearTutorial": false,
+    "UserName": "tutorial",
+    "TeamLevel": 1,
+    "Exp": 0,
+    "Gold": 0,
+    "UnitList": [],
+    "SelectedUnitList": [],
+    "PropertyType": 0,
     "Atk": 0,
     "Def": 0,
     "Cri": 0,
     "Spd": 0,
-    "BestDungeonStep": 14
+    "BestDungeonStep": 1,
+    "TutorialClearList": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+    ]
 }

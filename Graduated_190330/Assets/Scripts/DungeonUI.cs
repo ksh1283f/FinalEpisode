@@ -34,9 +34,8 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
             btnCancel.onClick.AddListener(OnClickedCancel);
 
         Close();
-
-
     }
+    
     public override void Show(string[] dataList)
     {
         base.Show(dataList);
@@ -54,6 +53,14 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
 
         int clearStep = UserManager.Instance.UserInfo.BestDungeonStep;
         SetDungeonList(clearStep);
+
+        if(!UserManager.Instance.UserInfo.TutorialClearList[(int)E_SimpleTutorialType.BattleIntro])
+        {
+            //show
+            TutorialSimpleUI tutorialUI = UIManager.Instance.LoadUI(E_UIType.TutorialSimpleLobby) as TutorialSimpleUI;
+            tutorialUI.Show(new string[]{"던전 선택 소개"});
+            tutorialUI.SetTutorialType(E_SimpleTutorialType.BattleIntro);
+        }
     }
 
     void SetDungeonList(int clearStep)

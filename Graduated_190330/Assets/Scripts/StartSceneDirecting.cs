@@ -75,7 +75,21 @@ public class StartSceneDirecting : MonoBehaviour
         //startUI.Close();
         //SceneManager.LoadScene("Lobby");
         //UserManager.Instance.UserSituation = E_UserSituation.LodingLobby;
+        UserInfo userInfo = SaveDataManager.Instance.ReadUserInfoData();
+        if(userInfo == null)    // 유저데이터가 없는 경우, 즉 처음 접속한 경우
+        {
+            StartCoroutine(OpeningCutSceneLoading());
+            return;
+        }
+
         StartCoroutine(LobbySceneLoad());
+    }
+    IEnumerator OpeningCutSceneLoading()
+    {
+        startUI.Close();
+        UserManager.Instance.ao  = SceneManager.LoadSceneAsync("OpeningScene");
+        while (!UserManager.Instance.ao.isDone)
+            yield return null;
     }
 
     IEnumerator LobbySceneLoad()
@@ -85,7 +99,7 @@ public class StartSceneDirecting : MonoBehaviour
         while (!UserManager.Instance.ao.isDone)
             yield return null;
 
-        UserManager.Instance.UserSituation = E_UserSituation.LodingLobby;
+        UserManager.Instance.UserSituation = E_UserSituation.LoadingLobby;
         Destroy(gameObject);
     }
 

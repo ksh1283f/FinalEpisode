@@ -130,29 +130,9 @@ public class LobbyUI : uiSingletone<LobbyUI>
         return retValue;
     }
 
-    void OnMovedScrollBar(float changedVal)
+    public void OnMovedScrollBar(float changedVal)
     {
         float val = ConvertCameraPosToScrollValue(false);
         mainCam.transform.position = new Vector3(val, mainCam.transform.position.y, mainCam.transform.position.z);
-    }
-
-    public void ShowUserInfoUI()
-    {
-
-    }
-
-    public void ShowUserCommonPropertyUI()
-    {
-
-    }
-
-    public void ShowCharacterManageUI()
-    {
-
-    }
-
-    public void ShowToBattleUI()
-    {
-
     }
 }

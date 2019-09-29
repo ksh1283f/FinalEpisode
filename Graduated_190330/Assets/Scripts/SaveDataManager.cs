@@ -111,6 +111,10 @@ public class SaveDataManager : Singletone<SaveDataManager>
 
         userInfo.PropertyType = property;
 
+        userInfo.TutorialClearList = new List<bool>();
+        for (int i = 0; i < (int)E_SimpleTutorialType.E_SimpleTutorialTypeCount; i++)
+            userInfo.TutorialClearList.Add(false);
+        
         JsonUtility.ToJson(userInfo);
         string toJson = JsonUtility.ToJson(userInfo, prettyPrint: true);
         File.WriteAllText(path, toJson);

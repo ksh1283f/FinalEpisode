@@ -9,9 +9,9 @@ public enum E_UserSituation
 {
     None,
     StartPage,
-    LodingLobby,
+    LoadingLobby,
     Lobby,
-    LodingBattle,
+    LoadingBattle,
     Battle,
 }
 
@@ -24,7 +24,7 @@ public class UserManager : Singletone<UserManager>
     public bool IsReadUserInfo { get; private set; }
 
 
-    private E_UserSituation userSituation = E_UserSituation.None;
+    [SerializeField]private E_UserSituation userSituation = E_UserSituation.None;
     public E_UserSituation UserSituation
     {
         get { return userSituation; }
@@ -40,8 +40,8 @@ public class UserManager : Singletone<UserManager>
                     OnEnterStartPage.Execute();
                     break;
 
-                case E_UserSituation.LodingLobby:
-                    OnEnterLodingLobby.Execute();
+                case E_UserSituation.LoadingLobby:
+                    OnEnterLoadingLobby.Execute();
                     break;
 
                 case E_UserSituation.Lobby:
@@ -49,8 +49,8 @@ public class UserManager : Singletone<UserManager>
                     OnEnterLobby.Execute();
                     break;
 
-                case E_UserSituation.LodingBattle:
-                    OnEnterLodingBattle.Execute();
+                case E_UserSituation.LoadingBattle:
+                    OnEnterLoadingBattle.Execute();
                     break;
 
                 case E_UserSituation.Battle:
@@ -63,9 +63,9 @@ public class UserManager : Singletone<UserManager>
     public DungeonMonsterData SelectedDungeonMonsterData;
 
     public Action OnEnterStartPage { get; set; }
-    public Action OnEnterLodingLobby { get; set; }
+    public Action OnEnterLoadingLobby { get; set; }
     public Action OnEnterLobby { get; set; }
-    public Action OnEnterLodingBattle { get; set; }
+    public Action OnEnterLoadingBattle { get; set; }
     public Action OnEnterBattle { get; set; }
 
     public Action<UserInfo> OnCreateUserInfoData { get; set; }
@@ -77,9 +77,9 @@ public class UserManager : Singletone<UserManager>
     {
         // 내부 함수 이벤트
         OnEnterStartPage += OnStartPage;
-        OnEnterLodingLobby += OnLodingLobby;
+        OnEnterLoadingLobby += OnLoadingLobby;
         OnEnterLobby += OnLobby;
-        OnEnterLodingBattle += OnLodingBattle;
+        OnEnterLoadingBattle += OnLoadingBattle;
         OnEnterBattle += OnBattle;
 
         // 외부 함수 이벤트
@@ -91,9 +91,11 @@ public class UserManager : Singletone<UserManager>
         UserInfo = SaveDataManager.Instance.ReadUserInfoData();
         if (UserInfo == null)
         {
+            // 없을경우에는 무조건 튜토리얼 실행
             // 널이면 파일이 없거나 경로가 잘못된 경우
             // show input ui
             Debug.Log("There is no user info");
+            
             InputUI input = UIManager.Instance.LoadUI(E_UIType.Input) as InputUI;
             input.Show();
             input.OnClickedBtnOk += (inputValue) =>
@@ -102,6 +104,11 @@ public class UserManager : Singletone<UserManager>
                 UserInfo = SaveDataManager.Instance.ReadUserInfoData();
                 OnCreateUserInfoData.Execute(UserInfo);
             };
+        }
+        else
+        {
+            // 튜토리얼이 중간에 끝난 경우?
+            
         }
 
         UserSituation = E_UserSituation.Lobby;
@@ -159,14 +166,14 @@ public class UserManager : Singletone<UserManager>
 
     }
 
-    void OnLodingLobby()
+    void OnLoadingLobby()
     {
+        // todo 계정 이름을 설정하기 전에 튜토리얼을 할 필요가 있을 때 여기서 작업
+
+
         // 유저정보 읽어오기(없으면 로비에서 작성)
         // (필요한 데이터 읽어오기)
         GetUserInfo();
-
-
-        // todo 필요한 데이터 읽기(던전 데이터 등등)
     }
 
     void OnLobby()
@@ -176,16 +183,18 @@ public class UserManager : Singletone<UserManager>
 
         lobbyUI.Show();
 
+        // todo 튜토리얼이 남아있는지
+
 
     }
 
-    void OnLodingBattle()
+    void OnLoadingBattle()
     {
     }
 
     void OnBattle()
     {
-
+        // todo 튜토리얼이 남아있는지
     }
 
     public void StartLoadLobbyScene()
@@ -204,7 +213,7 @@ public class UserManager : Singletone<UserManager>
             yield return null;
 
         Debug.LogError("start loadLobbyScene");
-        UserSituation = E_UserSituation.LodingLobby;
+        UserSituation = E_UserSituation.LoadingLobby;
     }
 
     public void SetMyUnitList(UnitData changedData)
@@ -250,6 +259,12 @@ public class UserManager : Singletone<UserManager>
         }
 
         UserInfo.UnitDic.Remove(unitId);
+        SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
+    }
+
+    public void SetTutorialClearState(E_SimpleTutorialType type)
+    {
+        UserInfo.TutorialClearList[(int)type] = true;
         SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
     }
 
