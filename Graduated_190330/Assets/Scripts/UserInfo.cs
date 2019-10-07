@@ -17,7 +17,9 @@ public class UserInfo
     public Dictionary<int,UnitData> SelectedUnitDic;
     public List<SerializableUnitData> UnitList; // dictionary는 serialize가 불가능
     public List<SerializableUnitData> SelectedUnitList;
-    public E_PropertyType PropertyType; // 전투 특성
+    public E_PropertyEffectType CommonPropertyType; // 전투 특성
+    public E_PropertyEffectType UtilPropertyType;
+    public E_PropertyEffectType HealingPropertyType;
 
     public int Atk;
     public int Def;
@@ -26,4 +28,5 @@ public class UserInfo
 
     public int BestDungeonStep; // 최고 클리어 던전 단수
     public List<bool> TutorialClearList;
+    public bool IsAllTutorialClear;
 }

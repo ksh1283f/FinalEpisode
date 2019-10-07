@@ -10,11 +10,12 @@ public class PropertyImage : MonoBehaviour
     [SerializeField] Text propertyDescription;
     public Toggle PropertyToggle;
     public CharacterProperty Property;
-    public E_PropertyType propertyType;
+    public E_PropertyEffectType propertyEffectType;
 
     void Start()
     {
-        PropertyToggle.onValueChanged.AddListener((isOn) => { OnChangedToggle(); });
+        if(PropertyToggle != null)
+            PropertyToggle.onValueChanged.AddListener((isOn)=>{OnChangedToggle();});
     }
 
     public void SetProperty(CharacterProperty property)
@@ -28,22 +29,21 @@ public class PropertyImage : MonoBehaviour
 
     void SetPropertyImage()
     {
-        if (propertyName == null)
-            return;
-
         if (propertyDescription == null)
             return;
 
-        propertyName.text = Property.Name;
+        if(propertyName != null)
+            propertyName.text = Property.Name;
+
         propertyDescription.text = Property.Description;
         image.sprite = Resources.Load<Sprite>(Property.ImagePath);
     }
 
-    void OnChangedToggle()
+    public void OnChangedToggle()
     {
         if (PropertyToggle.isOn)
         {
-            CharacterPropertyManager.Instance.OnChangedProperty(propertyType);
+            CharacterPropertyManager.Instance.OnChangedBattleProperty(propertyEffectType);
         }
     }
 }

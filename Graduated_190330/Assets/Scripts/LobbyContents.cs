@@ -9,13 +9,37 @@ public class LobbyContents : MonoBehaviour
 {
     public E_LobbyContents contentsType;
     public Action<E_LobbyContents> OnExecuteContets { get; set; }
+    private bool isThisContentsTurnInTutorial=true;
+    public bool IsThisContentsTurnInTutorial
+    {
+        get {return isThisContentsTurnInTutorial;}
+        set
+        {
+            if(value == isThisContentsTurnInTutorial)
+                return;
+
+            isThisContentsTurnInTutorial = value;
+            if(NoticeIcon == null)
+                return;
+
+            NoticeIcon.gameObject.SetActive(value);
+        }
+    }
     [SerializeField] Text contentsNameText;
+    [SerializeField] Image NoticeIcon;
+
 
     void Start()
     {
         if (contentsNameText == null)
         {
             Debug.LogError("contentsNameText is null");
+            return;
+        }
+
+        if(NoticeIcon == null)
+        {
+            Debug.LogError("NoticeIcon is null");
             return;
         }
 
@@ -33,6 +57,7 @@ public class LobbyContents : MonoBehaviour
                 sb.AppendLine();
                 sb.Append("<전투 특성 선택>");
                 break;
+
             case E_LobbyContents.CharacterManage:
                 sb.Append("훈련소");
                 sb.AppendLine();
@@ -56,15 +81,26 @@ public class LobbyContents : MonoBehaviour
                 sb.AppendLine();
                 sb.Append("<캐릭터 고용>");
                 break;
+
+            case E_LobbyContents.Market:
+                sb.Append("용병 시장");
+                sb.AppendLine();
+                sb.Append("<용병 판매 및 구매>");
+                break;
         }
 
         contentsNameText.text = sb.ToString();
+        IsThisContentsTurnInTutorial = false;
     }
 
     void OnMouseDown()
     {
         if (UIManager.Instance.openedUiDic.Count == 1)
         {
+            // 튜토리얼이 실행중이나, 현재 컨텐츠가 이것과 다르다면 종료
+            if(!TutorialManager.Instance.IsTutorialComplete && TutorialManager.Instance.presentData.lobbyContentsType != contentsType)
+                return;
+
             Debug.LogError("Lobby contents OnMouseDown");
             OnExecuteContets.Execute(contentsType);
         }
@@ -74,14 +110,12 @@ public class LobbyContents : MonoBehaviour
     {
         if (UIManager.Instance.openedUiDic.Count == 1)
         {
+            // 튜토리얼이 실행중이나, 현재 컨텐츠가 이것과 다르다면 종료
+            if(!TutorialManager.Instance.IsTutorialComplete && TutorialManager.Instance.presentData.lobbyContentsType != contentsType)
+                return;
+
             Debug.LogError("Lobby contents OnMouseUp");
             OnExecuteContets.Execute(contentsType);
         }
     }
-
-    // todo 빌보드 방식 추가하기
-    // void Update()
-    // {
-
-    // }
 }

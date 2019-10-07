@@ -75,7 +75,7 @@ public class SaveDataManager : Singletone<SaveDataManager>
     /// <param name="gold"></param>
     /// <param name="unitList"></param>
     /// <param name="unitCommonPropertyList"></param>
-    public void WriteUserInfoData(string userName, int teamLevel = 1, int exp = 0, int gold = 0, E_PropertyType property = E_PropertyType.None, Dictionary<int, UnitData> unitDic = null, Dictionary<int, UnitData> selectedUnitDic = null)
+    public void WriteUserInfoData(string userName, int teamLevel = 1, int exp = 0, int gold = 0, E_PropertyEffectType property = E_PropertyEffectType.None, Dictionary<int, UnitData> unitDic = null, Dictionary<int, UnitData> selectedUnitDic = null)
     {
         DirectoryInfo di = new DirectoryInfo(dataFullPath);
         if (!di.Exists)
@@ -109,18 +109,18 @@ public class SaveDataManager : Singletone<SaveDataManager>
         userInfo.UnitList = ConvertToSerializableUnitdata(userInfo.UnitDic);
         userInfo.SelectedUnitList = ConvertToSerializableUnitdata(userInfo.SelectedUnitDic);
 
-        userInfo.PropertyType = property;
+        userInfo.CommonPropertyType = property;
+        // todo 나머지 특성들 추가해야함
 
         userInfo.TutorialClearList = new List<bool>();
         for (int i = 0; i < (int)E_SimpleTutorialType.E_SimpleTutorialTypeCount; i++)
             userInfo.TutorialClearList.Add(false);
+
+        userInfo.IsAllTutorialClear = false;
         
         JsonUtility.ToJson(userInfo);
         string toJson = JsonUtility.ToJson(userInfo, prettyPrint: true);
         File.WriteAllText(path, toJson);
-
-        if (!isSavedUserInfo)
-            PlayerPrefs.SetInt(IsSavedUserInfo, 1);
     }
 
     /// <summary>

@@ -137,4 +137,25 @@ public class LobbyUI : uiSingletone<LobbyUI>
         float val = ConvertCameraPosToScrollValue(false);
         mainCam.transform.position = new Vector3(val, mainCam.transform.position.y, mainCam.transform.position.z);
     }
+
+    public void ActivateScrollBarInteraction(bool isActive)
+    {
+        if(camScrollBar == null)
+        {
+            Debug.LogError("camScrollBar is null");
+            return;
+        }
+
+        if(camScrollBar.interactable != isActive)
+            camScrollBar.interactable = isActive;
+    }
+
+    public void SetCamPosition(float value)
+    {
+        mainCam.transform.position = new Vector3(value
+                                                ,Camera.main.transform.position.y
+                                                ,Camera.main.transform.position.z);
+
+        camScrollBar.value = ConvertCameraPosToScrollValue(true);
+    }
 }

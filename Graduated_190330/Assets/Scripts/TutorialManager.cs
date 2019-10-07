@@ -17,22 +17,79 @@ public enum E_TutorialType {
 
 public class TutorialManager : Singletone<TutorialManager>
 {
-    public List<TutorialData> dataList = new List<TutorialData> ();
     public List<TutorialDataSerialized> serializedDataList = new List<TutorialDataSerialized> ();
     public TutorialDataSerialized presentData {get; private set;}
     public Coroutine tutorialCoroutine;
+    public bool IsTutorialComplete;
+
     [SerializeField] bool IsSkip;
+    int presentTutorialIndex = 0;
+    LobbyUI lobbyUI;
+
+
 
     void Start()
     {
         tutorialCoroutine = null;
         presentData = null;
-        for (int i = 0; i < serializedDataList.Count; i++)
+        
+        lobbyUI = UIManager.Instance.LoadUI(E_UIType.Lobby) as LobbyUI;
+    }
+
+    public void StartTutorial()
+    {
+        if(UserManager.Instance.UserInfo.IsAllTutorialClear)
         {
-            E_TutorialType type = serializedDataList[i].tutorialType;
-            int detailId = serializedDataList[i].DetailId;
-            serializedDataList[i].Dialogue= GameDataManager.Instance.TutorialDataDic[type][detailId].Dialogue;
+            Debug.Log("All tutorial is clear");
+            return;
         }
+
+        if(tutorialCoroutine == null)
+            tutorialCoroutine = StartCoroutine(LobbyTutorialCoroutine());
+        
+    }
+
+    IEnumerator LobbyTutorialCoroutine()
+    {
+        // 튜토리얼 중에는 비활성화
+        lobbyUI.ActivateScrollBarInteraction(false);
+        
+        while (presentTutorialIndex < serializedDataList.Count)
+        {
+            // 0. 인덱스 초기화
+            int index = presentTutorialIndex;
+            presentData = serializedDataList[index];
+
+            // 1. 메세지(안내)
+            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;         
+            message.Show(new string [] {"게임 안내",serializedDataList[index].Dialogue});
+            while (message.gameObject.activeSelf)
+                yield return null;
+
+            // 2. 카메라 이동, 카메라 스크롤바 조정
+            lobbyUI.SetCamPosition(serializedDataList[index].camXpos);
+
+            // 3. 알림 아이콘 활성화
+            LobbyContentsManager.Instance.lobbyContentsDic[serializedDataList[index].lobbyContentsType].IsThisContentsTurnInTutorial = true;
+
+            // 3-1. 켜질때까지 기다리기
+            while(serializedDataList[index].lobbyContentsUI.gameObject != null
+            && !serializedDataList[index].lobbyContentsUI.gameObject.activeSelf)
+                yield return null;
+
+            while (presentData != null && presentData.lobbyContentsUI.gameObject.activeSelf)
+                yield return null;
+
+            // 4. 대상 ui가 종료되면 다음으로
+            LobbyContentsManager.Instance.lobbyContentsDic[serializedDataList[index].lobbyContentsType].IsThisContentsTurnInTutorial = false;
+            presentTutorialIndex++;
+        }
+
+        // 끝날때 로비의 스크롤바를 다시 재활성화
+        lobbyUI.ActivateScrollBarInteraction(true);
+
+        // 튜토리얼 클리어 상태로 변경
+        UserManager.Instance.SetAllTutorialClear();
     }
 
     // public void StartTutorial()

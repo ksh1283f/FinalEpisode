@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Lofle.Tween;
 using TMPro;
+using Graduate.Unit.Player;
 
 public class TestCode : Singletone<Testcode>
 {
@@ -17,6 +18,8 @@ public class TestCode : Singletone<Testcode>
 
     IEnumerator coroutine;
 
+    public PlayerUnit Obj;
+
     void SetDialogDic()
     {
         dialogueDic.Add(0, "안녕하세요ㅠㅏㅓㅠㅏㅓㅠㅓㅠㅓㅏㅠㅡㅠㅡㅜㅠㅏㅗㅠㅏ");
@@ -28,23 +31,39 @@ public class TestCode : Singletone<Testcode>
         dialogueDic.Add(6, "안녕svsdfsfd요");
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Obj.PlayerUnitState = Graduate.Unit.E_UnitState.Idle;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Obj.PlayerUnitState = Graduate.Unit.E_UnitState.Move;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+
+        }
+    }
+
     void Start()
     {
-        SetDialogDic();
+        // SetDialogDic();
 
         
-        uiText = GetComponent<Text>();
-        btnText = GetComponent<Button>();
+        // uiText = GetComponent<Text>();
+        // btnText = GetComponent<Button>();
         
-        if (uiText == null)
-            return;
+        // if (uiText == null)
+        //     return;
 
-        if (btnText == null)
-            return;
+        // if (btnText == null)
+        //     return;
 
-        uiText.text = string.Empty;
+        // uiText.text = string.Empty;
 
-        btnText.onClick.AddListener(OnClickedText);
+        // btnText.onClick.AddListener(OnClickedText);
         
     }
 

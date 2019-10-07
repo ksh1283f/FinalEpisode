@@ -46,7 +46,7 @@ public class GameDataManager : Singletone<GameDataManager> {
     private const string TutorialSimpleDataName = "TutorialSimpleData";
     
 
-    public Dictionary<int, CharacterProperty> BattlePropertyDic { get; private set; }
+    public Dictionary<E_BattlePropertyType, Dictionary<E_PropertyEffectType,CharacterProperty>> BattlePropertyDic {get; private set;}
     public Dictionary<int, UnitData> CharacterDataDic { get; private set; }
     public Dictionary<int, DungeonPattern> DungeonPatternDataDic { get; private set; }
     public Dictionary<int, EnemyPattern> EnemyPatternDataDic { get; private set; }
@@ -62,7 +62,7 @@ public class GameDataManager : Singletone<GameDataManager> {
 
     void Awake () {
         // todo 기타 다른 데이터 딕셔너리도 추가
-        BattlePropertyDic = new Dictionary<int, CharacterProperty> ();
+        BattlePropertyDic = new Dictionary<E_BattlePropertyType, Dictionary<E_PropertyEffectType, CharacterProperty>>();
         CharacterDataDic = new Dictionary<int, UnitData> ();
         DungeonPatternDataDic = new Dictionary<int, DungeonPattern> ();
         EnemyPatternDataDic = new Dictionary<int, EnemyPattern> ();
@@ -176,16 +176,21 @@ public class GameDataManager : Singletone<GameDataManager> {
 
             values = strLineValue.Split (',');
             int id = Convert.ToInt32 (values[0]);
-            string imagePath = values[1];
-            string name = values[2];
-            string description = values[3];
-            E_PropertyEffectType effectType = (E_PropertyEffectType) Convert.ToInt32 (values[4]);
-            E_PropertyType propertyType = (E_PropertyType) Convert.ToInt32 (values[5]);
-            int effectValue = Convert.ToInt32 (values[6]);
+            E_BattlePropertyType battlePropertyType = (E_BattlePropertyType) Convert.ToInt32(values[1]);
+            string imagePath = values[2];
+            string name = values[3];
+            string description = values[4];
+            E_PropertyEffectType effectType = (E_PropertyEffectType) Convert.ToInt32 (values[5]);
+            E_DetailPropertyType propertyType = (E_DetailPropertyType) Convert.ToInt32 (values[6]);
+            int effectValue = Convert.ToInt32 (values[7]);
+            int coolTime = Convert.ToInt32(values[8]);
 
-            CharacterProperty data = new CharacterProperty (id, imagePath, name, description, propertyType, effectType, effectValue);
+            CharacterProperty data = new CharacterProperty(id, imagePath, name, description, battlePropertyType, propertyType, effectType,effectValue, coolTime);
 
-            BattlePropertyDic.Add (data.Id, data);
+            if(!BattlePropertyDic.ContainsKey(battlePropertyType))
+                BattlePropertyDic.Add(battlePropertyType, new Dictionary<E_PropertyEffectType, CharacterProperty>());
+
+            BattlePropertyDic[battlePropertyType].Add(effectType, data);
         }
     }
 

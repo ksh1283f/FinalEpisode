@@ -13,15 +13,17 @@ public enum E_LobbyContents
     Etc,    // 기타(후에 추가될 컨텐츠들 임시명)
     Ground,
     CharacterTraining,
+    Market,
 }
 
 public class LobbyContentsManager : Singletone<LobbyContentsManager>
 {
-    Dictionary<E_LobbyContents, LobbyContents> lobbyContentsDic = new Dictionary<E_LobbyContents, LobbyContents>();
+    public Dictionary<E_LobbyContents, LobbyContents> lobbyContentsDic {get; private set;}
     LobbyUI lobbyUI;
 
-    void Start()
+    private void Awake()
     {
+        lobbyContentsDic = new Dictionary<E_LobbyContents, LobbyContents>();
         lobbyUI = UIManager.Instance.LoadUI(E_UIType.Lobby) as LobbyUI;
         LobbyContents[] contentsArray = GetComponentsInChildren<LobbyContents>();
         if (contentsArray == null)
@@ -66,13 +68,17 @@ public class LobbyContentsManager : Singletone<LobbyContentsManager>
                 // MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
                 // // TODO 별도의 텍스트 데이터파일을 받아서 UI를 셋팅하기: 현재 더미로 작업(190310)
                 // messageUI.Show(new string[] { "유저 메세지", "컨텐츠 업데이트 준비중입니다." });
-                MarketUI marketUI = UIManager.Instance.LoadUI(E_UIType.UnitMarket) as MarketUI;
-                marketUI.Show(new string[] { "용병시장" });
+                
                 break;
 
             case E_LobbyContents.CharacterTraining:
                 TrainingCenterUI trainingUI = UIManager.Instance.LoadUI(E_UIType.TrainingCenter) as TrainingCenterUI;
                 trainingUI.Show(new string[] { "훈련소" });
+                break;
+
+            case E_LobbyContents.Market:
+                MarketUI marketUI = UIManager.Instance.LoadUI(E_UIType.UnitMarket) as MarketUI;
+                marketUI.Show(new string[] { "용병시장" });
                 break;
         }
     }

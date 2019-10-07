@@ -4,25 +4,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class CharacterPropertyUI : uiSingletone<CharacterPropertyUI>, IBaseUI
 {
     [SerializeField] Text titleText;
-    [SerializeField] PropertyImage AtkImage;
-    [SerializeField] PropertyImage UtilImage;
-    [SerializeField] PropertyImage DefImage;
-	[SerializeField] Button btnOk;
 
-    public Action<E_PropertyType> OnChangeToggleValue { get; set; }
+    [SerializeField] PropertyImages commonProperties;
+    [SerializeField] PropertyImages utilProperties;
+    [SerializeField] PropertyImages healingProperties;
+
+	[SerializeField] Button btnOk;
+    [SerializeField] Button btnPrev;
+    [SerializeField] Button btnNext;
+
+    [SerializeField] List<GameObject> propertyPageList = new List<GameObject>();
+    [SerializeField]int pageIndex = 0;
+
+    public Action<E_DetailPropertyType> OnChangeToggleValue { get; set; }
     protected override void Awake()
     {
         uiType = E_UIType.CharacterProperty;
         base.Awake();
-
     }
 
     void Start()
     {
-        btnOk.onClick.AddListener(() => { OnBtnOk(); });
+        if(btnOk != null)
+            btnOk.onClick.AddListener(() => { OnBtnOk(); });
+
+        if(btnPrev != null)
+            btnPrev.onClick.AddListener(()=>{ OnBtnPrev(); });
+
+        if(btnNext != null)
+            btnNext.onClick.AddListener(()=>{ OnBtnNext(); });
 
         Close();
     }
@@ -31,6 +46,16 @@ public class CharacterPropertyUI : uiSingletone<CharacterPropertyUI>, IBaseUI
 	{
 		Close();
 	}
+
+    void OnBtnPrev()
+    {
+        ActivatedPropertyPage(pageIndex-1);
+    }
+
+    void OnBtnNext()
+    {
+        ActivatedPropertyPage(pageIndex+1);
+    }
 	
     public override void Show(string[] dataList)
     {
@@ -41,8 +66,10 @@ public class CharacterPropertyUI : uiSingletone<CharacterPropertyUI>, IBaseUI
         string title = dataList[0];
 		if(titleText != null)
 			titleText.text = title;
-        UpdateData();
-
+        
+        pageIndex = 0;  // default
+        ActivatedPropertyPage(pageIndex);
+        // 튜토리얼
         if(!UserManager.Instance.UserInfo.TutorialClearList[(int)E_SimpleTutorialType.BattleProperty])
         {
             //show
@@ -52,54 +79,56 @@ public class CharacterPropertyUI : uiSingletone<CharacterPropertyUI>, IBaseUI
         }
     }
 
-    void UpdateData()
+    void UpdateData(E_BattlePropertyType type)
     {
-        if (AtkImage == null)
-        {
-            Debug.LogError("AtkImage is nul");
-            return;
-        }
-
-        if (UtilImage == null)
-        {
-            Debug.LogError("UtilImage is nul");
-            return;
-        }
-
-        if (DefImage == null)
-        {
-            Debug.LogError("DefImage is nul");
-            return;
-        }
-
-        if(UserManager.Instance.UserInfo == null)
+        if (UserManager.Instance.UserInfo == null)
         {
             Debug.LogError("UserInfo is nul");
             return;
         }
 
-        foreach (var item in CharacterPropertyManager.Instance.propertyDic)
+        switch (type)
         {
-            switch (item.Key)
-            {
-                case E_PropertyType.Atk:
-                    AtkImage.SetProperty(item.Value);
-                    if(UserManager.Instance.UserInfo.PropertyType == item.Key)
-                        AtkImage.PropertyToggle.isOn = true;
-                    break;
+            case E_BattlePropertyType.Common:
+                foreach (var item in CharacterPropertyManager.Instance.CommonPropertyDic)
+                    commonProperties.UpdateProperties(item.Value, item.Key);
+                break;
 
-                case E_PropertyType.Util:
-                    UtilImage.SetProperty(item.Value);
-                    if(UserManager.Instance.UserInfo.PropertyType == item.Key)
-                        UtilImage.PropertyToggle.isOn = true;
-                    break;
+            case E_BattlePropertyType.Util:
+                foreach (var item in CharacterPropertyManager.Instance.UtilPropertyDic)
+                    utilProperties.UpdateProperties(item.Value, item.Key);
+                break;
 
-                case E_PropertyType.Def:
-                    DefImage.SetProperty(item.Value);
-                    if(UserManager.Instance.UserInfo.PropertyType == item.Key)
-                        DefImage.PropertyToggle.isOn = true;
-                    break;
-            }
+            case E_BattlePropertyType.Healing:
+                foreach (var item in CharacterPropertyManager.Instance.HealingPropertyDic)
+                    healingProperties.UpdateProperties(item.Value, item.Key);
+                break;
         }
+    }
+
+    void ActivatedPropertyPage(int index)
+    {
+/*{
+    None,
+    Common,=1
+    Util,=2
+    Healing,=3
+} */
+        if(index < 0)   // prev의 경우
+            index = propertyPageList.Count-1;
+        else if (index >=propertyPageList.Count) // next의 경우
+            index = 0;
+
+        pageIndex =index;
+        for (int i = 0; i < propertyPageList.Count; i++)
+        {
+            if (i == pageIndex)
+                propertyPageList[i].SetActive(true);
+            else
+                propertyPageList[i].SetActive(false);
+        }
+
+        E_BattlePropertyType type = (E_BattlePropertyType)(pageIndex+1);
+        UpdateData(type);
     }
 }

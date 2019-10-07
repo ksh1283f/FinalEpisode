@@ -12,12 +12,14 @@ public class OpeningDirecting : MonoBehaviour
     [SerializeField] Image A2Map;
     [SerializeField] Image A3Map;
     [SerializeField] Image A4Map;
+    [SerializeField] Button btnSkip;
     List<Image> mapList = new List<Image>();
 
     void Start()
     {
         DontDestroyOnLoad(this);
-        // dialogue.gameObject.SetActive(false);
+        if(btnSkip != null)
+            btnSkip.onClick.AddListener(OnClickedBtnSkip);
         if(dialogue == null)
             return;
 
@@ -158,8 +160,8 @@ public class OpeningDirecting : MonoBehaviour
 
         // 2. 게임의 목표 설명(자세히x)    
         dialogue.ShowDialogue(dialogue.dialogueDic[dialogue.DialogueDicIndex]);
-            while (!dialogue.IsTypingEnd)
-                yield return null;  // 타이핑 연출이 끝날때까지 대기
+        while (!dialogue.IsTypingEnd)
+            yield return null;  // 타이핑 연출이 끝날때까지 대기
 
         UserManager.Instance.ao  = SceneManager.LoadSceneAsync("NewLobby");
         while (!UserManager.Instance.ao.isDone)
@@ -168,5 +170,20 @@ public class OpeningDirecting : MonoBehaviour
         UserManager.Instance.UserSituation = E_UserSituation.LoadingLobby;
         Destroy(gameObject);
 
+    }
+
+    void OnClickedBtnSkip()
+    {
+        StopCoroutine(SceneDirecting());
+        StartCoroutine(GoToLobby());
+    }
+
+    IEnumerator GoToLobby()
+    {
+        UserManager.Instance.ao  = SceneManager.LoadSceneAsync("NewLobby");
+        while(!UserManager.Instance.ao.isDone)
+            yield return null;
+        UserManager.Instance.UserSituation = E_UserSituation.LoadingLobby;
+        Destroy(gameObject);
     }
 }

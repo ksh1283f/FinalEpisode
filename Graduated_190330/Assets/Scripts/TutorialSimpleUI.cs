@@ -69,7 +69,7 @@ public class TutorialSimpleUI : uiSingletone<TutorialSimpleUI> {
     void OnBtnNext () {
         if(dicIndex == presentTutorialDic[PresentTutorialType].Count-1)
         {
-            // UserManager.Instance.SetTutorialClearState(PresentTutorialType);
+            UserManager.Instance.SetTutorialClearState(PresentTutorialType);
             Close();
             return;
         }

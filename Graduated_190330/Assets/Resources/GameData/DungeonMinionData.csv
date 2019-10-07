@@ -1,0 +1,5 @@
+﻿id,dungeonID,MonsterPatternId,name
+0,,2,Goblin
+1,,3,GoblinRanger
+2,,4,OrcGrunt
+3,,5,OrcNecromancer

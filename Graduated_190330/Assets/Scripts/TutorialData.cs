@@ -29,14 +29,17 @@ public class TutorialData
 public class TutorialDataSerialized
 {
     public int DetailId;
-    public GameObject Object;
-    public E_TutorialType tutorialType;
+    public GameObject lobbyContentsUI;
+    public E_LobbyContents lobbyContentsType;
     //public E_TutorialDetailType detailType;
-    public Vector3 camPosition;
+    public float camXpos;
+    public string Dialogue;
+
+    //------------------------------------------
     public bool isNeedDelay;
     public bool isCompleteReady;
     public float delayTime;
-    public string Dialogue;
+    
     public bool IsThisTutorialEnd;
      
     public Action ExecuteEvent{ get; set; }

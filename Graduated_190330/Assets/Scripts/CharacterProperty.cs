@@ -7,13 +7,17 @@ public enum E_PropertyEffectType
     AdditionalAtkResource,
     AdditionalUtilResource,
     AdditionalDefResource,
-    AdditionalAtk,
-    AdditionalUtil,
-    AdditionalDef,
-    // 경험치나 골드 추가?
+    WarriorUtilMaserty_AdditionalDefense,
+    MageUtilMaserty_HOT,
+    WarlockUtilMaserty_Healing,
+    RogueUtilMaserty_Clocking,
+    WarriorHealingMaserty_DecreaseDamageFromEnemy,
+    MageHealingMaserty_Invincible,
+    WarlockHealingMaserty_DrainHealthPerDamage,
+    RogueHealingMaserty_CheatDeath,
 }
 
-public enum E_PropertyType
+public enum E_DetailPropertyType
 {
     None,
     Atk,
@@ -27,18 +31,22 @@ public class CharacterProperty
     public string ImagePath { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public E_PropertyType PropertyType { get; private set; }
+    public E_BattlePropertyType BattlePropertyType {get; private set;}
+    public E_DetailPropertyType PropertyType { get; private set; }
     public E_PropertyEffectType EffectType { get; private set; }
     public int EffectValue { get; private set; }
+    public int CoolTime {get; private set;}
 
-    public CharacterProperty(int id, string imagePath, string name, string description, E_PropertyType propertyType, E_PropertyEffectType effectType, int effectValue)
+    public CharacterProperty(int id, string imagePath, string name, string description,E_BattlePropertyType battlePropertyType, E_DetailPropertyType propertyType, E_PropertyEffectType effectType, int effectValue, int coolTime)
     {
         Id = id;
         ImagePath = imagePath;
         Name = name;
         Description = description;
+        BattlePropertyType = battlePropertyType;
         PropertyType = propertyType;
         EffectType = effectType;
         EffectValue = effectValue;
+        CoolTime = coolTime;
     }
 }

@@ -49,7 +49,6 @@ public class uiSingletone<T> : MonoBehaviour, IBaseUI
     }
 
     protected E_UIType uiType;
-    public bool IsTutorial;
 
     protected virtual void Awake()
     {
