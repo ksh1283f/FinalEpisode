@@ -1356,7 +1356,7 @@ GameObject:
   - component: {fileID: 54133198286196410}
   - component: {fileID: 114804705086227552}
   m_Layer: 8
-  m_Name: Necromancer
+  m_Name: EnemyNecromancer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

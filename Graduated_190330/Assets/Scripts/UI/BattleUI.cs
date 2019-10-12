@@ -90,7 +90,7 @@ public class BattleUI : uiSingletone<BattleUI>
 
     public void OnEndDirecting()
     {
-        BattleManager.Instance.BattlePhase = E_BattlePhase.Init;
+        BattleManager.Instance.BattlePhase = E_BattlePhase.Battle;
     }
 
     /// <summary>

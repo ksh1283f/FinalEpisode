@@ -23,6 +23,7 @@ public enum E_GameDataType
     OpeningSceneDialogueData, // 오프닝 세계관 소개 컷씬 관련 텍스트 데이터
     TutorialData,   // obsolete
     TutorialSimpleData, // 현재 사용중인 튜토리얼
+    WorldEventData, // 용병 판매 또는 구매 관련 이벤트 데이터
     LocalizeData, // - 언어(후순위)
 
     DataTypeCount, // 데이터 타입 개수
@@ -44,6 +45,7 @@ public class GameDataManager : Singletone<GameDataManager> {
     private const string OpeningSceneDialogueDataName = "OpeningSceneDialogueData";
     private const string TutorialDataName = "TutorialData";
     private const string TutorialSimpleDataName = "TutorialSimpleData";
+    private const string WorldEventDataName = "WorldEventData";
     
 
     public Dictionary<E_BattlePropertyType, Dictionary<E_PropertyEffectType,CharacterProperty>> BattlePropertyDic {get; private set;}
@@ -59,6 +61,7 @@ public class GameDataManager : Singletone<GameDataManager> {
     public Dictionary<int, OpeningSceneDialogueData> OpeningSceneDialogueDataDic { get; private set; }
     public Dictionary<E_TutorialType, Dictionary<int, TutorialData>> TutorialDataDic {get; private set;}
     public Dictionary<E_SimpleTutorialType, Dictionary<int, TutorialSimpleData>> SimpleTutorialDataDic {get; private set;}
+    public Dictionary<int, WorldEventData> WorldEventDataDic {get; private set;}
 
     void Awake () {
         // todo 기타 다른 데이터 딕셔너리도 추가
@@ -75,8 +78,8 @@ public class GameDataManager : Singletone<GameDataManager> {
         OpeningSceneDialogueDataDic = new Dictionary<int, OpeningSceneDialogueData>();
         TutorialDataDic = new Dictionary<E_TutorialType, Dictionary<int, TutorialData>>();
         SimpleTutorialDataDic = new Dictionary<E_SimpleTutorialType, Dictionary<int, TutorialSimpleData>>();
+        WorldEventDataDic = new Dictionary<int, WorldEventData>();
                 
-
         for (int i = 0; i < (int) E_GameDataType.DataTypeCount; i++) {
             E_GameDataType type = (E_GameDataType) i;
             LoadGameData (type);
@@ -138,6 +141,10 @@ public class GameDataManager : Singletone<GameDataManager> {
                 case E_GameDataType.TutorialSimpleData:
                     ReadTutorialSimpleData(TutorialSimpleDataName);
                     break;
+
+                case E_GameDataType.WorldEventData:
+                    ReadWorldEventData(WorldEventDataName);
+                    break;
             }
         } catch (FileNotFoundException ex) {
             // 처음 루트를 타도록 바꾼다
@@ -149,8 +156,8 @@ public class GameDataManager : Singletone<GameDataManager> {
         } catch (IsolatedStorageException ex) {
             Debug.LogError (ex);
             return;
-        } catch {
-            Debug.LogError ("알수없는 에러");
+        } catch(System.Exception ex) {
+            Debug.LogError ("알수없는 에러:"+ex);
             return;
         }
     }
@@ -287,17 +294,18 @@ public class GameDataManager : Singletone<GameDataManager> {
             int id = Convert.ToInt32 (values[0]);
             string enemyName = values[1];
             int enemyHealth = Convert.ToInt32 (values[2]);
-            string patternDescription = values[3];
-            int patternTerm = Convert.ToInt32 (values[4]);
-            int skillCount = Convert.ToInt32 (values[5]);
+            string prefabPath = values[3];  // TODO 모델링 불러올때 사용하
+            string patternDescription = values[4];
+            int patternTerm = Convert.ToInt32 (values[5]);
+            int skillCount = Convert.ToInt32 (values[6]);
             List<EnemyPattern> enemyPatternList = new List<EnemyPattern> ();
             for (int j = 0; j < skillCount; j++) {
-                int skillId = Convert.ToInt32 (values[6 + j]);
+                int skillId = Convert.ToInt32 (values[7 + j]);
                 EnemyPattern enemyPattern = EnemyPatternDataDic[skillId].ShallowCopy () as EnemyPattern;
                 enemyPatternList.Add (enemyPattern);
             }
 
-            DungeonPattern pattern = new DungeonPattern (id, enemyName, enemyHealth, enemyPatternList, patternDescription, patternTerm);
+            DungeonPattern pattern = new DungeonPattern (id, enemyName, enemyHealth, prefabPath,enemyPatternList, patternDescription, patternTerm);
             DungeonPatternDataDic.Add (pattern.Id, pattern);
         }
     }
@@ -380,10 +388,14 @@ public class GameDataManager : Singletone<GameDataManager> {
 
             values = strLineValue.Split (',');
             int id = Convert.ToInt32 (values[0]);
-            int monsterId = Convert.ToInt32 (values[1]);
-            int limitTime = Convert.ToInt32 (values[2]);
+            int bossMonsterId = Convert.ToInt32 (values[1]);
+            List<int> minions = new List<int>();
+            string[] minionId = values[2].Split('.');
+            for (int j = 0; j < minionId.Length; j++)
+                minions.Add(Convert.ToInt32 (minionId[j]));
 
-            DungeonMonsterData data = new DungeonMonsterData (id, monsterId, limitTime);
+            int limitTime = Convert.ToInt32 (values[3]);
+            DungeonMonsterData data = new DungeonMonsterData (id, bossMonsterId, minions,limitTime);
             DungeonMonsterDataDic.Add (data.Id, data);
         }
     }
@@ -579,6 +591,39 @@ public class GameDataManager : Singletone<GameDataManager> {
                 SimpleTutorialDataDic.Add(type,new Dictionary<int, TutorialSimpleData>());
 
             SimpleTutorialDataDic[type].Add(detailId, data);
+        }
+    }
+
+    void ReadWorldEventData (string path) 
+    {
+        if (string.IsNullOrEmpty (path)) 
+        {
+            Debug.LogError ("ReadWorldEventData path is null or emtpy");
+            return;
+        }
+
+        string dataFullPath = string.Concat (dataDefalutPath, path);
+        TextAsset assetData = Resources.Load (dataFullPath) as TextAsset;
+        string[] textData = assetData.text.Split ('\n'); // 줄단위로 구분
+        string strLineValue = string.Empty;
+        string[] values = null;
+        for (int i = 0; i < textData.Length; i++) 
+        {
+            strLineValue = textData[i];
+            if (string.IsNullOrEmpty (strLineValue))
+                return;
+
+            if (i == 0)
+                continue;
+
+            values = strLineValue.Split (',');
+            int id = Convert.ToInt32 (values[0]);
+            E_WorldEventType eventType = (E_WorldEventType)Convert.ToInt32(values[1]);
+            string eventDescription = values[2];
+            int eventEffectValue = Convert.ToInt32(values[3]);
+
+            WorldEventData data = new WorldEventData(id, eventType, eventDescription, eventEffectValue);
+            WorldEventDataDic.Add(data.Id, data);
         }
     }
 }

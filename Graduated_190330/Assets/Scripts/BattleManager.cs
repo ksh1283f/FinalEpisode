@@ -6,6 +6,7 @@ using Graduate.GameData.UnitData;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Graduate.Unit.Player;
+using Graduate.Unit.Enemy;
 
 public enum E_BattlePhase {
     None,
@@ -61,7 +62,7 @@ public class BattleManager : Singletone<BattleManager> {
     public List<PhaseChecker> PhaseCheckerList = new List<PhaseChecker> ();
     public E_PhaseType PhaseType { get; private set; }
 
-    private E_BattlePhase battlePhase = E_BattlePhase.None;
+    [SerializeField] private E_BattlePhase battlePhase = E_BattlePhase.None;
     public E_BattlePhase BattlePhase {
         get { return battlePhase; }
         set {
@@ -101,7 +102,7 @@ public class BattleManager : Singletone<BattleManager> {
         }
     }
 
-    private Graduate.Unit.Enemy.EnemyUnit nowEnemy;
+    [SerializeField]private Graduate.Unit.Enemy.EnemyUnit nowEnemy;
     public Graduate.Unit.Enemy.EnemyUnit NowEnemy 
     {
          get { return nowEnemy; }
@@ -123,11 +124,12 @@ public class BattleManager : Singletone<BattleManager> {
 
     [SerializeField] List<Transform> playerPosList = new List<Transform>();
     [SerializeField] List<Graduate.Unit.Player.PlayerUnit> playerObjList = new List<Graduate.Unit.Player.PlayerUnit>();
+    [SerializeField] List<Transform> EnemyPosList = new List<Transform>();
     Follow mainFollowCam;
     Coroutine monsterCasting;
     bool shouldGoToNext =false;
     
-
+    // none -> showLogo -> init -> Battle -> end
     void Start () {
         // todo 현재 선택돤 던전의 데이터를 바탕으로 시간 셋팅
         RemainTime = UserManager.Instance.SelectedDungeonMonsterData.LimitTime;
@@ -159,6 +161,7 @@ public class BattleManager : Singletone<BattleManager> {
                     player = Instantiate(playerObjList.Find(x => {return x.CharacterType == item.Value.CharacterType;}),playerPosList[index].position,playerPosList[index].rotation);
                     break;
             }
+
             if(player == null)
             {
                 Debug.LogError("Player is null");
@@ -174,6 +177,7 @@ public class BattleManager : Singletone<BattleManager> {
             AllCri += item.Value.Cri;
             player.Def = item.Value.Def;
             MaxPlayerHealth += item.Value.Hp;
+            player.Id = item.Key;
             PlayerUnitList.Add(player);
 
             if(index == 0)
@@ -182,7 +186,8 @@ public class BattleManager : Singletone<BattleManager> {
             index++;
         }
 
-        BattlePhase = E_BattlePhase.ShowLogo;
+        // BattlePhase = E_BattlePhase.ShowLogo;
+        BattlePhase = E_BattlePhase.Init;
         PhaseCheckerList = FindObjectsOfType<PhaseChecker> ().ToList ();
         if (PhaseCheckerList != null) {
             for (int i = 0; i < PhaseCheckerList.Count; i++) {
@@ -191,11 +196,130 @@ public class BattleManager : Singletone<BattleManager> {
         }
     }
 
+        void InitBattle () {
+        /*
+            - 자신의 출전 용병 정보들 
+            - 선택된 dungeonMonsterData로 단수, 몬스터 정보, 제한시간 찾기
+            - 단수에 맞는 몬스터 출현 정보
+            - 단수에 따른 몬스터 스탯 보정
+            - 보상정보 갱신
+        */
+
+        nowplayerHealth = MaxPlayerHealth;
+        OnUpdateUserStat.Execute (unitDataList);
+
+        // 2. 적 정보
+        DungeonMonsterData dungeonMonsterData = UserManager.Instance.SelectedDungeonMonsterData;
+        thisBattleRewardData = GameDataManager.Instance.RewardDataDic[dungeonMonsterData.Id];
+        
+        // 데이터에 맞게 가져오기
+        int dataLength =dungeonMonsterData.MinionMonsterIds.Count+1;
+        for (int i = 0; i < dataLength; i++)   // +1은 보스몹
+        {
+            // 적 생성
+            string enemyObjPath = string.Empty;
+            int enemyId = -1;
+            
+            if(i == dataLength-1)   // 보스몹의 경우
+                enemyId = dungeonMonsterData.BossMonsterId;
+            else
+                enemyId = dungeonMonsterData.MinionMonsterIds[i];    
+            
+            if(enemyId == -1)
+            {
+                Debug.LogError("enemyId is null");
+                return;
+            }
+
+            DungeonPattern patternData = GameDataManager.Instance.DungeonPatternDataDic[enemyId].ShallowCopy() as DungeonPattern;
+            EnemyStatCorrectionData corData = GameDataManager.Instance.EnemyStatCorrectionDataDic[dungeonMonsterData.Id];
+            enemyObjPath = patternData.PrefabPath;
+            EnemyUnit enemy = Instantiate((GameObject)Resources.Load(enemyObjPath)).GetComponent<EnemyUnit>();
+            enemy.transform.position = EnemyPosList[i].position;
+            enemy.transform.rotation = EnemyPosList[i].rotation;
+            EnemyUnitList.Add(enemy);
+
+            // 적 능력치 셋팅(단수에 맞게)
+            float correctedHealth = (float) corData.HpCorrection / 100 + 1;
+            int healthCorrected = (int) (correctedHealth <= 1 ? patternData.EnemyHealth : correctedHealth * patternData.EnemyHealth);
+            if (!patternData.SetEnemyHealth (healthCorrected)) {
+                Debug.LogError ("Invalid result, healthCorrected value: " + healthCorrected);
+                BattlePhase = E_BattlePhase.End;
+                return;
+            }
+
+            for (int j= 0; j < patternData.PatternList.Count; j++) 
+            {
+                EnemyPattern enemyPattern = patternData.PatternList[i];
+                float corDamage = (float) corData.AtkCorrection / 100 + 1;
+                int damageCorrected = (int) (corDamage <= 1 ? enemyPattern.Damage : enemyPattern.Damage * corDamage);
+                enemyPattern.SetElements (EnemyPattern.E_ElementType.Damage, damageCorrected);
+                if (!patternData.SetEnemyStat (enemyPattern)) {
+                    Debug.LogError ("Invalid result, damageCorrected value: " + damageCorrected);
+                    BattlePhase = E_BattlePhase.End;
+                    return;
+                }
+            }
+
+            enemy.Id = patternData.Id;
+            enemy.HP = patternData.EnemyHealth;
+            enemy.OnDamagedEnemy += CalculatedEnemyDamaged;
+            enemy.OnDeathEnemy += OnEnemyDeath;
+            enemy.Sequence = (E_EnemySequence)i;
+        }
+
+        SetTargetEnemy();
+        // BattlePhase = E_BattlePhase.Battle;
+        BattlePhase = E_BattlePhase.ShowLogo;
+    }
+
+    Graduate.Unit.Enemy.EnemyUnit SetTargetEnemy()
+    {
+        Graduate.Unit.Enemy.EnemyUnit tempEnemy = null;
+        Debug.LogError("Graduate.Unit.Enemy.EnemyUnit tempEnemy = null;");
+        for (int i = 0; i < EnemyUnitList.Count; i++) {
+            if(EnemyUnitList[i] == null || EnemyUnitList[i].EnemyUnitState == Graduate.Unit.E_UnitState.Death)
+            {
+                Debug.LogError("EnemyUnitList[i] == null || EnemyUnitList[i].EnemyUnitState == Graduate.Unit.E_UnitState.Death)");
+                continue;
+            }
+                
+
+            if (tempEnemy == null) {
+                tempEnemy = EnemyUnitList[i];
+                Debug.LogError("tempEnemy = EnemyUnitList[i];");
+                continue;
+            }
+
+            if (tempEnemy.Sequence > EnemyUnitList[i].Sequence)
+            {
+                tempEnemy = EnemyUnitList[i];
+                Debug.LogError("tempEnemy = EnemyUnitList[i];");
+            }
+                
+        }
+
+        // todo 타겟이 갱신될때마다 해줄 필요
+        NowEnemy = tempEnemy;
+        Debug.LogError("NowEnemy = tempEnemy;");
+        dungeonPattern = GameDataManager.Instance.DungeonPatternDataDic[NowEnemy.Id];
+        Debug.LogError("dungeonPattern = GameDataManager.Instance.DungeonPatternDataDic[NowEnemy.Id];");
+        if(dungeonPattern == null)
+        {
+            Debug.LogError("dungeonPattern is null");
+            return null;
+        }
+
+        float hpValue = NowEnemy.HP / dungeonPattern.EnemyHealth;
+        OnUpdateEnemyHpBar.Execute (dungeonPattern.EnemyName, hpValue);
+        Debug.LogError("OnUpdateEnemyHpBar.Execute (dungeonPattern.EnemyName, hpValue);");
+        return tempEnemy;
+    }
+
     void StartPhase (E_PhaseType phaseType) {
         PhaseType = phaseType;
     }
 
-    #region 버블 생성 관련
 
     public void GenerateSkillResource (E_SkillResourceType skillResourceType) {
         if (PhaseType == E_PhaseType.None)
@@ -346,9 +470,7 @@ public class BattleManager : Singletone<BattleManager> {
         BattleUI.Instance.SetSkillResorce (E_SkillResourceType.Util, false, countSecond);
         OnStartCooldown.Execute (Cooltime);
     }
-    #endregion
 
-    #region 전투 진행
     public List<Graduate.Unit.Player.PlayerUnit> PlayerUnitList = new List<Graduate.Unit.Player.PlayerUnit> ();
     public List<Graduate.Unit.Enemy.EnemyUnit> EnemyUnitList = new List<Graduate.Unit.Enemy.EnemyUnit> ();
     public int aliveEnemyCount {
@@ -364,7 +486,7 @@ public class BattleManager : Singletone<BattleManager> {
             return count;
         }
     }
-    #region 임시 데이터
+    
     DungeonPattern dungeonPattern;
     EnemyPattern thisPattern;
     List<UnitData> unitDataList = new List<UnitData> ();
@@ -386,31 +508,44 @@ public class BattleManager : Singletone<BattleManager> {
             }
         }
     }
-    #endregion
+    
 
     void OnEnemyDeath (bool isDeath) {
-        PlayerState = Graduate.Unit.E_UnitState.None;    
-        StopCoroutine(monsterCasting);
+        PlayerState = Graduate.Unit.E_UnitState.None;
+        Debug.LogError("PlayerState = Graduate.Unit.E_UnitState.None;");
+        if(monsterCasting != null) 
+        {
+            Debug.LogError("StopCoroutine(monsterCasting);");
+            StopCoroutine(monsterCasting);
+        }
+            
+            
         OnCastingEnd.Execute();
+        Debug.LogError("OnCastingEnd.Execute();");
         if (aliveEnemyCount == 0) {
             StopCoroutine (CalculateRemainCount ());
+            Debug.LogError("StopCoroutine (CalculateRemainCount ());");
             // ui상으로 보여주기
 
             OnGameEnd.Execute (true, thisBattleRewardData);
+            Debug.LogError("OnGameEnd.Execute (true, thisBattleRewardData);");
             CalculateReward (true);
+            Debug.LogError("CalculateReward (true);");
             isBattleEnd = true;
+            Debug.LogError("isBattleEnd = true;");
             //BattlePhase = E_BattlePhase.End;
         } else {
             NowEnemy = null;
-            
+            Debug.LogError("NowEnemy = null;");
             for (int i = 0; i < EnemyUnitList.Count; i++) {
-                if (EnemyUnitList[i].EnemyUnitState == Graduate.Unit.E_UnitState.Death)
-                    continue;
+                // if (EnemyUnitList[i].EnemyUnitState == Graduate.Unit.E_UnitState.Death)
+                //     continue;
 
                 if (NowEnemy == null) {
-                    NowEnemy = EnemyUnitList[i];
+                    // NowEnemy = EnemyUnitList[i];
                     // float hpValue = nowEnemy.HP
-                    OnUpdateEnemyHpBar.Execute(nowEnemy.name, nowEnemy.HP);
+                    SetTargetEnemy();
+                    Debug.LogError("SetTargetEnemy();");
                     // NowEnemy = enemy;
                     // float hpValue = NowEnemy.HP / dungeonPattern.EnemyHealth;
                     // OnUpdateEnemyHpBar.Execute (dungeonPattern.EnemyName, hpValue);
@@ -427,86 +562,7 @@ public class BattleManager : Singletone<BattleManager> {
 
     }
 
-    void InitBattle () {
-        /*
-            - 자신의 출전 용병 정보들 
-            - 선택된 dungeonMonsterData로 단수, 몬스터 정보, 제한시간 찾기
-            - 단수에 맞는 몬스터 출현 정보
-            - 단수에 따른 몬스터 스탯 보정
-            - 보상정보 갱신
-        */
 
-        // 출전캐릭터 usermanager.instance.userinfo.selectedUnitDic
-        // 출현 몬스터 UserManager.Instance.SelectedDungeonMonsterData -> 
-        // 보상정보 rewardData
-
-        // TODO: unit 데이터 초기화
-        // TODO: dungeon 데이터 초기화
-        
-        EnemyUnitList = FindObjectsOfType<Graduate.Unit.Enemy.EnemyUnit> ().ToList ();
-        // PlayerUnitList = FindObjectsOfType<Graduate.Unit.Player.PlayerUnit> ().ToList ();
-        //임시 데이터
-        #region 임시 데이터
-        // 1. 플레이어 정보
-        
-
-        nowplayerHealth = MaxPlayerHealth;
-        OnUpdateUserStat.Execute (unitDataList);
-        // todo 유닛 아이콘 갱신
-
-        // 2. 적 정보
-        DungeonMonsterData dungeonMonsterData = UserManager.Instance.SelectedDungeonMonsterData;
-        DungeonPattern dungeonPatternData = GameDataManager.Instance.DungeonPatternDataDic[dungeonMonsterData.MonsterId].ShallowCopy () as DungeonPattern;
-        EnemyStatCorrectionData corData = GameDataManager.Instance.EnemyStatCorrectionDataDic[dungeonMonsterData.Id];
-        thisBattleRewardData = GameDataManager.Instance.RewardDataDic[dungeonMonsterData.Id];
-        // todo 체력 보정
-        float correctedHealth = (float) corData.HpCorrection / 100 + 1;
-        int healthCorrected = (int) (correctedHealth <= 1 ? dungeonPatternData.EnemyHealth : correctedHealth * dungeonPatternData.EnemyHealth);
-        if (!dungeonPatternData.SetEnemyHealth (healthCorrected)) {
-            Debug.LogError ("Invalid result, healthCorrected value: " + healthCorrected);
-            BattlePhase = E_BattlePhase.End;
-            return;
-        }
-
-        for (int i = 0; i < dungeonPatternData.PatternList.Count; i++) {
-            // todo 스킬 공격력 보정
-            EnemyPattern enemyPattern = dungeonPatternData.PatternList[i];
-            float corDamage = (float) corData.AtkCorrection / 100 + 1;
-            int damageCorrected = (int) (corDamage <= 1 ? enemyPattern.Damage : enemyPattern.Damage * corDamage);
-            enemyPattern.SetElements (EnemyPattern.E_ElementType.Damage, damageCorrected);
-            if (!dungeonPatternData.SetEnemyStat (enemyPattern)) {
-                Debug.LogError ("Invalid result, damageCorrected value: " + damageCorrected);
-                BattlePhase = E_BattlePhase.End;
-                return;
-            }
-        }
-
-        dungeonPattern = dungeonPatternData;
-        for (int i = 0; i < EnemyUnitList.Count; i++) {
-            EnemyUnitList[i].HP = dungeonPattern.EnemyHealth;
-            EnemyUnitList[i].OnDamagedEnemy += CalculatedEnemyDamaged;
-            EnemyUnitList[i].OnDeathEnemy += OnEnemyDeath;
-        }
-
-        Graduate.Unit.Enemy.EnemyUnit enemy = null;
-        for (int i = 0; i < EnemyUnitList.Count; i++) {
-            if (enemy == null) {
-                enemy = EnemyUnitList[i];
-                continue;
-            }
-
-            if (enemy.Sequence > EnemyUnitList[i].Sequence)
-                enemy = EnemyUnitList[i];
-        }
-
-        // todo 타겟이 갱신될때마다 해줄 필요
-        NowEnemy = enemy;
-        float hpValue = NowEnemy.HP / dungeonPattern.EnemyHealth;
-        OnUpdateEnemyHpBar.Execute (dungeonPattern.EnemyName, hpValue);
-
-        #endregion
-        BattlePhase = E_BattlePhase.Battle;
-    }
 
     void StartCountTime () {
         StopCoroutine (CalculateRemainCount ());
@@ -543,7 +599,9 @@ public class BattleManager : Singletone<BattleManager> {
     IEnumerator Battle() {
         while (!isBattleEnd)
         {
-            Target = NowEnemy;
+            // todo 191008 타겟이 제대로 갱신이 안됨!
+            
+            Target = SetTargetEnemy();
             IsEncounterEnemy = false;
 
             // 1.아군 앞으로
@@ -564,7 +622,8 @@ public class BattleManager : Singletone<BattleManager> {
             //todo 튜토리얼 유무: 튜토리얼중이면 대기하기
             // show tutorial simple ui
             TutorialSimpleUI tutorialUI = null;
-            if (!UserManager.Instance.UserInfo.TutorialClearList[(int) E_SimpleTutorialType.Battle]) {
+            if (!UserManager.Instance.UserInfo.TutorialClearList[(int) E_SimpleTutorialType.Battle]) 
+            {
                 tutorialUI = UIManager.Instance.LoadUI (E_UIType.TutorialSimpleBattle) as TutorialSimpleUI;
                 tutorialUI.Show (new string[] { "전투 소개" });
                 tutorialUI.SetTutorialType (E_SimpleTutorialType.Battle);
@@ -666,7 +725,6 @@ public class BattleManager : Singletone<BattleManager> {
         for (int i = 0; i < PlayerUnitList.Count; i++)
             PlayerUnitList[i].StartAniAttack ();
     }
-    #endregion
 
     int CalculateAttackDamage () {
         // 1. 버블 소모값 + 공격력 + 크리확률

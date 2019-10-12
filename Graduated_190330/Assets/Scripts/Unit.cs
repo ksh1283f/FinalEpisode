@@ -20,6 +20,7 @@
         public int HP;
         public int Atk;
         public int Def;
+        public int Id;
 
         string tag;
         [SerializeField]protected E_UnitState unitState = E_UnitState.None;

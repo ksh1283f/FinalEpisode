@@ -2,12 +2,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResourceWindow : MonoBehaviour
 {
     [SerializeField] SkillBubbleManager attackManager;
     [SerializeField] SkillBubbleManager utilManager;
     [SerializeField] SkillBubbleManager defenseManager;
+    [SerializeField] Button btnExit;
+
+    void Start()
+    {
+        if(btnExit == null)
+            return;
+
+        btnExit.onClick.AddListener(OnClickedBtnExit);
+    }
+
+    void OnClickedBtnExit()
+    {
+        // 종료루틴
+        BattleManager.Instance.LoadLobbyScene();
+    }
 
     public void CreateBubble(E_SkillResourceType skillResourceType, int createCount)
     {

@@ -20,7 +20,7 @@ public class DungeonStepManager : Singletone<DungeonStepManager>
         foreach (var item in GameDataManager.Instance.DungeonMonsterDataDic)
         {
             DungeonMonsterData monsterData = item.Value.ShallowCopy() as DungeonMonsterData;
-            DungeonPattern pattern = GameDataManager.Instance.DungeonPatternDataDic[monsterData.MonsterId].ShallowCopy() as DungeonPattern;
+            DungeonPattern pattern = GameDataManager.Instance.DungeonPatternDataDic[monsterData.BossMonsterId].ShallowCopy() as DungeonPattern;
 
             float cor = GameDataManager.Instance.EnemyStatCorrectionDataDic[monsterData.Id].HpCorrection;
             // 20 -> 1.20

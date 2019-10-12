@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Graduate.GameData.UnitData;
 using System.Text;
+using System;
 
 public enum E_MarketContents
 {
@@ -80,6 +81,7 @@ public class MarketUI : uiSingletone<MarketUI>
         }
     }
 
+
     protected override void Awake()
     {
         uiType = E_UIType.UnitMarket;
@@ -112,6 +114,8 @@ public class MarketUI : uiSingletone<MarketUI>
             return;
         }
 
+        // OnShowThisWindow.Execute();
+
         if (titleText != null)
             titleText.text = dataList[0];
 
@@ -134,7 +138,13 @@ public class MarketUI : uiSingletone<MarketUI>
 
     void SetSimpleInfoList()
     {
+        // 판매 구매 분리 작업 필요
         List<UnitData> listToShow = GetUnitDatas();
+        if(listToShow == null)
+        {
+            Debug.LogError("listToShow is null");
+            return;
+        }
 
         // init
         for (int i = 0; i < simpleInfoList.Count; i++)
@@ -156,7 +166,8 @@ public class MarketUI : uiSingletone<MarketUI>
         switch (selectedMarketContents)
         {
             case E_MarketContents.Purchase:
-                // 데이터를 기반으로 산출된 용병들(어떻게 산출할 것인가)
+                // 데이터를 기반으로 산출된 용병들
+                unitList = WorldEventManager.Instance.eventUnitList;
                 break;
 
             case E_MarketContents.Sell:
@@ -165,7 +176,7 @@ public class MarketUI : uiSingletone<MarketUI>
                 break;
         }
 
-        return unitList;    // 임시
+        return unitList;
     }
 
     void OnClickedBtnBack()
@@ -188,7 +199,7 @@ public class MarketUI : uiSingletone<MarketUI>
         {
             if (simpleInfoList[i].unitData == null)
                 continue;
-
+            // todo 판매탭에서만 유효한 부분, 구매 탭에서의 별도 처리 필요
             if (data.Id == simpleInfoList[i].unitData.Id)
                 continue;
 
@@ -231,8 +242,53 @@ public class MarketUI : uiSingletone<MarketUI>
         // todo 판매 프로세스
         // 1. 유닛의 가격만큼 골드량 상승
         int price = selectedUnitInSimpleList.Price;
+        // 판매 프리미엄이 붙는 용병인 경우 가격 올려주기
+        if (!WorldEventManager.Instance.IsSaleEvent(WorldEventManager.Instance.PresentWorldEventData.WorldEventType))
+        {
+            WorldEventData presentEventData = WorldEventManager.Instance.PresentWorldEventData;
+            float effectValue = 0;
+            switch (presentEventData.WorldEventType)
+            {
+                case E_WorldEventType.AllPremium:
+                    effectValue = 1+((float)presentEventData.EventEffectValue/100);
+                    price = Convert.ToInt32(price*effectValue);
+                    break;
+
+                case E_WorldEventType.WarriorPremium:
+                    if(selectedUnitInSimpleList.CharacterType != E_CharacterType.Warrior)
+                        break;
+
+                    effectValue = 1+((float)presentEventData.EventEffectValue/100);
+                    price = Convert.ToInt32(price*effectValue);
+                    break;
+
+                case E_WorldEventType.MagePremium:
+                    if(selectedUnitInSimpleList.CharacterType != E_CharacterType.Mage)
+                        break;
+
+                    effectValue = 1+((float)presentEventData.EventEffectValue/100);
+                    price = Convert.ToInt32(price*effectValue);
+                    break;
+
+                case E_WorldEventType.WarlockPremium:
+                    if(selectedUnitInSimpleList.CharacterType != E_CharacterType.Warlock)
+                        break;
+
+                    effectValue = 1+((float)presentEventData.EventEffectValue/100);
+                    price = Convert.ToInt32(price*effectValue);
+                    break;
+
+                case E_WorldEventType.RoguePremium:
+                    if(selectedUnitInSimpleList.CharacterType != E_CharacterType.Rogue)
+                        break;
+
+                    effectValue = 1+((float)presentEventData.EventEffectValue/100);
+                    price = Convert.ToInt32(price*effectValue);
+                    break;
+            }
+        }
+
         int finalGoldValue = UserManager.Instance.UserInfo.Gold + price;
-        // 1-1. todo 이벤트 유무 체크하여 상승 골드량 보정
         UserManager.Instance.SetUserGold(finalGoldValue);
 
         // 2. 리스트에서 유닛 제거
@@ -256,9 +312,45 @@ public class MarketUI : uiSingletone<MarketUI>
         // 선택된 용병이 있는지
         if (selectedUnitInSimpleList == null)
         {
-            MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
-            message.Show(new string[] { "유저 메세지", "선택된 용병이 없습니다." });
+            MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            messageUI.Show(new string[] { "유저 메세지", "선택된 용병이 없습니다." });
+            return;
         }
+
+        // 돈은 제대로 있는지
+        if (UserManager.Instance.UserInfo.Gold < selectedUnitInSimpleList.Price)
+        {
+            MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            messageUI.Show(new string[] { "유저 메세지", "골드가 부족합니다." });
+            Debug.LogError("Not enough your gold");
+            return;
+        }
+
+        // 있다면 리스트가 가득 차진 않았는지
+        if (UserManager.Instance.UserInfo.UnitDic.Count >= UserManager.MAX_CHARACTER_COUNT)
+        {
+            MessageUI messageUI = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+            messageUI.Show(new string[] { "유저 메세지", "더이상 용병을 보유할 수 없습니다." });
+            Debug.LogError("There is no capacity in UnitDic");
+            return;
+        }
+
+        // 모든 조건이 충족되면, 새로운 사용가능한 id부여, 유저인포의 딕셔너리 갱신
+        UnitData purchasedUnit = selectedUnitInSimpleList.ShallowCopy() as UnitData;
+        int changedId = WorldEventManager.Instance.GetCreatedUnitID();
+        if(changedId == -1)
+            return;
+        
+        purchasedUnit.UpdateUnitID(changedId);
+        UserManager.Instance.SetMyUnitList(purchasedUnit);
+        int gold = UserManager.Instance.UserInfo.Gold;
+        gold -= purchasedUnit.Price;
+        UserInfo userInfo = UserManager.Instance.UserInfo;
+
+        UserManager.Instance.SetUserInfo(userInfo.UserName,userInfo.TeamLevel,userInfo.Exp,gold);
+        MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
+        message.Show(new string[]{"유저 메세지", "고용완료"});
+        return;
     }
 
     void OnClickedBtnShowNews()
@@ -293,6 +385,18 @@ public class MarketUI : uiSingletone<MarketUI>
         sb.AppendLine();
         sb.Append("Price: ");
         sb.Append(data.Price);
+        // 이벤트가 적용되는 용병인지 체크 후 가격 반영
+        if(IsEventUnit(data))
+        {
+            if(SelectedTabType == E_TabType.Purchase)
+                sb.Append("( - ");
+            else if (SelectedTabType == E_TabType.Sell)
+                sb.Append("( + ");
+
+            sb.Append(WorldEventManager.Instance.PresentWorldEventData.EventEffectValue);
+            sb.Append("%)");
+        }
+
         sb.AppendLine();
         sb.AppendLine();
         sb.Append(data.Description);
@@ -305,20 +409,9 @@ public class MarketUI : uiSingletone<MarketUI>
         if (!isOn)
             return;
 
-        // switch (SelectedTabType)
-        // {
-        //     case E_TabType.Purchase:
-        //         // todo 구매가능한 용병들을 산출하여 보여주기
-        //         break;
-
-        //     case E_TabType.Sell:
-        //         SetSimpleInfoListWithMyUnits();
-        //         break;
-        // }
         SetSimpleInfoList();
 
         // todo 새로운 리스트 갱신, 버튼 갱신
-
     }
 
     string ConnectBtnWithMethod()
@@ -368,5 +461,103 @@ public class MarketUI : uiSingletone<MarketUI>
         btnSell.onClick.AddListener(OnClickedBtnSell);
 
         return resultMessage;
+    }
+
+    bool IsEventUnit(UnitData data)
+    {
+        if(data == null)
+        {
+            Debug.LogError("unitData is null");
+            return false;
+        }
+
+        WorldEventData presentEventData = WorldEventManager.Instance.PresentWorldEventData;
+        switch (presentEventData.WorldEventType)
+        {
+            case E_WorldEventType.AllSale:
+                if(selectedTabType != E_TabType.Purchase)
+                    break;
+
+                return true;
+
+            case E_WorldEventType.WarriorSale:
+                if(selectedTabType != E_TabType.Purchase)
+                    break;
+
+                if(data.CharacterType != E_CharacterType.Warrior)
+                    break;
+
+                return true;
+
+            case E_WorldEventType.MageSale:
+                if(selectedTabType != E_TabType.Purchase)
+                    break;
+                    
+                if(data.CharacterType != E_CharacterType.Mage)
+                    break;
+
+                return true;
+
+            case E_WorldEventType.WarlockSale:
+                if(selectedTabType != E_TabType.Purchase)
+                    break;
+                    
+                if(data.CharacterType != E_CharacterType.Warlock)
+                    break;
+
+                return true;
+
+            case E_WorldEventType.RogueSale:
+                if(selectedTabType != E_TabType.Purchase)
+                    break;
+                    
+                if(data.CharacterType != E_CharacterType.Rogue)
+                    break;
+
+                return true;
+
+            case E_WorldEventType.AllPremium:
+                if(selectedTabType != E_TabType.Sell)
+                    break;
+
+                return true;
+
+            case E_WorldEventType.WarriorPremium:
+                if(selectedTabType != E_TabType.Sell)
+                    break;
+
+                if(data.CharacterType != E_CharacterType.Warrior)
+                    break;
+
+                return true;
+
+            case E_WorldEventType.MagePremium:
+                if(selectedTabType != E_TabType.Sell)
+                    break;
+
+                if(data.CharacterType != E_CharacterType.Mage)
+                    break;
+
+                return true;
+            case E_WorldEventType.WarlockPremium:
+                if(selectedTabType != E_TabType.Sell)
+                    break;
+
+                if(data.CharacterType != E_CharacterType.Warlock)
+                    break;
+
+                return true;
+
+            case E_WorldEventType.RoguePremium:
+                if(selectedTabType != E_TabType.Sell)
+                    break;
+
+                if(data.CharacterType != E_CharacterType.Rogue)
+                    break;
+
+                return true;
+        }
+
+        return false;
     }
 }
