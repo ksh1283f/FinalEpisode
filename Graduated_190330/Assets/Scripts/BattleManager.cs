@@ -124,7 +124,7 @@ public class BattleManager : Singletone<BattleManager> {
     public bool IsSecondPropertyCooldownComplite = true;
     public RewardData thisBattleRewardData { get; private set; }
     public Action<float> OnStartCooldown { get; set; }
-    public Dictionary<E_BattleBuffType, BattleBuff> BattleBuffDic = new Dictionary<E_BattleBuffType, BattleBuff>();
+    BattleBuff ActivatedBattleBuff;
 
     [SerializeField] List<Transform> playerPosList = new List<Transform>();
     [SerializeField] List<Graduate.Unit.Player.PlayerUnit> playerObjList = new List<Graduate.Unit.Player.PlayerUnit>();
@@ -192,16 +192,6 @@ public class BattleManager : Singletone<BattleManager> {
             && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarlockUtilMaserty_Healing
             && player.CharacterType == E_CharacterType.Warlock)
                 AllCri += CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue;
-            else if(CharacterPropertyManager.Instance.SelectedUtilProperty != null
-            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.RogueUtilMaserty_Clocking
-            && player.CharacterType == E_CharacterType.Rogue)
-            {
-                if(!BattleBuffDic.ContainsKey(E_BattleBuffType.Clocking))
-                {
-                    BattleBuff buff = new BattleBuff(E_BattleBuffType.Clocking,CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue);
-                    BattleBuffDic.Add(buff.BattleBuffType, buff);
-                }
-            }
 
             PlayerUnitList.Add(player);
 
@@ -245,9 +235,13 @@ public class BattleManager : Singletone<BattleManager> {
             // 적 생성
             string enemyObjPath = string.Empty;
             int enemyId = -1;
+            bool isBoss=false;
             
             if(i == dataLength-1)   // 보스몹의 경우
+            {
                 enemyId = dungeonMonsterData.BossMonsterId;
+                isBoss = true;
+            }
             else
                 enemyId = dungeonMonsterData.MinionMonsterIds[i];    
             
@@ -263,6 +257,9 @@ public class BattleManager : Singletone<BattleManager> {
             EnemyUnit enemy = Instantiate((GameObject)Resources.Load(enemyObjPath)).GetComponent<EnemyUnit>();
             enemy.transform.position = EnemyPosList[i].position;
             enemy.transform.rotation = EnemyPosList[i].rotation;
+            if(isBoss)
+                enemy.IsBoss = true;
+
             EnemyUnitList.Add(enemy);
 
             // 적 능력치 셋팅(단수에 맞게)
@@ -530,31 +527,23 @@ public class BattleManager : Singletone<BattleManager> {
 
     void OnEnemyDeath (bool isDeath) {
         PlayerState = Graduate.Unit.E_UnitState.None;
-        Debug.LogError("PlayerState = Graduate.Unit.E_UnitState.None;");
         if(monsterCasting != null) 
         {
             Debug.LogError("StopCoroutine(monsterCasting);");
             StopCoroutine(monsterCasting);
         }
             
-            
         OnCastingEnd.Execute();
-        Debug.LogError("OnCastingEnd.Execute();");
         if (aliveEnemyCount == 0) {
             StopCoroutine (CalculateRemainCount ());
-            Debug.LogError("StopCoroutine (CalculateRemainCount ());");
             // ui상으로 보여주기
 
             OnGameEnd.Execute (true, thisBattleRewardData);
-            Debug.LogError("OnGameEnd.Execute (true, thisBattleRewardData);");
             CalculateReward (true);
-            Debug.LogError("CalculateReward (true);");
             isBattleEnd = true;
-            Debug.LogError("isBattleEnd = true;");
             //BattlePhase = E_BattlePhase.End;
         } else {
             NowEnemy = null;
-            Debug.LogError("NowEnemy = null;");
             for (int i = 0; i < EnemyUnitList.Count; i++) {
                 // if (EnemyUnitList[i].EnemyUnitState == Graduate.Unit.E_UnitState.Death)
                 //     continue;
@@ -563,7 +552,6 @@ public class BattleManager : Singletone<BattleManager> {
                     // NowEnemy = EnemyUnitList[i];
                     // float hpValue = nowEnemy.HP
                     SetTargetEnemy();
-                    Debug.LogError("SetTargetEnemy();");
                     // NowEnemy = enemy;
                     // float hpValue = NowEnemy.HP / dungeonPattern.EnemyHealth;
                     // OnUpdateEnemyHpBar.Execute (dungeonPattern.EnemyName, hpValue);
@@ -798,6 +786,27 @@ public class BattleManager : Singletone<BattleManager> {
             calculatedDamage *= 2;
         }
             
+        // todo 이펙트
+        // 생흡 효과 유무
+        if(ActivatedBattleBuff != null && ActivatedBattleBuff.BattleBuffType == E_BattleBuffType.DrainHealthPerDamage)
+        {
+            if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Warlock) != null)
+            {
+                float percentVal = Convert.ToInt32(ActivatedBattleBuff.EffectValue/100);
+                float healValue = Convert.ToInt32(calculatedDamage*percentVal);
+                
+                Debug.LogError("Leech HealValue: "+healValue);
+                DamageFloatManager.Instance.ShowDamageFont (PlayerUnitList[0].gameObject, healValue, E_DamageType.Heal);
+                nowplayerHealth += (int)healValue;
+                if(nowplayerHealth > MaxPlayerHealth)   // 최대생명력을 넘지 않게
+                    nowplayerHealth = MaxPlayerHealth;
+
+                float playerHealthPer = (float) nowplayerHealth / (float) MaxPlayerHealth;
+                OnDamagedPlayer.Execute (playerHealthPer);
+
+                ActivatedBattleBuff = null;
+            }
+        }
 
         Debug.Log ("[Test]Damage from player: " + calculatedDamage);
         return calculatedDamage;
@@ -829,27 +838,54 @@ public class BattleManager : Singletone<BattleManager> {
 
         int finalDamage = damage;
         finalDamage -= AllDef / 10; // 캐릭터들 방어력 적용
-        if (finalDamage <= 0)
-            finalDamage = 1; // 최소 1 데미지는 들어가야함
 
-        // todo 이펙트
+        
         // todo 뎀감 특성 유무 계산
+        if(ActivatedBattleBuff != null)
+        {
+            switch (ActivatedBattleBuff.BattleBuffType)
+            {
+                case E_BattleBuffType.DecreasDamage:
+                    float percentValue = Convert.ToInt32(ActivatedBattleBuff.EffectValue/100);
+                    finalDamage = Convert.ToInt32(finalDamage*percentValue);
+                    break;
+
+                case E_BattleBuffType.Invincible:
+                    finalDamage = 0;
+                    break;
+            }
+        }
+
+        // if (finalDamage <= 0)
+        //     finalDamage = 1; // 최소 1 데미지는 들어가야함
+        // todo 이펙트
 
         DamageFloatManager.Instance.ShowDamageFont (PlayerUnitList[0].gameObject, finalDamage, E_DamageType.Normal);
         nowplayerHealth -= finalDamage;
         if (nowplayerHealth <= 0) {
-            StopCoroutine (CalculateRemainCount ());
-            nowplayerHealth = 0;
-            PlayerState = Graduate.Unit.E_UnitState.Death;
-            CalculateReward (false);
-            OnGameEnd.Execute (false, thisBattleRewardData);
-            isBattleEnd = true;
-            //BattlePhase = E_BattlePhase.End;
+            if (ActivatedBattleBuff != null && ActivatedBattleBuff.BattleBuffType == E_BattleBuffType.CheatDeath)
+            {
+                float percentValue = (float)ActivatedBattleBuff.EffectValue/100f;
+                nowplayerHealth = Convert.ToInt32(MaxPlayerHealth*percentValue);
+                Debug.LogError("Cheat death is activated!");
+            }
+            else
+            {
+                StopCoroutine (CalculateRemainCount ());
+                nowplayerHealth = 0;
+                PlayerState = Graduate.Unit.E_UnitState.Death;
+                CalculateReward (false);
+                OnGameEnd.Execute (false, thisBattleRewardData);
+                isBattleEnd = true;
+                //BattlePhase = E_BattlePhase.End;
+            }
+            
         }
 
         float playerHealthPer = (float) nowplayerHealth / (float) MaxPlayerHealth;
         OnDamagedPlayer.Execute (playerHealthPer);
         Debug.Log ("[Test] Damage from monster: " + finalDamage);
+        ActivatedBattleBuff = null;
     }
 
     void CalculateReward (bool isClear) {
@@ -926,15 +962,78 @@ public class BattleManager : Singletone<BattleManager> {
         isBattleEnd = true;
         BattlePhase = E_BattlePhase.End;
     }
-
+    public Action<float, bool> StartUtilCoolDown {get; set;}
+    public Action<float, bool> StartHealCoolDown {get; set;}
     public void ExecuteUtilPropertySkill()
     {
         // maybe clocking
-        
+        if(!IsFirstPropertyCooldownComplite)
+            return;
+
+        if(nowEnemy == null)
+            return;
+
+        if(nowEnemy.IsBoss)
+            return; // 보스는 해당안됨
+      
+        // 적 패스
+        if(CharacterPropertyManager.Instance.SelectedUtilProperty != null
+        && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.RogueUtilMaserty_Clocking)
+        {
+            // 해당 용병이 출전했을때만 사용가능
+            if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Rogue) != null)
+                nowEnemy.EnemyUnitState = Graduate.Unit.E_UnitState.Death;
+        }
+
+        float time = CharacterPropertyManager.Instance.SelectedUtilProperty.CoolTime;
+        StartUtilCoolDown.Execute(time, true);
     }
 
     public void ExecuteHealPropertySkill()
     {
+        if(!IsSecondPropertyCooldownComplite)
+            return;
 
+        // 특성에 맞게 다르게
+        if(CharacterPropertyManager.Instance.SelectedHealingProperty != null)
+        {
+            BattleBuff buff = null;
+            CharacterProperty property = CharacterPropertyManager.Instance.SelectedHealingProperty;
+            // 여기서 특성별로 다르게
+            switch (CharacterPropertyManager.Instance.SelectedHealingProperty.EffectType)
+            {
+                case E_PropertyEffectType.WarriorHealingMaserty_DecreaseDamageFromEnemy:
+                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Warrior) != null)
+                        buff = new BattleBuff(E_BattleBuffType.DecreasDamage, property.EffectValue);
+                    break;
+
+                case E_PropertyEffectType.MageHealingMaserty_Invincible:
+                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Mage) != null)
+                        buff = new BattleBuff(E_BattleBuffType.Invincible, property.EffectValue);
+                    break;
+
+                case E_PropertyEffectType.WarlockHealingMaserty_DrainHealthPerDamage:
+                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Warlock) != null)
+                        buff = new BattleBuff(E_BattleBuffType.DrainHealthPerDamage, property.EffectValue);
+                    break;
+
+                case E_PropertyEffectType.RogueHealingMaserty_CheatDeath:
+                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Rogue) != null)
+                        buff = new BattleBuff(E_BattleBuffType.CheatDeath, property.EffectValue);
+                    break;
+            }
+
+            if (buff != null)
+            {
+                Debug.LogError("There is no valid unit to use propertySkill");
+                return;
+            }
+
+            ActivatedBattleBuff = buff;
+            
+        }
+
+        float time = CharacterPropertyManager.Instance.SelectedHealingProperty.CoolTime;
+        StartHealCoolDown.Execute(time, false);
     }
 }

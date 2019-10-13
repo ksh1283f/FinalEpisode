@@ -1,7 +1,7 @@
 ﻿Id,EnemyName,EnemyHealth,Path,PatternDescription,PatternTerm,SkillCount,Skill1,Skill2,Skill3,Skill4,Skill5,Skill6
 0,DarkMage,2000,BattleCharacters/EnemyWizard,흑마법,5,6,0,1,2,3,4,5
 1,Wizard,3000,BattleCharacters/EnemyWizard,마법,4,3,6,7,8,,,
-2,Goblin,50000,BattleCharacters/EnemyGoblinRouge,흑마법,3,3,13,14,16,,,
+2,Goblin,500,BattleCharacters/EnemyGoblinRouge,흑마법,3,3,13,14,16,,,
 3,IceMage,700,BattleCharacters/EnemyIceMage,흑마법,3,3,12,17,3,,,
 4,OrcGrunt,800,BattleCharacters/EnemyGrunt,흑마법,3,3,21,22,23,,,
 5,OrcNecromancer,600,BattleCharacters/EnemyNecromancer,흑마법,3,3,15,20,19,,,

@@ -17,6 +17,7 @@
         public Action<int> OnDamagedEnemy { get; set; }
         public Action<bool> OnDeathEnemy { get; set; }
         public E_EnemySequence Sequence;
+        public bool IsBoss;
         public E_UnitState EnemyUnitState
         {
             get { return unitState; }

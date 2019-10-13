@@ -58,6 +58,8 @@ public class BattleUI : uiSingletone<BattleUI>
         BattleManager.Instance.OnUpdatedPlayerSkill += buttonWindow.UpdateUtillHealSkill;
         buttonWindow.OnClickBtnFirstProperty += BattleManager.Instance.ExecuteUtilPropertySkill;
         buttonWindow.OnClickBtnSecondProperty += BattleManager.Instance.ExecuteHealPropertySkill;
+        BattleManager.Instance.StartUtilCoolDown += buttonWindow.StartPropertyCoolDown;
+        BattleManager.Instance.StartHealCoolDown += buttonWindow.StartPropertyCoolDown;
 
         buttonWindow.gameObject.SetActive(false);
         castWindow.ShowCastWindow(false);

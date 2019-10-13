@@ -20,7 +20,12 @@ public class SaveDataManager : Singletone<SaveDataManager>
 
     void Start()
     {
+#if UNITY_EDITOR
         dataFullPath = string.Concat(Application.dataPath, dataPath);
+#elif UNITY_ANDROID || UNITY_IOS
+        dataFullPath = string.Concat(Application.persistentDataPath, dataPath);
+#endif
+
         isSavedUserInfo = PlayerPrefs.GetInt(IsSavedUserInfo) == 1;
 
 #if DEVELOPMENT_BUILD

@@ -30,6 +30,11 @@ public class ButtonWindow : MonoBehaviour
     List<Image> cooldownImageList;
     List<Text> cooldownTextList;
 
+    Image firstPropertyCoolDownImage;
+    Image secondPropertyCoolDownImage;
+    Text firstPropertyCoolDownText;
+    Text secondPropertyCoolDownText;
+
     // 버튼 클릭 관련 콜백
     // - 생성관련
     public Action<E_SkillResourceType> OnClickedAttackResourceBtn { get; set; }
@@ -64,7 +69,16 @@ public class ButtonWindow : MonoBehaviour
         cooldownTextList.Add(GetCooldownText(btnComplex));
         cooldownTextList.Add(GetCooldownText(btnDefense));
 
+        firstPropertyCoolDownImage = GetCooldownImage(btnFirstProperty);
+        firstPropertyCoolDownText = GetCooldownText(btnFirstProperty);
+        secondPropertyCoolDownImage = GetCooldownImage(btnSecondProperty);
+        secondPropertyCoolDownText = GetCooldownText (btnSecondProperty);
+
         SetActiveCooldown(!BattleManager.Instance.IsCooldownComplite);
+        firstPropertyCoolDownImage.gameObject.SetActive(false);
+        firstPropertyCoolDownText.gameObject.SetActive(false);
+        secondPropertyCoolDownImage.gameObject.SetActive(false);
+        secondPropertyCoolDownText.gameObject.SetActive(false);
     }
 
     public void InitCallBacks()
@@ -147,39 +161,73 @@ public class ButtonWindow : MonoBehaviour
         return text;
     }
 
-    public void StartPropertyCoolDown(float time, Button btn)
+    public void StartPropertyCoolDown(float time, bool isFirst)
     {
-        if(btn == null)
+        if(btnFirstProperty == null)
         {
-            Debug.LogError("btn is null");
+            Debug.LogError("btn1 is null");
             return;
         }
 
-        StopCoroutine(FirstPropertyCoolDown(time, btn));
-        StartCoroutine(FirstPropertyCoolDown(time, btn));
+        if(btnSecondProperty == null)
+        {
+            Debug.LogError("btn2 is null");
+            return;
+        }
+
+        if(isFirst)
+        {
+            StopCoroutine(FirstPropertyCoolDown(time, btnFirstProperty));
+            StartCoroutine(FirstPropertyCoolDown(time, btnFirstProperty));
+        }
+        else
+        {
+            StopCoroutine(SecondPropertyCoolDown(time, btnSecondProperty));
+            StartCoroutine(SecondPropertyCoolDown(time, btnSecondProperty));
+        }
+        
     }
 
     IEnumerator FirstPropertyCoolDown(float time, Button btn)
     {
-        // todo 사용후 버튼 쿨다운 프로세스
-        // BattleManager.Instance.IsCooldownComplite = false;
+        BattleManager.Instance.IsFirstPropertyCooldownComplite = false;
         float inTime = time;
-        SetActiveCooldown(true);
+        firstPropertyCoolDownImage.gameObject.SetActive(true);
+        firstPropertyCoolDownText.gameObject.SetActive(true);
 
-        while (time > 0)
+        while (inTime > 0)
         {
-            time -= Time.deltaTime;
-            for (int i = 0; i < cooldownImageList.Count; i++)
-            {
-                cooldownImageList[i].fillAmount = inTime / time;
-                cooldownTextList[i].text = String.Format("{0:0.#}",inTime);
-            }
+            inTime -= Time.deltaTime;
+            firstPropertyCoolDownImage.fillAmount = inTime/time;
+            firstPropertyCoolDownText.text = string.Format("{0:#}",inTime);
 
             yield return new WaitForFixedUpdate();
         }
 
-        SetActiveCooldown(false);
-        // BattleManager.Instance.IsCooldownComplite = true;
+        firstPropertyCoolDownImage.gameObject.SetActive(false);
+        firstPropertyCoolDownText.gameObject.SetActive(false);
+        BattleManager.Instance.IsFirstPropertyCooldownComplite = false;
+    }
+
+    IEnumerator SecondPropertyCoolDown(float time, Button btn)
+    {
+        BattleManager.Instance.IsSecondPropertyCooldownComplite = false;
+        float inTime = time;
+        secondPropertyCoolDownImage.gameObject.SetActive(true);
+        secondPropertyCoolDownText.gameObject.SetActive(true);
+
+        while (inTime > 0)
+        {
+            inTime -= Time.deltaTime;
+            secondPropertyCoolDownImage.fillAmount = inTime / time;
+            secondPropertyCoolDownText.text = String.Format("{0:#}",inTime);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        secondPropertyCoolDownImage.gameObject.SetActive(false);
+        secondPropertyCoolDownText.gameObject.SetActive(false);
+        BattleManager.Instance.IsSecondPropertyCooldownComplite = false;
     }
 
     // 글쿨
@@ -247,6 +295,8 @@ public class ButtonWindow : MonoBehaviour
         {
             btnFirstProperty.image.sprite =  null;
             btnFirstProperty.interactable = false;
+            firstPropertyCoolDownImage.gameObject.SetActive(false);
+            firstPropertyCoolDownText.gameObject.SetActive(false);
         }
 
         if(CharacterPropertyManager.Instance.SelectedHealingProperty != null)
@@ -257,6 +307,8 @@ public class ButtonWindow : MonoBehaviour
         {
             btnSecondProperty.image.sprite = null;
             btnSecondProperty.interactable = false;
+            secondPropertyCoolDownImage.gameObject.SetActive(false);
+            secondPropertyCoolDownText.gameObject.SetActive(false);
         }
     }
 }

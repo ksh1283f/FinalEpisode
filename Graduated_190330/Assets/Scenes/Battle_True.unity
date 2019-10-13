@@ -8037,6 +8037,8 @@ MonoBehaviour:
   battlePhase: 0
   nowEnemy: {fileID: 0}
   IsCooldownComplite: 1
+  IsFirstPropertyCooldownComplite: 1
+  IsSecondPropertyCooldownComplite: 1
   playerPosList:
   - {fileID: 1552359061}
   - {fileID: 962337419}
