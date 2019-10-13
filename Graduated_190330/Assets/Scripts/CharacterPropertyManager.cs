@@ -9,6 +9,44 @@ public enum E_BattlePropertyType {
     Healing,
 }
 
+public enum E_BattleBuffType
+{
+    None,
+    Clocking,
+    DecreasDamage,
+    Invincible,
+    DrainHealthPerDamage,
+    CheatDeath,
+}
+
+public class BattleBuff
+{
+    public E_BattleBuffType BattleBuffType {get; private set;}
+    public int EffectValue {get; private set;}
+    public bool IsReady;    // 사용가능
+    public bool IsUsed; // 사용한상태
+
+    public BattleBuff(E_BattleBuffType buffType, int effectValue)
+    {
+        BattleBuffType = buffType;
+        EffectValue = effectValue;
+        IsReady = true;
+        IsUsed = false;
+    }
+
+    public void ActiveBuff()
+    {
+        IsReady = false;
+        IsUsed = true;
+    }
+
+    public void ReadyToUseBuff()
+    {
+        IsReady = true;
+        IsUsed = false;
+    }
+}
+
 public class CharacterPropertyManager : Singletone<CharacterPropertyManager> {
     public Dictionary<E_PropertyEffectType, CharacterProperty> CommonPropertyDic { get; private set; }
 

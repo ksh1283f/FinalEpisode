@@ -31,7 +31,7 @@ public class BattleManager : Singletone<BattleManager> {
      *  3.1 몹이 다가옴
      *  3.2 몹 캐스팅
      * 전투 작용
-     */
+    */
 
     public const int MAX_SKILL_RESOURCE_COUNT = 5;
     public Action<bool, RewardData> OnGameEnd { get; set; }
@@ -51,6 +51,7 @@ public class BattleManager : Singletone<BattleManager> {
     public Action OnCastingEnd { get; set; }
     public Action<float> OnCastProgress { get; set; }
     public Action<float> OnCalculatedRemainTime { get; set; }
+    public Action OnUpdatedPlayerSkill{get; set;}
 
     public int AttackResourceCount { get; private set; } // 보유중인 공격 자원 개수
     public int UtilResourceCount { get; private set; } // 보유중인 유틸 자원 개수
@@ -119,12 +120,17 @@ public class BattleManager : Singletone<BattleManager> {
     bool isCorrespondPattern = false; // 패턴대응여부
     public float Cooltime { get; private set; }
     public bool IsCooldownComplite = true;
+    public bool IsFirstPropertyCooldownComplite = true;
+    public bool IsSecondPropertyCooldownComplite = true;
     public RewardData thisBattleRewardData { get; private set; }
     public Action<float> OnStartCooldown { get; set; }
+    public Dictionary<E_BattleBuffType, BattleBuff> BattleBuffDic = new Dictionary<E_BattleBuffType, BattleBuff>();
 
     [SerializeField] List<Transform> playerPosList = new List<Transform>();
     [SerializeField] List<Graduate.Unit.Player.PlayerUnit> playerObjList = new List<Graduate.Unit.Player.PlayerUnit>();
     [SerializeField] List<Transform> EnemyPosList = new List<Transform>();
+    
+
     Follow mainFollowCam;
     Coroutine monsterCasting;
     bool shouldGoToNext =false;
@@ -147,7 +153,6 @@ public class BattleManager : Singletone<BattleManager> {
         OnExecuteMonsterCasting += (pattern) => { monsterCasting = StartCoroutine (MonsterCast (pattern.CastTime)); };
         mainFollowCam = Camera.main.GetComponent<Follow>();
 
-        // PlayerUnitList = new List<PlayerUnit>();
         int index = 0;
         foreach (var item in UserManager.Instance.UserInfo.SelectedUnitDic) {
             
@@ -178,6 +183,26 @@ public class BattleManager : Singletone<BattleManager> {
             player.Def = item.Value.Def;
             MaxPlayerHealth += item.Value.Hp;
             player.Id = item.Key;
+            // 특성 체크ㅋ
+            if(CharacterPropertyManager.Instance.SelectedUtilProperty!= null 
+            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense
+            && player.CharacterType == E_CharacterType.Warrior)
+                AllDef += CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue;
+            else if (CharacterPropertyManager.Instance.SelectedUtilProperty != null
+            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarlockUtilMaserty_Healing
+            && player.CharacterType == E_CharacterType.Warlock)
+                AllCri += CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue;
+            else if(CharacterPropertyManager.Instance.SelectedUtilProperty != null
+            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.RogueUtilMaserty_Clocking
+            && player.CharacterType == E_CharacterType.Rogue)
+            {
+                if(!BattleBuffDic.ContainsKey(E_BattleBuffType.Clocking))
+                {
+                    BattleBuff buff = new BattleBuff(E_BattleBuffType.Clocking,CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue);
+                    BattleBuffDic.Add(buff.BattleBuffType, buff);
+                }
+            }
+
             PlayerUnitList.Add(player);
 
             if(index == 0)
@@ -186,7 +211,8 @@ public class BattleManager : Singletone<BattleManager> {
             index++;
         }
 
-        // BattlePhase = E_BattlePhase.ShowLogo;
+        OnUpdatedPlayerSkill.Execute();
+
         BattlePhase = E_BattlePhase.Init;
         PhaseCheckerList = FindObjectsOfType<PhaseChecker> ().ToList ();
         if (PhaseCheckerList != null) {
@@ -276,34 +302,27 @@ public class BattleManager : Singletone<BattleManager> {
     Graduate.Unit.Enemy.EnemyUnit SetTargetEnemy()
     {
         Graduate.Unit.Enemy.EnemyUnit tempEnemy = null;
-        Debug.LogError("Graduate.Unit.Enemy.EnemyUnit tempEnemy = null;");
         for (int i = 0; i < EnemyUnitList.Count; i++) {
             if(EnemyUnitList[i] == null || EnemyUnitList[i].EnemyUnitState == Graduate.Unit.E_UnitState.Death)
             {
-                Debug.LogError("EnemyUnitList[i] == null || EnemyUnitList[i].EnemyUnitState == Graduate.Unit.E_UnitState.Death)");
                 continue;
             }
                 
-
             if (tempEnemy == null) {
                 tempEnemy = EnemyUnitList[i];
-                Debug.LogError("tempEnemy = EnemyUnitList[i];");
                 continue;
             }
 
             if (tempEnemy.Sequence > EnemyUnitList[i].Sequence)
             {
                 tempEnemy = EnemyUnitList[i];
-                Debug.LogError("tempEnemy = EnemyUnitList[i];");
             }
                 
         }
 
         // todo 타겟이 갱신될때마다 해줄 필요
         NowEnemy = tempEnemy;
-        Debug.LogError("NowEnemy = tempEnemy;");
         dungeonPattern = GameDataManager.Instance.DungeonPatternDataDic[NowEnemy.Id];
-        Debug.LogError("dungeonPattern = GameDataManager.Instance.DungeonPatternDataDic[NowEnemy.Id];");
         if(dungeonPattern == null)
         {
             Debug.LogError("dungeonPattern is null");
@@ -312,7 +331,6 @@ public class BattleManager : Singletone<BattleManager> {
 
         float hpValue = NowEnemy.HP / dungeonPattern.EnemyHealth;
         OnUpdateEnemyHpBar.Execute (dungeonPattern.EnemyName, hpValue);
-        Debug.LogError("OnUpdateEnemyHpBar.Execute (dungeonPattern.EnemyName, hpValue);");
         return tempEnemy;
     }
 
@@ -490,8 +508,8 @@ public class BattleManager : Singletone<BattleManager> {
     DungeonPattern dungeonPattern;
     EnemyPattern thisPattern;
     List<UnitData> unitDataList = new List<UnitData> ();
-    int MaxPlayerHealth = 0;
-    int nowplayerHealth = 0;
+    [SerializeField]int MaxPlayerHealth = 0;
+    [SerializeField]int nowplayerHealth = 0;
 
     Graduate.Unit.E_UnitState playerState = Graduate.Unit.E_UnitState.None;
     public Graduate.Unit.E_UnitState PlayerState {
@@ -562,7 +580,43 @@ public class BattleManager : Singletone<BattleManager> {
 
     }
 
+    void StartHealOverTime()
+    {
+        if(CharacterPropertyManager.Instance.SelectedUtilProperty == null || CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType != E_PropertyEffectType.MageUtilMaserty_HOT)
+            return;
 
+        int mageNum = 0;
+        for (int i = 0; i < PlayerUnitList.Count; i++)
+        {
+            if(PlayerUnitList[i].CharacterType == E_CharacterType.Mage)
+                mageNum++;
+        }
+
+        // 마법사가 없으면 종료
+        if(mageNum  == 0)
+            return;
+
+        StopCoroutine(HealOverTime(mageNum));
+        StartCoroutine(HealOverTime(mageNum));
+    }
+
+    IEnumerator HealOverTime(float mageNum)
+    {
+        while (!isBattleEnd || nowplayerHealth >=0) {
+
+            yield return new WaitForSeconds (1f);
+            float healValue = ((float)CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue * mageNum/100);
+            healValue *= MaxPlayerHealth;
+            Debug.LogError("HealValue: "+healValue);
+            DamageFloatManager.Instance.ShowDamageFont (PlayerUnitList[0].gameObject, healValue, E_DamageType.Heal);
+            nowplayerHealth += (int)healValue;
+            if(nowplayerHealth > MaxPlayerHealth)   // 최대생명력을 넘지 않게
+                nowplayerHealth = MaxPlayerHealth;
+
+            float playerHealthPer = (float) nowplayerHealth / (float) MaxPlayerHealth;
+            OnDamagedPlayer.Execute (playerHealthPer);
+        }   
+    }
 
     void StartCountTime () {
         StopCoroutine (CalculateRemainCount ());
@@ -589,6 +643,8 @@ public class BattleManager : Singletone<BattleManager> {
 
     void StartBattle () {
         StartCountTime ();
+        // 마법사 패시브 
+        StartHealOverTime();
         StopCoroutine (Battle ());
         StartCoroutine (Battle ());
     }
@@ -598,9 +654,7 @@ public class BattleManager : Singletone<BattleManager> {
     public bool isBattleEnd = false;
     IEnumerator Battle() {
         while (!isBattleEnd)
-        {
-            // todo 191008 타겟이 제대로 갱신이 안됨!
-            
+        {   
             Target = SetTargetEnemy();
             IsEncounterEnemy = false;
 
@@ -737,8 +791,8 @@ public class BattleManager : Singletone<BattleManager> {
         calculatedDamage += AttackResourceCount * calculatedDamage;
 
         float cri = UnityEngine.Random.Range (0f, 1f);
-        float criValue = 0f; //todo 크리확률 받아오는 작업 필요
-        if (criValue < cri)
+        float criValue = (float)AllCri / 100; //todo 크리확률 받아오는 작업 필요
+        if (criValue >= cri)
         {
             Debug.LogError("Critical!");
             calculatedDamage *= 2;
@@ -759,6 +813,9 @@ public class BattleManager : Singletone<BattleManager> {
         if (NowEnemy.EnemyUnitState == Graduate.Unit.E_UnitState.Death)
             return;
 
+        // todo  이펙트
+        // 뎀증 특성 유무 계산
+
         //ui 갱신
         DamageFloatManager.Instance.ShowDamageFont (NowEnemy.gameObject, damage, E_DamageType.Normal);
         float enemyHealthPer = (float) NowEnemy.HP / (float) dungeonPattern.EnemyHealth;
@@ -774,6 +831,9 @@ public class BattleManager : Singletone<BattleManager> {
         finalDamage -= AllDef / 10; // 캐릭터들 방어력 적용
         if (finalDamage <= 0)
             finalDamage = 1; // 최소 1 데미지는 들어가야함
+
+        // todo 이펙트
+        // todo 뎀감 특성 유무 계산
 
         DamageFloatManager.Instance.ShowDamageFont (PlayerUnitList[0].gameObject, finalDamage, E_DamageType.Normal);
         nowplayerHealth -= finalDamage;
@@ -865,5 +925,16 @@ public class BattleManager : Singletone<BattleManager> {
     public void LoadLobbyScene () {
         isBattleEnd = true;
         BattlePhase = E_BattlePhase.End;
+    }
+
+    public void ExecuteUtilPropertySkill()
+    {
+        // maybe clocking
+        
+    }
+
+    public void ExecuteHealPropertySkill()
+    {
+
     }
 }

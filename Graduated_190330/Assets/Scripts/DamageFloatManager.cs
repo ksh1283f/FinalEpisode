@@ -75,7 +75,7 @@ public class DamageFloatManager : Singletone<DamageFloatManager>
 
         // 타겟을 기반으로 하여 생성 좌표 결정
         dfObj.transform.position = target.transform.position + new Vector3(Random.value - 0.5f, 0.5f + Random.value, -1f);
-        Debug.LogError("dfObj.transform.position: " + dfObj.transform.position);
+        // Debug.LogError("dfObj.transform.position: " + dfObj.transform.position);
         // damageValue를 이용하여 표시값 설정
         // 애니메이션 재생?
         dfObj.Directing();

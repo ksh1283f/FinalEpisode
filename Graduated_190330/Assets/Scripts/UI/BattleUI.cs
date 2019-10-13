@@ -55,6 +55,9 @@ public class BattleUI : uiSingletone<BattleUI>
         BattleManager.Instance.OnCorrespondPattern += castWindow.ShowSuccessMessage;
         BattleManager.Instance.OnCalculatedRemainTime += SetTimerText;
         battleEndWindow.OnClickedBtnOk += BattleManager.Instance.LoadLobbyScene;
+        BattleManager.Instance.OnUpdatedPlayerSkill += buttonWindow.UpdateUtillHealSkill;
+        buttonWindow.OnClickBtnFirstProperty += BattleManager.Instance.ExecuteUtilPropertySkill;
+        buttonWindow.OnClickBtnSecondProperty += BattleManager.Instance.ExecuteHealPropertySkill;
 
         buttonWindow.gameObject.SetActive(false);
         castWindow.ShowCastWindow(false);

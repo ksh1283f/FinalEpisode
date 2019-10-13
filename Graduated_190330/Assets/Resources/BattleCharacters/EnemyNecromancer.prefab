@@ -1354,7 +1354,7 @@ GameObject:
   - component: {fileID: 111704734807669294}
   - component: {fileID: 136996195551712686}
   - component: {fileID: 54133198286196410}
-  - component: {fileID: 114804705086227552}
+  - component: {fileID: 1095611511790798111}
   m_Layer: 8
   m_Name: EnemyNecromancer
   m_TagString: Player
@@ -1437,7 +1437,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &114804705086227552
+--- !u!114 &1095611511790798111
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1446,13 +1446,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1765079340274656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6480821d72b091b469882361b2bb4da8, type: 3}
+  m_Script: {fileID: 11500000, guid: 7183347e681414c2cbdf6b0972b50e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 100
-  Atk: 10
-  Def: 10
+  HP: 0
+  Atk: 0
+  Def: 0
+  Id: 0
   unitState: 0
+  Sequence: 0
 --- !u!1 &1883807815728188
 GameObject:
   m_ObjectHideFlags: 0

@@ -61,7 +61,18 @@ public class StatWindow : MonoBehaviour
             UnitData unitData = unitDataList[i];
             allHp += unitData.Hp;
             allAtk += unitData.Atk;
+            allCri += unitData.Cri;
             allDef += unitData.Def;
+
+            // todo 방어력 상승 특성 유무 체크
+            if(CharacterPropertyManager.Instance.SelectedUtilProperty!= null 
+            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense
+            && unitData.CharacterType == E_CharacterType.Warrior)
+                allDef += CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue;
+            else if (CharacterPropertyManager.Instance.SelectedUtilProperty != null
+            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarlockUtilMaserty_Healing
+            && unitData.CharacterType == E_CharacterType.Warlock)
+                allCri += CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue;
         }
 
         StringBuilder sb = new StringBuilder();

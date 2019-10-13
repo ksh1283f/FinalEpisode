@@ -22,6 +22,9 @@ public class ButtonWindow : MonoBehaviour
     [SerializeField] Image enemyHpBar;
     [SerializeField] GameObject enemyHpBarObj;
     [SerializeField] Text enemyName;
+
+    [SerializeField] Button btnFirstProperty;
+    [SerializeField] Button btnSecondProperty;
     /**************************** */
 
     List<Image> cooldownImageList;
@@ -37,6 +40,9 @@ public class ButtonWindow : MonoBehaviour
     public Action<E_SkillResourceType> OnClickedUtilBtn { get; set; }
     public Action<E_UserSkillType> OnClickedComplexBtn { get; set; }
     public Action<E_SkillResourceType> OnClickedDefenseBtn { get; set; }
+
+    public Action OnClickBtnFirstProperty { get; set; }
+    public Action OnClickBtnSecondProperty { get; set; }
 
     void Start()
     {
@@ -81,6 +87,12 @@ public class ButtonWindow : MonoBehaviour
         if (btnDefense == null)
             return;
 
+        if(btnFirstProperty == null)
+            return;
+
+        if(btnSecondProperty == null)
+            return;
+
         btnAttackResource.onClick.AddListener(() => OnClickedAttackResourceBtn.Execute(E_SkillResourceType.Attack));
         btnUtilResource.onClick.AddListener(() => OnClickedUtilResourceBtn.Execute(E_SkillResourceType.Util));
         btnDefenseResource.onClick.AddListener(() => OnClickedDefenseResourceBtn.Execute(E_SkillResourceType.Defense));
@@ -88,6 +100,8 @@ public class ButtonWindow : MonoBehaviour
         btnUtil.onClick.AddListener(() => OnClickedUtilBtn.Execute(E_SkillResourceType.Util));
         btnDefense.onClick.AddListener(() => OnClickedDefenseBtn.Execute(E_SkillResourceType.Defense));
         btnComplex.onClick.AddListener(() => OnClickedComplexBtn.Execute(E_UserSkillType.AttackAndUtil));
+        btnFirstProperty.onClick.AddListener(()=>OnClickBtnFirstProperty.Execute());
+        btnSecondProperty.onClick.AddListener(()=>OnClickBtnSecondProperty.Execute());
     }
 
     public void InitEnemyHpBar(string name, float value)
@@ -133,6 +147,41 @@ public class ButtonWindow : MonoBehaviour
         return text;
     }
 
+    public void StartPropertyCoolDown(float time, Button btn)
+    {
+        if(btn == null)
+        {
+            Debug.LogError("btn is null");
+            return;
+        }
+
+        StopCoroutine(FirstPropertyCoolDown(time, btn));
+        StartCoroutine(FirstPropertyCoolDown(time, btn));
+    }
+
+    IEnumerator FirstPropertyCoolDown(float time, Button btn)
+    {
+        // todo 사용후 버튼 쿨다운 프로세스
+        // BattleManager.Instance.IsCooldownComplite = false;
+        float inTime = time;
+        SetActiveCooldown(true);
+
+        while (time > 0)
+        {
+            time -= Time.deltaTime;
+            for (int i = 0; i < cooldownImageList.Count; i++)
+            {
+                cooldownImageList[i].fillAmount = inTime / time;
+                cooldownTextList[i].text = String.Format("{0:0.#}",inTime);
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        SetActiveCooldown(false);
+        // BattleManager.Instance.IsCooldownComplite = true;
+    }
+
     // 글쿨
     public void StartCooldown(float time)
     {
@@ -172,6 +221,42 @@ public class ButtonWindow : MonoBehaviour
         {
             cooldownImageList[i].gameObject.SetActive(IsActive);
             cooldownTextList[i].gameObject.SetActive(IsActive);
+        }
+    }
+
+    public void UpdateUtillHealSkill()
+    {
+        if(btnFirstProperty == null)
+        {
+            Debug.LogError("btnfirstProperty is null");
+            return;
+        }
+
+        if(btnSecondProperty == null)
+        {
+            Debug.LogError("btnSecondProperty is null");
+            return;
+        }
+
+        if(CharacterPropertyManager.Instance.SelectedHealingProperty != null
+        &&CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.RogueUtilMaserty_Clocking)
+        {
+            btnFirstProperty.image.sprite = Resources.Load<Sprite>(CharacterPropertyManager.Instance.SelectedUtilProperty.ImagePath);
+        }
+        else 
+        {
+            btnFirstProperty.image.sprite =  null;
+            btnFirstProperty.interactable = false;
+        }
+
+        if(CharacterPropertyManager.Instance.SelectedHealingProperty != null)
+        {
+            btnSecondProperty.image.sprite = Resources.Load<Sprite>(CharacterPropertyManager.Instance.SelectedHealingProperty.ImagePath);
+        }
+        else
+        {
+            btnSecondProperty.image.sprite = null;
+            btnSecondProperty.interactable = false;
         }
     }
 }
