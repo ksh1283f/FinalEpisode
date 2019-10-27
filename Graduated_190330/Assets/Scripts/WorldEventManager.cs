@@ -109,6 +109,7 @@ public class WorldEventManager : Singletone<WorldEventManager> {
             float effectValue = 1-((float)PresentWorldEventData.EventEffectValue/100);
             essentialData.UpdatePrice(Convert.ToInt32(essentialData.Price*effectValue));
             eventUnitList.Add(essentialData);
+            int createdId = GetCreatedUnitID(200,300,true);
         }
 
         for (int i = 0; i < unitListCount; i++)
@@ -168,8 +169,12 @@ public class WorldEventManager : Singletone<WorldEventManager> {
                     eventUnit.UpdatePrice(Convert.ToInt32(eventUnit.Price * effectValue));
                     break;
             }
-
-            eventUnitList.Add(eventUnit);
+            if(eventUnit!= null)
+            {
+                int createdUnitId = GetCreatedUnitID(200,300,true);
+                eventUnit.UpdateUnitID(createdUnitId);
+                eventUnitList.Add(eventUnit);
+            }
         }
     }
 
@@ -193,14 +198,20 @@ public class WorldEventManager : Singletone<WorldEventManager> {
         return;
     }
 
-    public int GetCreatedUnitID()
+    public void RemoveEventUnit(UnitData data)
     {
-        // 100번부터 시작
+        if(eventUnitList.Contains(data))
+            eventUnitList.Remove(data);
+    }
+
+    public int GetCreatedUnitID(int min = 100, int max = 200, bool isInit = false)
+    {
+        // 통상적인 경우 100번부터 시작
         int retVal = -1;
         int index = 0;
         do
         {
-            retVal = UnityEngine.Random.Range(100, 200);
+            retVal = UnityEngine.Random.Range(min, max);
             Debug.Log("created key value: "+retVal);
             index++;
             if (index >= UserManager.MAX_CHARACTER_COUNT)
@@ -209,7 +220,8 @@ public class WorldEventManager : Singletone<WorldEventManager> {
                 Debug.LogError("unit dic is full;");
                 return -1;
             }
-        } while (UserManager.Instance.UserInfo.UnitDic.ContainsKey(retVal));
+        } while (isInit ? eventUnitList.Find(x => x.Id == retVal) != null
+        : UserManager.Instance.UserInfo.UnitDic.ContainsKey(retVal));
 
         return retVal;
     }

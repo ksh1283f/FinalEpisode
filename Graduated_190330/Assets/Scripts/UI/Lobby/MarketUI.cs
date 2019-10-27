@@ -341,13 +341,22 @@ public class MarketUI : uiSingletone<MarketUI>
         if(changedId == -1)
             return;
         
+        // 판매가격 원가로 변경 -> 되팔때 샀던 가격으로 팔리는 경우를 방지
+        int originalPrice = GameDataManager.Instance.CharacterDataDicWithTypeKey[purchasedUnit.CharacterType].Price;
         purchasedUnit.UpdateUnitID(changedId);
         UserManager.Instance.SetMyUnitList(purchasedUnit);
         int gold = UserManager.Instance.UserInfo.Gold;
         gold -= purchasedUnit.Price;
+        purchasedUnit.UpdatePrice(originalPrice);
+        
         UserInfo userInfo = UserManager.Instance.UserInfo;
 
         UserManager.Instance.SetUserInfo(userInfo.UserName,userInfo.TeamLevel,userInfo.Exp,gold);
+        // 기존 목록에서 제거
+        WorldEventManager.Instance.RemoveEventUnit(selectedUnitInSimpleList);
+        selectedUnitInSimpleList = null;
+        SetSimpleInfoList();
+
         MessageUI message = UIManager.Instance.LoadUI(E_UIType.ShowMessage) as MessageUI;
         message.Show(new string[]{"유저 메세지", "고용완료"});
         return;

@@ -154,6 +154,8 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
     void OnClickedCancel()
     {
         UserManager.Instance.SelectedDungeonMonsterData = null; // 끄면 선택된 던전 정보 초기화
+        if(!TutorialManager.Instance.IsTutorialComplete)
+            TutorialManager.Instance.IsTutorialComplete = true;
         Close();
     }
 

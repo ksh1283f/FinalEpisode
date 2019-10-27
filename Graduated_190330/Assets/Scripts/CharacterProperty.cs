@@ -36,8 +36,9 @@ public class CharacterProperty
     public E_PropertyEffectType EffectType { get; private set; }
     public int EffectValue { get; private set; }
     public int CoolTime {get; private set;}
+    public string SkillEffectPath {get; private set;}
 
-    public CharacterProperty(int id, string imagePath, string name, string description,E_BattlePropertyType battlePropertyType, E_DetailPropertyType propertyType, E_PropertyEffectType effectType, int effectValue, int coolTime)
+    public CharacterProperty(int id, string imagePath, string name, string description,E_BattlePropertyType battlePropertyType, E_DetailPropertyType propertyType, E_PropertyEffectType effectType, int effectValue, int coolTime, string skillEffectPath)
     {
         Id = id;
         ImagePath = imagePath;
@@ -48,5 +49,6 @@ public class CharacterProperty
         EffectType = effectType;
         EffectValue = effectValue;
         CoolTime = coolTime;
+        SkillEffectPath = skillEffectPath;
     }
 }

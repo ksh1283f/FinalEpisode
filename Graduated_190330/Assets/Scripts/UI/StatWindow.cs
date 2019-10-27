@@ -55,6 +55,7 @@ public class StatWindow : MonoBehaviour
         int allDef = 0;
         float allCri = 0f;
         float allSpd = 0f;
+        bool isContainedWarrior = false;
 
         for (int i = 0; i < unitDataList.Count; i++)
         {
@@ -65,14 +66,21 @@ public class StatWindow : MonoBehaviour
             allDef += unitData.Def;
 
             // todo 방어력 상승 특성 유무 체크
-            if(CharacterPropertyManager.Instance.SelectedUtilProperty!= null 
-            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense
-            && unitData.CharacterType == E_CharacterType.Warrior)
-                allDef += CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue;
-            else if (CharacterPropertyManager.Instance.SelectedUtilProperty != null
+            if(unitData.CharacterType == E_CharacterType.Warrior && !isContainedWarrior)
+                isContainedWarrior = true;
+            
+            if (CharacterPropertyManager.Instance.SelectedUtilProperty != null
             && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarlockUtilMaserty_Healing
             && unitData.CharacterType == E_CharacterType.Warlock)
                 allCri += CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue;
+        }
+
+        if(CharacterPropertyManager.Instance.SelectedUtilProperty!= null 
+            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense
+            && isContainedWarrior)
+        {
+            int increasedValue = (int)((float)allDef*((float)CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue/100f));
+            allDef += increasedValue;
         }
 
         StringBuilder sb = new StringBuilder();

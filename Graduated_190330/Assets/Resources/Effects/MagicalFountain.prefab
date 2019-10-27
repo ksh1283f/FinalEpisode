@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7384622440369833320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 869704771991740564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db08735561a38424182823d8d175333b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &869704771991618264
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 156236, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_Name
+      value: MagicalFountain
+      objectReference: {fileID: 0}
+    - target: {fileID: 156236, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 408326, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19824066, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19824066, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19824066, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19824066, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8ea18e9ccc024bf4597fb8d7d4233420, type: 3}
+--- !u!1 &869704771991740564 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 156236, guid: 8ea18e9ccc024bf4597fb8d7d4233420,
+    type: 3}
+  m_PrefabInstance: {fileID: 869704771991618264}
+  m_PrefabAsset: {fileID: 0}

@@ -206,7 +206,7 @@ public class ButtonWindow : MonoBehaviour
 
         firstPropertyCoolDownImage.gameObject.SetActive(false);
         firstPropertyCoolDownText.gameObject.SetActive(false);
-        BattleManager.Instance.IsFirstPropertyCooldownComplite = false;
+        BattleManager.Instance.IsFirstPropertyCooldownComplite = true;
     }
 
     IEnumerator SecondPropertyCoolDown(float time, Button btn)
@@ -227,7 +227,7 @@ public class ButtonWindow : MonoBehaviour
 
         secondPropertyCoolDownImage.gameObject.SetActive(false);
         secondPropertyCoolDownText.gameObject.SetActive(false);
-        BattleManager.Instance.IsSecondPropertyCooldownComplite = false;
+        BattleManager.Instance.IsSecondPropertyCooldownComplite = true;
     }
 
     // 글쿨

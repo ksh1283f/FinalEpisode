@@ -21,6 +21,7 @@ public class EnemyPattern
         SkillDescription,
         PatternTerm,
         Damage,
+        SkillEffectPath,
     }
 
     public int SkillId { get; private set; }
@@ -30,8 +31,9 @@ public class EnemyPattern
     public string SkillDescription { get; private set; }
     public float PatternTerm { get; private set; }
     public int Damage { get; private set; }
+    public string SkillEffectPath {get; private set;}
 
-    public EnemyPattern(int skillId, string name, E_UserSkillType skillType, float castTime, string skillDescription, int damage)
+    public EnemyPattern(int skillId, string name, E_UserSkillType skillType, float castTime, string skillDescription, int damage, string skillEffectPath)
     {
         this.SkillId = skillId;
         this.Name = name;
@@ -39,6 +41,7 @@ public class EnemyPattern
         this.CastTime = castTime;
         this.SkillDescription = skillDescription;
         this.Damage = damage;
+        SkillEffectPath = skillEffectPath;
     }
 
     public object ShallowCopy()
@@ -76,6 +79,10 @@ public class EnemyPattern
 
             case E_ElementType.Damage:
                 Damage = (int)value;
+                break;
+
+            case E_ElementType.SkillEffectPath:
+                SkillEffectPath = (string)value;
                 break;
         }
     }

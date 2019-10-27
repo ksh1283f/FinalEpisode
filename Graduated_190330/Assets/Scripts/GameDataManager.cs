@@ -6,6 +6,7 @@ using System.IO.IsolatedStorage;
 using System.Text;
 using Graduate.GameData.UnitData;
 using UnityEngine;
+using System.Text.RegularExpressions; 
 
 public enum E_GameDataType 
 {
@@ -46,10 +47,13 @@ public class GameDataManager : Singletone<GameDataManager> {
     private const string TutorialDataName = "TutorialData";
     private const string TutorialSimpleDataName = "TutorialSimpleData";
     private const string WorldEventDataName = "WorldEventData";
+
+    private const string EffectDefaultPath = "Effects/";
     
 
     public Dictionary<E_BattlePropertyType, Dictionary<E_PropertyEffectType,CharacterProperty>> BattlePropertyDic {get; private set;}
     public Dictionary<int, UnitData> CharacterDataDic { get; private set; }
+    public Dictionary<E_CharacterType, UnitData> CharacterDataDicWithTypeKey {get; private set;}
     public Dictionary<int, DungeonPattern> DungeonPatternDataDic { get; private set; }
     public Dictionary<int, EnemyPattern> EnemyPatternDataDic { get; private set; }
     public Dictionary<int, RewardData> RewardDataDic { get; private set; }
@@ -67,6 +71,7 @@ public class GameDataManager : Singletone<GameDataManager> {
         // todo 기타 다른 데이터 딕셔너리도 추가
         BattlePropertyDic = new Dictionary<E_BattlePropertyType, Dictionary<E_PropertyEffectType, CharacterProperty>>();
         CharacterDataDic = new Dictionary<int, UnitData> ();
+        CharacterDataDicWithTypeKey = new Dictionary<E_CharacterType, UnitData>();
         DungeonPatternDataDic = new Dictionary<int, DungeonPattern> ();
         EnemyPatternDataDic = new Dictionary<int, EnemyPattern> ();
         RewardDataDic = new Dictionary<int, RewardData> ();
@@ -191,8 +196,10 @@ public class GameDataManager : Singletone<GameDataManager> {
             E_DetailPropertyType propertyType = (E_DetailPropertyType) Convert.ToInt32 (values[6]);
             int effectValue = Convert.ToInt32 (values[7]);
             int coolTime = Convert.ToInt32(values[8]);
-
-            CharacterProperty data = new CharacterProperty(id, imagePath, name, description, battlePropertyType, propertyType, effectType,effectValue, coolTime);
+            // result = Regex.Replace(str, "(?<!\r)\n", ""); //
+            values[9] = values[9].Replace("\r","");
+            string skillEffectPath = string.IsNullOrEmpty(values[9]) ? string.Empty : string.Concat(EffectDefaultPath,values[9]);
+            CharacterProperty data = new CharacterProperty(id, imagePath, name, description, battlePropertyType, propertyType, effectType,effectValue, coolTime, skillEffectPath);
 
             if(!BattlePropertyDic.ContainsKey(battlePropertyType))
                 BattlePropertyDic.Add(battlePropertyType, new Dictionary<E_PropertyEffectType, CharacterProperty>());
@@ -236,6 +243,7 @@ public class GameDataManager : Singletone<GameDataManager> {
             UnitData data = new UnitData (id, hp, atk, def, cri, spd, iconName, characterType, price, description, level, exp);
 
             CharacterDataDic.Add (id, data);
+            CharacterDataDicWithTypeKey.Add(characterType, data);
         }
     }
 
@@ -265,7 +273,9 @@ public class GameDataManager : Singletone<GameDataManager> {
             int castTime = Convert.ToInt32 (values[3]);
             string skillDescription = values[4];
             int damage = Convert.ToInt32 (values[5]);
-            EnemyPattern pattern = new EnemyPattern (id, skillName, skillType, castTime, skillDescription, damage);
+            string skillEffectPath = string.Concat(EffectDefaultPath,values[6]);
+            skillEffectPath=skillEffectPath.Replace("\r","");
+            EnemyPattern pattern = new EnemyPattern (id, skillName, skillType, castTime, skillDescription, damage, skillEffectPath);
 
             EnemyPatternDataDic.Add (pattern.SkillId, pattern);
         }
