@@ -22,6 +22,7 @@ public enum E_GameDataType
     MarketSpecialEventData, // 시장 특별 이벤트 관련 데이터
     StatAugmenterData,
     OpeningSceneDialogueData, // 오프닝 세계관 소개 컷씬 관련 텍스트 데이터
+    EndingSceneDialogueData,    // 엔딩
     TutorialData,   // obsolete
     TutorialSimpleData, // 현재 사용중인 튜토리얼
     WorldEventData, // 용병 판매 또는 구매 관련 이벤트 데이터
@@ -44,6 +45,7 @@ public class GameDataManager : Singletone<GameDataManager> {
     private const string MarketSpecialEventDataName = "MarketSpecialEventData";
     private const string StatAugmenterDataName = "StatAugmenterData";
     private const string OpeningSceneDialogueDataName = "OpeningSceneDialogueData";
+    private const string EndingSceneDialogueDataName = "EndingSceneDialogueData";
     private const string TutorialDataName = "TutorialData";
     private const string TutorialSimpleDataName = "TutorialSimpleData";
     private const string WorldEventDataName = "WorldEventData";
@@ -63,6 +65,7 @@ public class GameDataManager : Singletone<GameDataManager> {
     public Dictionary<int, MarketSpecialEventData> MarketSpecialEventDataDic { get; private set; }
     public Dictionary<int, StatAugmenterData> StatAugmenterDataDic { get; private set; }
     public Dictionary<int, OpeningSceneDialogueData> OpeningSceneDialogueDataDic { get; private set; }
+    public Dictionary<int, EndingSceneDialogueData> EndingSceneDialogueDataDic {get; private set;}
     public Dictionary<E_TutorialType, Dictionary<int, TutorialData>> TutorialDataDic {get; private set;}
     public Dictionary<E_SimpleTutorialType, Dictionary<int, TutorialSimpleData>> SimpleTutorialDataDic {get; private set;}
     public Dictionary<int, WorldEventData> WorldEventDataDic {get; private set;}
@@ -81,6 +84,7 @@ public class GameDataManager : Singletone<GameDataManager> {
         MarketSpecialEventDataDic = new Dictionary<int, MarketSpecialEventData> ();
         StatAugmenterDataDic = new Dictionary<int, StatAugmenterData> ();
         OpeningSceneDialogueDataDic = new Dictionary<int, OpeningSceneDialogueData>();
+        EndingSceneDialogueDataDic = new Dictionary<int, EndingSceneDialogueData>();
         TutorialDataDic = new Dictionary<E_TutorialType, Dictionary<int, TutorialData>>();
         SimpleTutorialDataDic = new Dictionary<E_SimpleTutorialType, Dictionary<int, TutorialSimpleData>>();
         WorldEventDataDic = new Dictionary<int, WorldEventData>();
@@ -137,6 +141,10 @@ public class GameDataManager : Singletone<GameDataManager> {
 
                 case E_GameDataType.OpeningSceneDialogueData:
                     ReadOpeningSceneDialogueData(OpeningSceneDialogueDataName);
+                    break;
+
+                case E_GameDataType.EndingSceneDialogueData:
+                    ReadEndingSceneDialogueData(EndingSceneDialogueDataName);
                     break;
 
                 // case E_GameDataType.TutorialData:
@@ -238,9 +246,10 @@ public class GameDataManager : Singletone<GameDataManager> {
             E_CharacterType characterType = (E_CharacterType) Convert.ToInt32 (values[7]);
             int price = Convert.ToInt32 (values[8]);
             string description = values[9];
-            int level = Convert.ToInt32 (values[10]);
-            int exp = Convert.ToInt32 (values[11]);
-            UnitData data = new UnitData (id, hp, atk, def, cri, spd, iconName, characterType, price, description, level, exp);
+            string imagePath = values[10];
+            int level = Convert.ToInt32 (values[11]);
+            int exp = Convert.ToInt32 (values[12]);
+            UnitData data = new UnitData (id, hp, atk, def, cri, spd, iconName, characterType, price, description, level, exp, imagePath);
 
             CharacterDataDic.Add (id, data);
             CharacterDataDicWithTypeKey.Add(characterType, data);
@@ -404,8 +413,9 @@ public class GameDataManager : Singletone<GameDataManager> {
             for (int j = 0; j < minionId.Length; j++)
                 minions.Add(Convert.ToInt32 (minionId[j]));
 
-            int limitTime = Convert.ToInt32 (values[3]);
-            DungeonMonsterData data = new DungeonMonsterData (id, bossMonsterId, minions,limitTime);
+            string sceneName = values[3];
+            int limitTime = Convert.ToInt32 (values[4]);
+            DungeonMonsterData data = new DungeonMonsterData (id, bossMonsterId, minions,limitTime, sceneName);
             DungeonMonsterDataDic.Add (data.Id, data);
         }
     }
@@ -525,6 +535,36 @@ public class GameDataManager : Singletone<GameDataManager> {
 
             OpeningSceneDialogueData dialogueData = new OpeningSceneDialogueData(id, dialogue);
             OpeningSceneDialogueDataDic.Add(id, dialogueData);
+        }
+    }
+
+    void ReadEndingSceneDialogueData (string path) 
+    {
+        if (string.IsNullOrEmpty (path)) 
+        {
+            Debug.LogError ("ReadMarketBasisData path is null or emtpy");
+            return;
+        }
+
+        string dataFullPath = string.Concat (dataDefalutPath, path);
+        TextAsset assetData = Resources.Load (dataFullPath) as TextAsset;
+        string[] textData = assetData.text.Split ('\n'); // 줄단위로 구분
+        string strLineValue = string.Empty;
+        string[] values = null;
+        for (int i = 0; i < textData.Length; i++) {
+            strLineValue = textData[i];
+            if (string.IsNullOrEmpty (strLineValue))
+                return;
+
+            if (i == 0)
+                continue;
+
+            values = strLineValue.Split (',');
+            int id = Convert.ToInt32 (values[0]);
+            string dialogue = values[1];
+
+            EndingSceneDialogueData dialogueData = new EndingSceneDialogueData(id, dialogue);
+            EndingSceneDialogueDataDic.Add(id, dialogueData);
         }
     }
 

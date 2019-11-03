@@ -64,6 +64,7 @@ public class StatWindow : MonoBehaviour
             allAtk += unitData.Atk;
             allCri += unitData.Cri;
             allDef += unitData.Def;
+            allSpd += unitData.Spd;
 
             // todo 방어력 상승 특성 유무 체크
             if(unitData.CharacterType == E_CharacterType.Warrior && !isContainedWarrior)
@@ -95,8 +96,7 @@ public class StatWindow : MonoBehaviour
         sb.Append("%");
         sb.AppendLine();
         sb.Append("SPD: ");
-        sb.Append(allSpd);
-        sb.Append("%");
+        sb.Append(Convert.ToInt32(allSpd/BattleManager.Instance.PlayerUnitList.Count));
         sb.AppendLine();
         statText.text = sb.ToString();
     }

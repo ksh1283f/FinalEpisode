@@ -168,6 +168,7 @@ public class SaveDataManager : Singletone<SaveDataManager>
             data.Description = item.Value.Description;
             data.Level = item.Value.Level;
             data.Exp = item.Value.Exp;
+            data.portraitPath = item.Value.PortraitPath;
 
             convertedList.Add(data);
         }
@@ -198,8 +199,9 @@ public class SaveDataManager : Singletone<SaveDataManager>
             string Description = dataList[i].Description;
             int level = dataList[i].Level;
             int exp = dataList[i].Exp;
+            string portraitPath = dataList[i].portraitPath;
 
-            UnitData data = new UnitData(Id, Hp, Atk, Def, Cri, Spd, IconName, CharacterType, Price, Description, level, exp);
+            UnitData data = new UnitData(Id, Hp, Atk, Def, Cri, Spd, IconName, CharacterType, Price, Description, level, exp, portraitPath);
             convertedDic.Add(data.Id, data);
         }
 

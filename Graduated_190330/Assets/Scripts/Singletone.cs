@@ -6,7 +6,7 @@ using UnityEngine;
 public class Singletone<T> : MonoBehaviour
     where T : MonoBehaviour
 {
-    private static T instance;
+    public static T instance {get; private set;}
     public static T Instance
     {
         get

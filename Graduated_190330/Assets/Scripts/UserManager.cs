@@ -184,6 +184,7 @@ public class UserManager : Singletone<UserManager> {
         // todo 유저정보 ui에 갱신
 
         lobbyUI.Show ();
+        SoundManager.Instance.SceneType = E_SceneType.Lobby;
 
         // todo 튜토리얼이 남아있는지
     }
@@ -194,6 +195,22 @@ public class UserManager : Singletone<UserManager> {
 
     void OnBattle () {
         // todo 튜토리얼이 남아있는지
+        SoundManager.Instance.SceneType = E_SceneType.Battle;
+    }
+
+    public void StartLoadEndingScene () {
+        StartCoroutine (LoadEndingScene());
+    }
+
+    IEnumerator LoadEndingScene () {
+        yield return new WaitForSeconds (2f);
+        
+        BattleUI.Instance.Close ();
+        ao = SceneManager.LoadSceneAsync ("EndingScene");
+        while (!ao.isDone)
+            yield return null;
+
+        // UserSituation = E_UserSituation.LoadingLobby;
     }
 
     public void StartLoadLobbyScene () {
@@ -261,6 +278,12 @@ public class UserManager : Singletone<UserManager> {
     public void SetAllTutorialClear () {
         UserInfo.IsAllTutorialClear = true;
         SaveDataManager.Instance.UpdateUserInfoData (UserInfo);
+    }
+
+    public void SetClearEnding()
+    {
+        UserInfo.IsSawTheEnding = true;
+        SaveDataManager.Instance.UpdateUserInfoData(UserInfo);
     }
 
     public void SetMySelectedUnitList (UnitData data, E_SelectedUnitListSetType setType) {

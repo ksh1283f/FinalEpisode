@@ -9,6 +9,9 @@ public class StartUI : uiSingletone<StartUI> , IBaseUI
 	[SerializeField] Button btnStart;
     [SerializeField] Button btnOption;
     [SerializeField] Button btnExit;
+    [SerializeField] Transform optionWindow;
+    [SerializeField] Button btnExitFromOption;
+    [SerializeField] Slider volumeSlider;
 
     public Action OnClickedBtnStart { get; set; }
     public Action OnClickedBtnOption { get; set; }
@@ -25,11 +28,14 @@ public class StartUI : uiSingletone<StartUI> , IBaseUI
         btnStart.onClick.AddListener(() => { OnClickedBtnStart.Execute(); });
         btnOption.onClick.AddListener(() => { OnClickedBtnOption.Execute(); });
         btnExit.onClick.AddListener(() => { OnClickedBtnExit.Execute(); });
+        btnExitFromOption.onClick.AddListener(()=>{OnClicedExitFromOption();});
+        volumeSlider.onValueChanged.AddListener(OnChangedSlider);
 
         // scene directing
         btnStart.gameObject.SetActive(false);
         btnOption.gameObject.SetActive(false);
         btnExit.gameObject.SetActive(false);
+        optionWindow.gameObject.SetActive(false);
     }
 
     public void ShowBtns()
@@ -39,4 +45,14 @@ public class StartUI : uiSingletone<StartUI> , IBaseUI
         btnExit.gameObject.SetActive(true);
     }
 
+    public void OnClicedExitFromOption()
+    {
+        SoundManager.Instance.PlayButtonSound();
+        optionWindow.gameObject.SetActive(false);
+    }
+
+    void OnChangedSlider(float value)
+    {
+        SoundManager.Instance.SetSoundVolume(value);
+    }
 }

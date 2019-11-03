@@ -62,6 +62,8 @@ public class TutorialSimpleUI : uiSingletone<TutorialSimpleUI> {
         if(dicIndex == 0)
             return;
 
+        SoundManager.Instance.PlayButtonSound();
+
         SetTutorialContents(title, presentTutorialDic[PresentTutorialType][dicIndex-1].Dialogue, presentTutorialDic[PresentTutorialType][dicIndex-1].ImagePath);
         dicIndex--;
     }
@@ -73,7 +75,8 @@ public class TutorialSimpleUI : uiSingletone<TutorialSimpleUI> {
             Close();
             return;
         }
-            
+        
+        SoundManager.Instance.PlayButtonSound();
         SetTutorialContents(title, presentTutorialDic[PresentTutorialType][dicIndex+1].Dialogue, presentTutorialDic[PresentTutorialType][dicIndex+1].ImagePath);
         dicIndex++;
     }

@@ -95,7 +95,7 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
         {
             for (int i = 0; i < dungeonList.Count; i++)
             {
-                if (i > clearStep + 1)
+                if (i >= clearStep + 1)
                 {
                     dungeonList[i].gameObject.SetActive(false);
                     continue;
@@ -114,6 +114,7 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
 
     void OnClickedShowDetail(string detailText, DungeonMonsterData patternData)
     {
+        SoundManager.Instance.PlayButtonSound();
         UserManager.Instance.SelectedDungeonMonsterData = patternData;
         SetDetailInfo(detailText);
     }
@@ -132,6 +133,7 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
 
     void OnClickedStart()
     {
+        SoundManager.Instance.PlayButtonSound();
         //todo 던전 단수에 맞게 데이터 조정- battlemanager 안의 initBattle 참조
         if (UserManager.Instance.SelectedDungeonMonsterData == null)
         {
@@ -153,6 +155,7 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
 
     void OnClickedCancel()
     {
+        SoundManager.Instance.PlayButtonSound();
         UserManager.Instance.SelectedDungeonMonsterData = null; // 끄면 선택된 던전 정보 초기화
         if(!TutorialManager.Instance.IsTutorialComplete)
             TutorialManager.Instance.IsTutorialComplete = true;
@@ -161,10 +164,12 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
 
     IEnumerator BattleSceneLoad()
     {
+        string sceneName = UserManager.Instance.SelectedDungeonMonsterData.SceneName;
+
         LobbyUI lobbyUI = UIManager.Instance.LoadUI(E_UIType.Lobby) as LobbyUI;
         lobbyUI.Close();
         UserManager.Instance.UserSituation = E_UserSituation.Battle;
-        AsyncOperation ao = SceneManager.LoadSceneAsync("Battle_True");
+        AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
         while (!ao.isDone)
             yield return null;
     }

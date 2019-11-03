@@ -36,6 +36,7 @@ public class InputUI : uiSingletone<InputUI>, IBaseUI
         if (string.IsNullOrEmpty(inputValue))
             return;
 
+        SoundManager.Instance.PlayButtonSound();
         OnClickedBtnOk.Execute(inputValue);
         Close();
     }

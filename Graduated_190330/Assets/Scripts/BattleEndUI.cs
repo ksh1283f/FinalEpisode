@@ -20,7 +20,7 @@ public class BattleEndUI : uiSingletone<BattleEndUI>, IBaseUI
         text.text = string.Empty;
         btnOK.onClick.AddListener(() => { OnClickedBtnOk.Execute(); });
 		Text btnText = btnOK.GetComponentInChildren<Text>();
-		btnText.text = "받기";
+		btnText.text = "마을로 가기";
     }
 
     void Start()

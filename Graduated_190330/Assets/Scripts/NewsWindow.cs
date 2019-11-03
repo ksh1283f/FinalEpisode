@@ -29,6 +29,7 @@ public class NewsWindow : MonoBehaviour
 
     void OnClickedBtnClose()
     {
+        SoundManager.Instance.PlayButtonSound();
         ShowWindow(false);
     }
 

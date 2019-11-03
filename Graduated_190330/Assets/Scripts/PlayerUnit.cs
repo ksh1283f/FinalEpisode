@@ -15,7 +15,7 @@
     public class PlayerUnit : Graduate.Unit.Unit
     {
         Animator ani;
-        float speed;
+        public float speed;
         [SerializeField] E_CharacterType characterType;
         public E_CharacterType CharacterType {get{return characterType;}}
         public Unit Target;
@@ -64,7 +64,7 @@
 
                     case E_UnitState.Death:
                         // 죽음 애니메이션
-                        ani.SetBool("IsDeath", true);
+                        ani.SetBool("IsDead", true);
                         break;
                 }
             }
@@ -75,7 +75,7 @@
         {
             base.Start();
             ani = GetComponent<Animator>();
-            speed = 2f;
+            speed += 2f;
         }
 
         // Update is called once per frame

@@ -44,16 +44,19 @@ public class CharacterPropertyUI : uiSingletone<CharacterPropertyUI>, IBaseUI
 
 	void OnBtnOk()
 	{
+        SoundManager.Instance.PlayButtonSound();
 		Close();
 	}
 
     void OnBtnPrev()
     {
+        SoundManager.Instance.PlayButtonSound();
         ActivatedPropertyPage(pageIndex-1);
     }
 
     void OnBtnNext()
     {
+        SoundManager.Instance.PlayButtonSound();
         ActivatedPropertyPage(pageIndex+1);
     }
 	

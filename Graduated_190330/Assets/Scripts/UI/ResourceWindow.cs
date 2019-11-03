@@ -10,6 +10,7 @@ public class ResourceWindow : MonoBehaviour
     [SerializeField] SkillBubbleManager utilManager;
     [SerializeField] SkillBubbleManager defenseManager;
     [SerializeField] Button btnExit;
+    [SerializeField] Button btnGotoEnding;
 
     void Start()
     {
@@ -17,11 +18,22 @@ public class ResourceWindow : MonoBehaviour
             return;
 
         btnExit.onClick.AddListener(OnClickedBtnExit);
+        btnGotoEnding.onClick.AddListener(OnClickedBtnGotoEnding);
     }
 
     void OnClickedBtnExit()
     {
+        SoundManager.Instance.PlayButtonSound();
         // 종료루틴
+        BattleManager.Instance.LoadLobbyScene();
+    }
+
+    // 심사용
+    void OnClickedBtnGotoEnding()
+    {
+        BattleManager.Instance.IsClear = true;
+        BattleManager.Instance.isShowEndingDirecting = true;
+        SoundManager.Instance.PlayButtonSound();
         BattleManager.Instance.LoadLobbyScene();
     }
 

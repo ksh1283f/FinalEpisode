@@ -24,7 +24,11 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
             btnBuy.onClick.AddListener(BuyCharacter);
 
         if (btnCancel != null)
-            btnCancel.onClick.AddListener(() => { Close(); });
+            btnCancel.onClick.AddListener(() => 
+            { 
+                SoundManager.Instance.PlayButtonSound();
+                Close();
+            });
 
     }
 
@@ -121,6 +125,7 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
     // 구매 후 수정된 데이터 갱신
     void BuyCharacter()
     {
+        SoundManager.Instance.PlayButtonSound();
         // 선택된 캐릭터가 있는지
         for (int i = 0; i < contentList.Count; i++)
         {

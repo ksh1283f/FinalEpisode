@@ -18,6 +18,8 @@
         public Action<bool> OnDeathEnemy { get; set; }
         public E_EnemySequence Sequence;
         public bool IsBoss;
+        public bool IsShowAfterDeath;
+        private Animator animator;
         public E_UnitState EnemyUnitState
         {
             get { return unitState; }
@@ -46,6 +48,7 @@
         protected override void Start()
         {
             base.Start();
+            animator = GetComponent<Animator>();
             OnDeathEnemy+=OnDeath;
         }
 
@@ -63,7 +66,9 @@
 
         void OnDeath(bool isDeath)
         {
-            gameObject.SetActive(!isDeath);
+            animator.SetBool("IsDead",true);
+            if(!IsShowAfterDeath)
+                gameObject.SetActive(!isDeath);
         }
     }
 }

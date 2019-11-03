@@ -18,6 +18,7 @@ public class OpeningDirecting : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
+        SoundManager.Instance.SceneType = E_SceneType.Opening;
         if(btnSkip != null)
             btnSkip.onClick.AddListener(OnClickedBtnSkip);
         if(dialogue == null)
@@ -79,6 +80,7 @@ public class OpeningDirecting : MonoBehaviour
             mapList[i].gameObject.SetActive(false);
 
         // (FI)
+        dialogue.IsCutSceneDirecting = true;
         Color tempColor = allMap.color;
         float startTime = 0f;
         tempColor.a = Mathf.Lerp(0,1, startTime);
@@ -93,11 +95,14 @@ public class OpeningDirecting : MonoBehaviour
 
         // 0. A대륙에 대한 설명
         // show dialogue
+        
         yield return new WaitForSeconds(1f);
+        dialogue.IsCutSceneDirecting = false;
         dialogue.ShowDialogue(dialogue.dialogueDic[dialogue.DialogueDicIndex]);
         while (!dialogue.IsTypingEnd)
             yield return null;  // 타이핑 연출이 끝날때까지 대기
         
+        dialogue.IsCutSceneDirecting = true;
         yield return new WaitForSeconds(1f);
 
         // (FO)
@@ -174,6 +179,7 @@ public class OpeningDirecting : MonoBehaviour
 
     void OnClickedBtnSkip()
     {
+        SoundManager.Instance.PlayButtonSound();
         StopCoroutine(SceneDirecting());
         StartCoroutine(GoToLobby());
     }

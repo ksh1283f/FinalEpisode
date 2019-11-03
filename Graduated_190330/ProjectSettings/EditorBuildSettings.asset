@@ -8,37 +8,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Start.unity
     guid: 65c65dddc9e19eb4785b0e500763fb2c
-  - enabled: 0
-    path: Assets/Scenes/Battle.unity
-    guid: 2e0503616af828d4baa74375cf834eec
+  - enabled: 1
+    path: Assets/Scenes/OpeningScene.unity
+    guid: 4270a6f0c3e304409a2010d37558c21f
   - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: a256f759a71b1264db2a6be7625ce7bd
   - enabled: 1
-    path: Assets/Scenes/OpeningScene.unity
-    guid: 4270a6f0c3e304409a2010d37558c21f
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 1
     path: Assets/Scenes/NewLobby.unity
     guid: 58a5acfb166f2594d9db3716bf503880
-  - enabled: 0
-    path: Assets/Scenes/DummyScenes/scriptTest 1.unity
-    guid: 302ac7b6dc30d004da61be3869d0e6d2
-  - enabled: 0
-    path: Assets/Stage.unity
-    guid: f298ef83622088348803dd569e30cd6b
-  - enabled: 0
-    path: Assets/Resources/Unity-Logs-Viewer/Reporter/Test/ReporterScene.unity
-    guid: 50197f88423d447488d9bff2736b47dc
-  - enabled: 0
-    path: Assets/Resources/Unity-Logs-Viewer/Reporter/Test/test1.unity
-    guid: 1cf4e2e23b6e31d498242c9db1608ccd
-  - enabled: 0
-    path: Assets/Resources/Unity-Logs-Viewer/Reporter/Test/test2.unity
-    guid: 91c6d29558bd35e4d9d9883614fa135b
   - enabled: 1
     path: Assets/Scenes/Battle_True.unity
     guid: 7ef901b685bba4c9398a23e6861bf6b1
+  - enabled: 1
+    path: Assets/Scenes/EvilVillage.unity
+    guid: 4abc254fc0ba6486b9b0d946de7ba1ab
+  - enabled: 1
+    path: Assets/Scenes/EndingScene.unity
+    guid: b72230b61a05c482e9407bf5fffe29fd
   m_configObjects: {}

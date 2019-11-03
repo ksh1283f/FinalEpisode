@@ -19,6 +19,7 @@ public class StartSceneDirecting : MonoBehaviour
     SpriteRenderer titleImage;
 
     StartUI startUI;
+    [SerializeField] Transform optionWindow;
 
     float startTime = 0f;
 
@@ -75,6 +76,7 @@ public class StartSceneDirecting : MonoBehaviour
         //startUI.Close();
         //SceneManager.LoadScene("Lobby");
         //UserManager.Instance.UserSituation = E_UserSituation.LodingLobby;
+        SoundManager.Instance.PlayButtonSound();
         UserInfo userInfo = SaveDataManager.Instance.ReadUserInfoData();
         if(userInfo == null)    // 유저데이터가 없는 경우, 즉 처음 접속한 경우
         {
@@ -105,11 +107,15 @@ public class StartSceneDirecting : MonoBehaviour
 
     void OnClickedOption()
     {
-
+        if(optionWindow == null)
+            return; 
+        SoundManager.Instance.PlayButtonSound();
+        optionWindow.gameObject.SetActive(true);
     }
 
     void OnClickedExit()
     {
+        SoundManager.Instance.PlayButtonSound();
         Application.Quit();
     }
 }

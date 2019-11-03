@@ -20,6 +20,7 @@
         public string Description;
         public int Level;
         public int Exp;
+        public string portraitPath;
     }
 
     public enum E_CharacterType
@@ -47,6 +48,7 @@
         public string Description { get; private set; }
         public int Level { get; private set; }
         public int Exp { get; private set; }
+        public string PortraitPath {get; private set;}
 
         public UnitData(int hp, int atk, int def, string iconName)
         {
@@ -56,7 +58,7 @@
             IconName = iconName;
         }
 
-        public UnitData(int id, int hp, int atk, int def, int cri, int spd, string iconName, E_CharacterType characterType, int price, string description, int level, int exp)
+        public UnitData(int id, int hp, int atk, int def, int cri, int spd, string iconName, E_CharacterType characterType, int price, string description, int level, int exp, string imagePath)
         {
             Id = id;
             Hp = hp;
@@ -70,7 +72,7 @@
             Description = description;
             Level = level;
             Exp = exp;
-
+            PortraitPath = imagePath;
         }
 
         /// 새로 구매하여 유닛의 아이디가 갱신된 경우

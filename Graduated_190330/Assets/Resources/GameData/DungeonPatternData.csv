@@ -6,4 +6,4 @@
 4,OrcGrunt,800,BattleCharacters/EnemyGrunt,흑마법,3,3,21,22,23,,,
 5,OrcNecromancer,600,BattleCharacters/EnemyNecromancer,흑마법,3,3,15,20,19,,,
 6,Dragon,7000,BattleCharacters/EnemyDragon,흑마법,5,6,9,4,8,7,19,20
-7,DiamondLord,4000,BattleCharacters/EnemyDiamonLord,흑마법,4,6,12,5,18,3,15,1
+7,DiamondLord,4000,BattleCharacters/EnemyDiamondLord,흑마법,4,6,12,5,18,3,15,1

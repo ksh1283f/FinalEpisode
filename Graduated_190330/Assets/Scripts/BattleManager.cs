@@ -62,6 +62,7 @@ public class BattleManager : Singletone<BattleManager> {
     public int AllSpd = 0;
     public List<PhaseChecker> PhaseCheckerList = new List<PhaseChecker> ();
     public E_PhaseType PhaseType { get; private set; }
+    public bool isShowEndingDirecting;
 
     [SerializeField] private E_BattlePhase battlePhase = E_BattlePhase.None;
     public E_BattlePhase BattlePhase {
@@ -183,6 +184,7 @@ public class BattleManager : Singletone<BattleManager> {
             AllAtk += item.Value.Atk;
             AllDef += item.Value.Def;
             AllCri += item.Value.Cri;
+            AllSpd += item.Value.Spd;
             player.Def = item.Value.Def;
             MaxPlayerHealth += item.Value.Hp;
             player.Id = item.Key;
@@ -200,6 +202,11 @@ public class BattleManager : Singletone<BattleManager> {
 
             index++;
         }
+
+        // 속도 평균 적용
+        int averageSpd = AllSpd/PlayerUnitList.Count;
+        for (int i = 0; i < PlayerUnitList.Count; i++)
+            PlayerUnitList[i].speed = averageSpd;
 
         if(CharacterPropertyManager.Instance.SelectedUtilProperty!= null 
             && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense
@@ -235,6 +242,10 @@ public class BattleManager : Singletone<BattleManager> {
         // 2. 적 정보
         DungeonMonsterData dungeonMonsterData = UserManager.Instance.SelectedDungeonMonsterData;
         thisBattleRewardData = GameDataManager.Instance.RewardDataDic[dungeonMonsterData.Id];
+
+        // 엔딩이 나오는 씬인가?
+        if(dungeonMonsterData.Id == 1)
+            isShowEndingDirecting = true;
         
         // 데이터에 맞게 가져오기
         int dataLength =dungeonMonsterData.MinionMonsterIds.Count+1;
@@ -345,10 +356,15 @@ public class BattleManager : Singletone<BattleManager> {
 
 
     public void GenerateSkillResource (E_SkillResourceType skillResourceType) {
+        SoundManager.Instance.PlayButtonSound();
         if (PhaseType == E_PhaseType.None)
             return;
 
         if (!IsCooldownComplite)
+            return;
+
+        // 적을 조우하지 않았을때
+        if(!IsEncounterEnemy)
             return;
 
         int createCount = 1; // 만들어질 자원 변수
@@ -407,11 +423,15 @@ public class BattleManager : Singletone<BattleManager> {
     }
 
     public void DeleteSkillResource (E_SkillResourceType skillResourceType) {
+        SoundManager.Instance.PlayButtonSound();
         if (PhaseType == E_PhaseType.None)
             return;
 
         // 쿨타임인지 아닌지
         if (!IsCooldownComplite)
+            return;
+
+        if(!IsEncounterEnemy)
             return;
 
         int count = 0;
@@ -462,6 +482,7 @@ public class BattleManager : Singletone<BattleManager> {
     }
 
     public void DeleteSkillResource (E_UserSkillType skillType) {
+        SoundManager.Instance.PlayButtonSound();
         if (PhaseType == E_PhaseType.None)
             return;
 
@@ -925,13 +946,14 @@ public class BattleManager : Singletone<BattleManager> {
         ActivatedBattleBuff = null;
     }
 
+    public bool IsClear = false;
     void CalculateReward (bool isClear) {
         // <bool,string, int, int>
         string userName = UserManager.Instance.UserInfo.UserName;
         int teamLevel = UserManager.Instance.UserInfo.TeamLevel;
         int gold = UserManager.Instance.UserInfo.Gold;
         int exp = UserManager.Instance.UserInfo.Exp;
-
+        IsClear = isClear;
         //아이템?
 
         if (isClear) 
@@ -997,6 +1019,12 @@ public class BattleManager : Singletone<BattleManager> {
 
     public void LoadLobbyScene () {
         isBattleEnd = true;
+        SoundManager.Instance.PlayButtonSound();
+        if(isShowEndingDirecting)
+        {
+            UserManager.Instance.StartLoadEndingScene();
+            return;
+        }
         BattlePhase = E_BattlePhase.End;
     }
     public Action<float, bool> StartUtilCoolDown {get; set;}
@@ -1078,5 +1106,10 @@ public class BattleManager : Singletone<BattleManager> {
 
         float time = CharacterPropertyManager.Instance.SelectedHealingProperty.CoolTime;
         StartHealCoolDown.Execute(time, false);
+    }
+
+    public void DestroyBattleManager()
+    {
+        Destroy(this);
     }
 }

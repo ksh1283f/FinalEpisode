@@ -49,7 +49,7 @@ public class ButtonWindow : MonoBehaviour
     public Action OnClickBtnFirstProperty { get; set; }
     public Action OnClickBtnSecondProperty { get; set; }
 
-    void Start()
+    void Awake()
     {
         cooldownImageList = new List<Image>();
         cooldownImageList.Add(GetCooldownImage(btnAttackResource));
@@ -80,7 +80,7 @@ public class ButtonWindow : MonoBehaviour
         secondPropertyCoolDownImage.gameObject.SetActive(false);
         secondPropertyCoolDownText.gameObject.SetActive(false);
     }
-
+    
     public void InitCallBacks()
     {
         if (btnAttackResource == null)
@@ -163,6 +163,7 @@ public class ButtonWindow : MonoBehaviour
 
     public void StartPropertyCoolDown(float time, bool isFirst)
     {
+        SoundManager.Instance.PlayButtonSound();
         if(btnFirstProperty == null)
         {
             Debug.LogError("btn1 is null");
@@ -286,7 +287,7 @@ public class ButtonWindow : MonoBehaviour
             return;
         }
 
-        if(CharacterPropertyManager.Instance.SelectedHealingProperty != null
+        if(CharacterPropertyManager.Instance.SelectedUtilProperty != null
         &&CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.RogueUtilMaserty_Clocking)
         {
             btnFirstProperty.image.sprite = Resources.Load<Sprite>(CharacterPropertyManager.Instance.SelectedUtilProperty.ImagePath);

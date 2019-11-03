@@ -52,6 +52,7 @@ public class MessageUI : uiSingletone<MessageUI>, IBaseUI
 
     void OnBtnOk()
     {
+        SoundManager.Instance.PlayButtonSound();
         Close();
     }
 

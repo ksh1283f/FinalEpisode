@@ -29,6 +29,7 @@ public class MarketUI : uiSingletone<MarketUI>
     [SerializeField] Button btnBack;
     [SerializeField] Button btnShowNews;
     [SerializeField] Text textInfo;
+    [SerializeField] Image unitImage;
     public List<CharacterSimpleInfo> simpleInfoList; // 임시
     public E_MarketContents selectedMarketContents
     {
@@ -181,6 +182,7 @@ public class MarketUI : uiSingletone<MarketUI>
 
     void OnClickedBtnBack()
     {
+        SoundManager.Instance.PlayButtonSound();
         selectedMarketContents = E_MarketContents.None;
 
         Close();
@@ -193,6 +195,7 @@ public class MarketUI : uiSingletone<MarketUI>
             Debug.LogError("unitData is null");
             return;
         }
+        SoundManager.Instance.PlayButtonSound();
 
         // 다른 선택된 리스트 선택 해제하기
         for (int i = 0; i < simpleInfoList.Count; i++)
@@ -219,6 +222,7 @@ public class MarketUI : uiSingletone<MarketUI>
 
     void OnClickedBtnSell()
     {
+        SoundManager.Instance.PlayButtonSound();
         // 선택된 탭이 판매인지
         if (SelectedTabType != E_TabType.Sell)
             return;
@@ -305,6 +309,7 @@ public class MarketUI : uiSingletone<MarketUI>
 
     void OnClickBtnPurchase()
     {
+        SoundManager.Instance.PlayButtonSound();
         // 선택된 탭이 구매인지
         if (SelectedTabType != E_TabType.Purchase)
             return;
@@ -364,6 +369,7 @@ public class MarketUI : uiSingletone<MarketUI>
 
     void OnClickedBtnShowNews()
     {
+        SoundManager.Instance.PlayButtonSound();
         // todo newsWindow popup
         if (newsWindow == null)
         {

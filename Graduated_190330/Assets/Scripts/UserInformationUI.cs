@@ -21,6 +21,7 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
     [SerializeField] Button btnBack;
     [SerializeField] Text titleText;
     [SerializeField] Text detailInfo;
+    [SerializeField] Image detailInfoPortrait;
 
     public List<CharacterSimpleInfo> simpleInfoList;
     public List<SelectCharacterIcon> selectIconList;
@@ -60,6 +61,12 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
 
         if (detailInfo != null)
             detailInfo.text = string.Empty;
+
+        if(detailInfoPortrait != null)
+        {
+            detailInfoPortrait.sprite = null;
+            detailInfoPortrait.color = new Color(255,255,255,0);
+        }
 
         SetSimpleInfoList();
         SetSelectedList();
@@ -139,6 +146,11 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         sb.AppendLine();
         sb.AppendLine();
         sb.Append(data.Description);
+        detailInfoPortrait.sprite = Resources.Load<Sprite>(data.PortraitPath);
+        if(detailInfoPortrait.sprite == null)
+            detailInfoPortrait.color = new Color(255,255,255,0);
+        else
+            detailInfoPortrait.color = new Color(255,255,255,255);
 
         return sb.ToString();
     }
@@ -151,6 +163,7 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
             return;
         }
 
+        SoundManager.Instance.PlayButtonSound();
         // 다른 선택된 리스트 선택 해제하기
         for (int i = 0; i < simpleInfoList.Count; i++)
         {
@@ -166,6 +179,8 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
         if (!isSelected)
         {
             detailInfo.text = string.Empty;
+            detailInfoPortrait.sprite = null;
+            detailInfoPortrait.color = new Color(255,255,255,0);
             selectedUnitInSimpleList = null;
             return;
         }
@@ -182,6 +197,7 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
             return;
         }
 
+        SoundManager.Instance.PlayButtonSound();
         // 다른 선택된 리스트 선택 해제하기
         for (int i = 0; i < selectIconList.Count; i++)
         {
@@ -210,6 +226,7 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
 
     void OnClickedBtnTrade()
     {
+        SoundManager.Instance.PlayButtonSound();
         // <예외>
         // 선택된 캐릭터가 두 리스트 중 하나라도 없는 경우
         if (selectedUnitInSimpleList == null)
@@ -265,6 +282,7 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
 
     void OnClickedBtnInsert()
     {
+        SoundManager.Instance.PlayButtonSound();
         //<예외>
         // 보유리스트중 선택된 것이 없는 경우
         if (selectedUnitInSimpleList == null)
@@ -327,6 +345,7 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
 
     void OnClickedBtnDelete()
     {
+        SoundManager.Instance.PlayButtonSound();
         //<예외>
         // 선택리스트에 아무것도 없는 경우
         UserInfo userInfo = UserManager.Instance.UserInfo;
@@ -375,6 +394,7 @@ public class UserInformationUI : uiSingletone<UserInformationUI>
 
     void OnClickedBtnBack()
     {
+        SoundManager.Instance.PlayButtonSound();
         selectedUnitInSelectList = null;
         selectedUnitInSimpleList = null;
         Close();

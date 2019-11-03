@@ -785,9 +785,9 @@ MonoBehaviour:
   dialogue: {fileID: 1545848956}
   allMap: {fileID: 1567428102}
   A1Map: {fileID: 979525085}
-  A2Map: {fileID: 491311297}
-  A3Map: {fileID: 791954379}
-  A4Map: {fileID: 922762336}
+  A2Map: {fileID: 791954379}
+  A3Map: {fileID: 922762336}
+  A4Map: {fileID: 491311297}
   btnSkip: {fileID: 1220178762}
 --- !u!4 &1392594967
 Transform:
@@ -981,7 +981,7 @@ MonoBehaviour:
   uiText: {fileID: 1964900424}
   btnText: {fileID: 1545848955}
   IsTypingEnd: 0
-  IsCutSceneDirecting: 1
+  IsCutSceneDirecting: 0
 --- !u!1 &1567428100
 GameObject:
   m_ObjectHideFlags: 0

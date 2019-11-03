@@ -29,4 +29,5 @@ public class UserInfo
     public int BestDungeonStep; // 최고 클리어 던전 단수
     public List<bool> TutorialClearList;
     public bool IsAllTutorialClear;
+    public bool IsSawTheEnding; // 엔딩씬을 봤는지
 }
