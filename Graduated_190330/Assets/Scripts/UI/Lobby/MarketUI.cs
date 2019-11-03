@@ -126,6 +126,11 @@ public class MarketUI : uiSingletone<MarketUI>
         selectedMarketContents = E_MarketContents.Sell;
         newsWindow.ShowWindow(false);
         textInfo.text = string.Empty;
+        if(unitImage != null)
+        {
+            unitImage.sprite = null;
+            unitImage.color = new Color(255,255,255,0);
+        }
 
         if(!UserManager.Instance.UserInfo.TutorialClearList[(int)E_SimpleTutorialType.IntroduceMarket])
         {
@@ -213,11 +218,21 @@ public class MarketUI : uiSingletone<MarketUI>
         {
             textInfo.text = string.Empty;
             selectedUnitInSimpleList = null;
+            if(unitImage != null)
+            {
+                unitImage.sprite = null;
+                unitImage.color = new Color(255,255,255,0);
+            }
             return;
         }
 
         selectedUnitInSimpleList = data;
         textInfo.text = GetDataInfo(selectedUnitInSimpleList);
+        if(unitImage != null)
+        {
+            unitImage.sprite = Resources.Load<Sprite>(selectedUnitInSimpleList.PortraitPath);
+            unitImage.color = new Color(255,255,255,255);
+        }
     }
 
     void OnClickedBtnSell()

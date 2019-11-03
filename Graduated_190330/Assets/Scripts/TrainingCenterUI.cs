@@ -10,6 +10,7 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
 {
     [SerializeField] Text titleText;
     [SerializeField] Text characterDetailInfoText;
+    [SerializeField] Image unitImage;
     [SerializeField] Button btnBuy;
     [SerializeField] Button btnCancel;
 
@@ -54,6 +55,12 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
         if (characterDetailInfoText != null)
             characterDetailInfoText.text = string.Empty;
 
+        if(unitImage != null)
+        {
+            unitImage.sprite = null;
+            unitImage.color = new Color(255,255,255,0);
+        }
+
         ReleaseContents();
 
         if(!UserManager.Instance.UserInfo.TutorialClearList[(int)E_SimpleTutorialType.HireUnit])
@@ -93,6 +100,13 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
             return;
         }
 
+        if(unitImage == null)
+        {
+            Debug.LogError("unitImage is null");
+            unitImage.sprite = null;
+            unitImage.color = new Color(255,255,255,0);
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.Append("Lv: ");
         sb.Append(unitData.Level);
@@ -116,6 +130,9 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
         sb.Append(unitData.Description);
 
         characterDetailInfoText.text = sb.ToString();
+        unitImage.sprite = Resources.Load<Sprite>(unitData.PortraitPath);
+        unitImage.color = new Color(255,255,255,255);
+        
         ReleaseContents();
 
         
