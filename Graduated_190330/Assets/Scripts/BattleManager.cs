@@ -34,6 +34,7 @@ public class BattleManager : Singletone<BattleManager> {
     */
 
     public const int MAX_SKILL_RESOURCE_COUNT = 5;
+    public const int DECREASE_VALUE_PER_RESOURCE_COUNT = 100/MAX_SKILL_RESOURCE_COUNT;
     public Action<bool, RewardData> OnGameEnd { get; set; }
     public Action<string, int, int, int> OnUpdatedUserInfoAfterGameEnd { get; set; } //userName, teamLevel, gold, exp
 
@@ -119,6 +120,7 @@ public class BattleManager : Singletone<BattleManager> {
          } 
     }
     bool isCorrespondPattern = false; // 패턴대응여부
+    int correspondCount =0; // 패턴 대응에 사용된 자원의 개수. 개수에따라 뎀감되는 수치가 증가
     public float Cooltime { get; private set; }
     public bool IsCooldownComplite = true;
     public bool IsFirstPropertyCooldownComplite = true;
@@ -457,6 +459,7 @@ public class BattleManager : Singletone<BattleManager> {
                 Debug.Log (skillResourceType + "," + "used count" + ": " + count + ", remain count: " + UtilResourceCount);
                 if (thisPattern != null && thisPattern.SkillType == E_UserSkillType.Util) {
                     isCorrespondPattern = true;
+                    correspondCount = count;
                 }
                 // 패턴에 맞게 처리
                 EffectManager.Instance.StartEffect(E_SkillEffectType.UserUseUtilSkillEffect,effectTrans.position);
@@ -471,6 +474,7 @@ public class BattleManager : Singletone<BattleManager> {
                 Debug.Log (skillResourceType + "," + "used count" + ": " + count + ", remain count: " + DefenseResourceCount);
                 if (thisPattern != null && thisPattern.SkillType == E_UserSkillType.Defense) {
                     isCorrespondPattern = true;
+                    correspondCount = count;
                 }
                 EffectManager.Instance.StartEffect(E_SkillEffectType.UserUseDefendSkillEffect,effectTrans.position);
                 break;
@@ -506,6 +510,7 @@ public class BattleManager : Singletone<BattleManager> {
                 UtilResourceCount = 0;
                 if (thisPattern != null && thisPattern.SkillType == E_UserSkillType.AttackAndUtil) {
                     isCorrespondPattern = true;
+                    correspondCount = countFirst + countSecond;
                     EffectManager.Instance.StartEffect(E_SkillEffectType.UserUseComplexSkillEffect,effectTrans.position);
                 }
                 break;
@@ -739,14 +744,16 @@ public class BattleManager : Singletone<BattleManager> {
 
                 // 4.대응
                 bool result = false;
-                if (isCorrespondPattern) {
+                if (isCorrespondPattern)
+                {
                     result = true;
                     isCorrespondPattern = false;
-                } else {
-                    // 데미지 입기
-                    if (Target.EnemyUnitState != Graduate.Unit.E_UnitState.Death)
-                        CalculatedPlayerDamaged (thisPattern);
                 }
+
+                // 데미지 입기
+                if (Target.EnemyUnitState != Graduate.Unit.E_UnitState.Death)
+                    CalculatedPlayerDamaged (thisPattern);
+                
                 OnCorrespondPattern.Execute (result);
 
                 // 5.처리
@@ -884,21 +891,38 @@ public class BattleManager : Singletone<BattleManager> {
     }
 
     void CalculatedPlayerDamaged (EnemyPattern pattern) {
-        // todo 뎀감 계산
-        int damage = pattern.Damage;
-        int finalDamage = damage;
-        finalDamage -= AllDef / 10; // 캐릭터들 방어력 적용
+        // 뎀감 계산
+        int finalDamage = pattern.Damage;
+
+        // 1. 캐릭터들 방어력 적용
+        finalDamage -= AllDef / 10;
+
+        // 2. 소모 자원 갯수에 맞는 뎀감
+        switch (pattern.SkillType)
+        {
+            case E_UserSkillType.Attack:
+            case E_UserSkillType.Defense:
+            case E_UserSkillType.Util:
+                float percentValue = 1f - (float)(correspondCount*DECREASE_VALUE_PER_RESOURCE_COUNT)/100f;
+                finalDamage = Convert.ToInt32((float)finalDamage*percentValue);
+                break;
+
+            case E_UserSkillType.AttackAndUtil:
+                percentValue = 1f - (float)(correspondCount*DECREASE_VALUE_PER_RESOURCE_COUNT*0.5)/100f;
+                finalDamage = Convert.ToInt32((float)finalDamage*percentValue);
+                break;
+        }
 
         string skillEffectPath = pattern.SkillEffectPath;
         EffectManager.Instance.StartEffect(skillEffectPath, effectTrans.position);
         
-        // todo 뎀감 특성 유무 계산
+        // 3. 뎀감 특성 유무 계산
         if(ActivatedBattleBuff != null)
         {
             switch (ActivatedBattleBuff.BattleBuffType)
             {
                 case E_BattleBuffType.DecreasDamage:
-                    float percentValue = (float)ActivatedBattleBuff.EffectValue/100f;
+                    float percentValue =1f - (float)ActivatedBattleBuff.EffectValue/100f;
                     string decreaseEffectPath = CharacterPropertyManager.Instance.SelectedHealingProperty.SkillEffectPath;
                     EffectManager.Instance.StartEffect(decreaseEffectPath, effectTrans.position);
                     finalDamage = Convert.ToInt32((float)finalDamage*percentValue);
@@ -944,6 +968,8 @@ public class BattleManager : Singletone<BattleManager> {
         OnDamagedPlayer.Execute (playerHealthPer);
         Debug.Log ("[Test] Damage from monster: " + finalDamage);
         ActivatedBattleBuff = null;
+        if(correspondCount > 0) // 대응 자원개수 초기화
+            correspondCount = 0;
     }
 
     public bool IsClear = false;

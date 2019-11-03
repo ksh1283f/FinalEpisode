@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 3300000}
-  - component: {fileID: 6400000}
   - component: {fileID: 2300000}
   m_Layer: 0
   m_Name: Shadow
@@ -40,20 +39,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100000}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &6400000
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100000}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &2300000
 MeshRenderer:
@@ -978,8 +963,11 @@ MonoBehaviour:
   HP: 0
   Atk: 0
   Def: 0
+  Id: 0
   unitState: 0
   Sequence: 0
+  IsBoss: 0
+  IsShowAfterDeath: 0
 --- !u!136 &94284436352832899
 CapsuleCollider:
   m_ObjectHideFlags: 0

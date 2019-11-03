@@ -35,6 +35,7 @@ public class EndingDirecting : MonoBehaviour
 
     [SerializeField] Dialogue dialogue;
     [SerializeField] Button btnSkip;
+    [SerializeField] Button btnFailed;
 
     /* Inspector */
     public int SuccessDataIndex;
@@ -45,10 +46,13 @@ public class EndingDirecting : MonoBehaviour
         DontDestroyOnLoad(this);
         if(btnSkip != null)
             btnSkip.onClick.AddListener(OnClickedBtnSkip);
-        if(dialogue == null)
+            
+        if (btnFailed !=null)
+            btnFailed.onClick.AddListener(OnClickedBtnSkipFailed);
+
+        if (dialogue == null)
             return;
         
-
         // start directing
         StartCoroutine(SceneDirecting());
     }
@@ -70,8 +74,8 @@ public class EndingDirecting : MonoBehaviour
        
         #endregion
         int directingIndex = 0;
-        // List<EndingDirectingData> directingList = GetEndingDirectingList(BattleManager.instance.IsClear);
-        List<EndingDirectingData> directingList = GetEndingDirectingList(isClearTest);
+        List<EndingDirectingData> directingList = GetEndingDirectingList(BattleManager.instance.IsClear);
+        // List<EndingDirectingData> directingList = GetEndingDirectingList(isClearTest);
 
         while (directingIndex < directingList.Count)
         {
@@ -137,24 +141,34 @@ public class EndingDirecting : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
        
-        UserManager.Instance.ao  = SceneManager.LoadSceneAsync("NewLobby");
-        while (!UserManager.Instance.ao.isDone)
-            yield return null;
+        // UserManager.Instance.ao  = SceneManager.LoadSceneAsync("NewLobby");
+        // while (!UserManager.Instance.ao.isDone)
+        //     yield return null;
 
-        UserManager.Instance.UserSituation = E_UserSituation.LoadingLobby;
-        Destroy(gameObject);
+        // UserManager.Instance.UserSituation = E_UserSituation.LoadingLobby;
+        // Destroy(gameObject);
+        StartCoroutine(GoToLobby(BattleManager.instance.IsClear));
     }
 
     void OnClickedBtnSkip()
     {
         SoundManager.Instance.PlayButtonSound();
         StopCoroutine(SceneDirecting());
-        StartCoroutine(GoToLobby());
+        StartCoroutine(GoToLobby(true));    // 심사용으로 true를 넣은것
     }
 
-    IEnumerator GoToLobby()
+    void OnClickedBtnSkipFailed()
     {
-        UserManager.Instance.SetClearEnding();
+        SoundManager.Instance.PlayButtonSound();
+        StopCoroutine(SceneDirecting());
+        StartCoroutine(GoToLobby(false));    // 심사용으로 true를 넣은것
+    }
+
+    IEnumerator GoToLobby(bool isClear)
+    {
+        if(isClear)
+            UserManager.Instance.SetClearEnding();
+
         UserManager.Instance.ao  = SceneManager.LoadSceneAsync("NewLobby");
         while(!UserManager.Instance.ao.isDone)
             yield return null;

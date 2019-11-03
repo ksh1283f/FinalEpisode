@@ -1,8 +1,8 @@
 {
     "UserName": "ㄴㄹㄴㄷㄹ",
-    "TeamLevel": 1,
-    "Exp": 70,
-    "Gold": 80,
+    "TeamLevel": 2,
+    "Exp": 45,
+    "Gold": 165,
     "UnitList": [
         {
             "Id": 163,
@@ -13,10 +13,10 @@
             "Spd": 1,
             "IconName": "ClassIcon/WarriorIcon",
             "CharacterType": 1,
-            "Price": 50,
+            "Price": 70,
             "Description": "높은 체력과 방어력을 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 70,
+            "Level": 2,
+            "Exp": 45,
             "portraitPath": "CharacterPortraits/Warrior"
         },
         {
@@ -28,10 +28,10 @@
             "Spd": 2,
             "IconName": "ClassIcon/MageIcon",
             "CharacterType": 2,
-            "Price": 50,
+            "Price": 70,
             "Description": "높은 공격력과 치명타를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 70,
+            "Level": 2,
+            "Exp": 45,
             "portraitPath": "CharacterPortraits/Mage"
         },
         {
@@ -43,11 +43,26 @@
             "Spd": 10,
             "IconName": "ClassIcon/RogueIcon",
             "CharacterType": 4,
-            "Price": 80,
+            "Price": 100,
             "Description": "높은 공격력과 속도를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 25,
+            "Level": 2,
+            "Exp": 75,
             "portraitPath": "CharacterPortraits/Rogue"
+        },
+        {
+            "Id": 108,
+            "Hp": 70,
+            "Atk": 50,
+            "Def": 50,
+            "Cri": 10,
+            "Spd": 1,
+            "IconName": "ClassIcon/WarlockIcon",
+            "CharacterType": 3,
+            "Price": 80,
+            "Description": "높은 체력과 치명타를 가진 캐릭터입니다.",
+            "Level": 1,
+            "Exp": 0,
+            "portraitPath": "CharacterPortraits/Warlock"
         }
     ],
     "SelectedUnitList": [
@@ -60,10 +75,10 @@
             "Spd": 1,
             "IconName": "ClassIcon/WarriorIcon",
             "CharacterType": 1,
-            "Price": 50,
+            "Price": 70,
             "Description": "높은 체력과 방어력을 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 70,
+            "Level": 2,
+            "Exp": 45,
             "portraitPath": "CharacterPortraits/Warrior"
         },
         {
@@ -75,10 +90,10 @@
             "Spd": 2,
             "IconName": "ClassIcon/MageIcon",
             "CharacterType": 2,
-            "Price": 50,
+            "Price": 70,
             "Description": "높은 공격력과 치명타를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 70,
+            "Level": 2,
+            "Exp": 45,
             "portraitPath": "CharacterPortraits/Mage"
         },
         {
@@ -90,14 +105,14 @@
             "Spd": 10,
             "IconName": "ClassIcon/RogueIcon",
             "CharacterType": 4,
-            "Price": 80,
+            "Price": 100,
             "Description": "높은 공격력과 속도를 가진 캐릭터입니다.",
-            "Level": 1,
-            "Exp": 25,
+            "Level": 2,
+            "Exp": 75,
             "portraitPath": "CharacterPortraits/Rogue"
         }
     ],
-    "CommonPropertyType": 1,
+    "CommonPropertyType": 3,
     "UtilPropertyType": 7,
     "HealingPropertyType": 9,
     "Atk": 0,
@@ -114,5 +129,5 @@
         true
     ],
     "IsAllTutorialClear": false,
-    "IsSawTheEnding": false
+    "IsSawTheEnding": true
 }
