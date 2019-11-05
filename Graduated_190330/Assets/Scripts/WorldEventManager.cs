@@ -129,7 +129,7 @@ public class WorldEventManager : Singletone<WorldEventManager> {
             {
                 case E_WorldEventType.AllSale:
                     effectValue = 1-((float)PresentWorldEventData.EventEffectValue/100);
-                    Debug.LogError("effectValue: "+ effectValue);
+                    // Debug.LogError("effectValue: "+ effectValue);
                     eventUnit.UpdatePrice(Convert.ToInt32(eventUnit.Price * effectValue));
                     break;
 
@@ -138,7 +138,7 @@ public class WorldEventManager : Singletone<WorldEventManager> {
                         break;
                         
                     effectValue = 1-((float)PresentWorldEventData.EventEffectValue/100);
-                    Debug.LogError("effectValue: "+ effectValue);
+                    // Debug.LogError("effectValue: "+ effectValue);
                     eventUnit.UpdatePrice(Convert.ToInt32(eventUnit.Price * effectValue));
                     break;
 
@@ -147,7 +147,7 @@ public class WorldEventManager : Singletone<WorldEventManager> {
                         break;
 
                     effectValue = 1-((float)PresentWorldEventData.EventEffectValue/100);
-                    Debug.LogError("effectValue: "+ effectValue);
+                    // Debug.LogError("effectValue: "+ effectValue);
                     eventUnit.UpdatePrice(Convert.ToInt32(eventUnit.Price * effectValue));
                     break;
 
@@ -156,7 +156,7 @@ public class WorldEventManager : Singletone<WorldEventManager> {
                         break;
                         
                     effectValue = 1-((float)PresentWorldEventData.EventEffectValue/100);
-                    Debug.LogError("effectValue: "+ effectValue);
+                    // Debug.LogError("effectValue: "+ effectValue);
                     eventUnit.UpdatePrice(Convert.ToInt32(eventUnit.Price * effectValue));
                     break;
 
@@ -165,7 +165,7 @@ public class WorldEventManager : Singletone<WorldEventManager> {
                         break;
 
                     effectValue = 1-((float)PresentWorldEventData.EventEffectValue/100);
-                    Debug.LogError("effectValue: "+ effectValue);
+                    // Debug.LogError("effectValue: "+ effectValue);
                     eventUnit.UpdatePrice(Convert.ToInt32(eventUnit.Price * effectValue));
                     break;
             }
@@ -212,7 +212,7 @@ public class WorldEventManager : Singletone<WorldEventManager> {
         do
         {
             retVal = UnityEngine.Random.Range(min, max);
-            Debug.Log("created key value: "+retVal);
+            // Debug.Log("created key value: "+retVal);
             index++;
             if (index >= UserManager.MAX_CHARACTER_COUNT)
             {

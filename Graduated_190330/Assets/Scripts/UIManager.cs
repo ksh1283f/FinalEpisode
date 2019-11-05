@@ -45,7 +45,7 @@ public class UIManager : Singletone<UIManager>
 
     public void InsertUI(E_UIType uiType, IBaseUI ui)
     {
-        Debug.Log("Inserted " + uiType);
+        //Debug.Log("Inserted " + uiType);
         if (!uiDic.ContainsKey(uiType))
         {
             uiDic.Add(uiType, ui);
@@ -73,7 +73,7 @@ public class UIManager : Singletone<UIManager>
             return;
 
         openedUiDic.Remove(uiType);
-        Debug.Log(uiType + "closed, openDic count: " + openedUiDic.Count);
+        //Debug.Log(uiType + "closed, openDic count: " + openedUiDic.Count);
     }
 
     void OnShowUI(E_UIType uiType, IBaseUI baseUI)
@@ -82,6 +82,6 @@ public class UIManager : Singletone<UIManager>
             return;
 
         openedUiDic.Add(uiType, baseUI);
-        Debug.Log(uiType + "showed, openDic count: " + openedUiDic.Count);
+        //Debug.Log(uiType + "showed, openDic count: " + openedUiDic.Count);
     }
 }

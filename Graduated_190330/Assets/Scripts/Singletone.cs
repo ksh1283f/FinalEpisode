@@ -57,7 +57,7 @@ public class uiSingletone<T> : MonoBehaviour, IBaseUI
 
     public void Initialize()
     {
-        Debug.Log(gameObject.name+"initilized");
+        //Debug.Log(gameObject.name+"initilized");
         UIManager.Instance.InsertUI(uiType, this);
     }
 

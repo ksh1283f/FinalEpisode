@@ -22,6 +22,9 @@ public class DungeonStepManager : Singletone<DungeonStepManager>
             DungeonMonsterData monsterData = item.Value.ShallowCopy() as DungeonMonsterData;
             DungeonPattern pattern = GameDataManager.Instance.DungeonPatternDataDic[monsterData.BossMonsterId].ShallowCopy() as DungeonPattern;
 
+            if(!GameDataManager.Instance.EnemyStatCorrectionDataDic.ContainsKey(monsterData.Id))
+                continue;
+                
             float cor = GameDataManager.Instance.EnemyStatCorrectionDataDic[monsterData.Id].HpCorrection;
             // 20 -> 1.20
             cor = cor / 100 + 1;   // 소수점으로 변경

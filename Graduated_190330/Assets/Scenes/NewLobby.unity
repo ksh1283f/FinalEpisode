@@ -2920,7 +2920,8 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 3.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6400000, guid: aad05534a7ba0dd49b8c54ce188308ec, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: aad05534a7ba0dd49b8c54ce188308ec, type: 3}
 --- !u!4 &103384325 stripped
 Transform:
@@ -15470,7 +15471,8 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 0.7128989
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6477152, guid: 33cf96e7c28302643ace35c3d203f5e0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 33cf96e7c28302643ace35c3d203f5e0, type: 3}
 --- !u!4 &600955535 stripped
 Transform:
@@ -32223,7 +32225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1211302141
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34701,7 +34703,12 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6400000, guid: 272ec112bddec644a8af6599107e74f7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6400000, guid: 272ec112bddec644a8af6599107e74f7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 272ec112bddec644a8af6599107e74f7, type: 3}
 --- !u!4 &1319488656 stripped
 Transform:
@@ -43388,7 +43395,8 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6400000, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
 --- !u!4 &1627507358 stripped
 Transform:
@@ -47291,7 +47299,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6400000, guid: 272ec112bddec644a8af6599107e74f7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 272ec112bddec644a8af6599107e74f7, type: 3}
 --- !u!4 &1767135020 stripped
 Transform:

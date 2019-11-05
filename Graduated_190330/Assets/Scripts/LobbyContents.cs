@@ -101,7 +101,7 @@ public class LobbyContents : MonoBehaviour
             if(!TutorialManager.Instance.IsTutorialComplete && TutorialManager.Instance.presentData.lobbyContentsType != contentsType)
                 return;
 
-            Debug.LogError("Lobby contents OnMouseDown");
+            // Debug.LogError("Lobby contents OnMouseDown");
             OnExecuteContets.Execute(contentsType);
         }
     }
@@ -114,7 +114,7 @@ public class LobbyContents : MonoBehaviour
             if(!TutorialManager.Instance.IsTutorialComplete && TutorialManager.Instance.presentData.lobbyContentsType != contentsType)
                 return;
 
-            Debug.LogError("Lobby contents OnMouseUp");
+            // Debug.LogError("Lobby contents OnMouseUp");
             OnExecuteContets.Execute(contentsType);
         }
     }

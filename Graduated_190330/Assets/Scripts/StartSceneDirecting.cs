@@ -62,7 +62,7 @@ public class StartSceneDirecting : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("show Title");
+        //Debug.Log("show Title");
 
         // 버튼 나오도록
         startUI.ShowBtns();

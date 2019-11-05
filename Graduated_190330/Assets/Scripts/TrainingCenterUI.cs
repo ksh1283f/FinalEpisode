@@ -202,7 +202,7 @@ public class TrainingCenterUI : uiSingletone<TrainingCenterUI>, IBaseUI
         do
         {
             retVal = Random.Range(100, 200);
-            Debug.Log("created key value: "+retVal);
+            // Debug.Log("created key value: "+retVal);
             index++;
             if (index >= UserManager.MAX_CHARACTER_COUNT)
             {

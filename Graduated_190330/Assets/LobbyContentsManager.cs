@@ -26,12 +26,12 @@ public class LobbyContentsManager : Singletone<LobbyContentsManager>
         lobbyContentsDic = new Dictionary<E_LobbyContents, LobbyContents>();
         lobbyUI = UIManager.Instance.LoadUI(E_UIType.Lobby) as LobbyUI;
         LobbyContents[] contentsArray = GetComponentsInChildren<LobbyContents>();
-        if (contentsArray == null)
+        if(contentsArray == null)
             return;
 
         for (int i = 0; i < contentsArray.Length; i++)
         {
-            if (contentsArray[i].contentsType == E_LobbyContents.None)
+            if (contentsArray[i].contentsType.Equals(E_LobbyContents.None))
                 continue;
 
             lobbyContentsDic.Add(contentsArray[i].contentsType, contentsArray[i]);

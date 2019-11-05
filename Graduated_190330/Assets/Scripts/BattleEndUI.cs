@@ -36,10 +36,10 @@ public class BattleEndUI : uiSingletone<BattleEndUI>, IBaseUI
         if (text == null)
             return;
 
-        if (rewardData == null)
+        if (rewardData==null)
             return;
 
-        if (btnOK == null)
+        if (btnOK== null)
             return;
         StringBuilder sb = new StringBuilder();
 

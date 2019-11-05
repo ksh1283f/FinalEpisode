@@ -95,10 +95,12 @@ public class EndingDirecting : MonoBehaviour
 
                         yield return null;
                     }
+                    fadeInTargetImage.gameObject.SetActive(false);
                     break;
 
                 case E_EndingDirectingDataType.FadeOut:
                     Image fadeOutTargetImage = data.Target.GetComponent<Image>();
+                    fadeOutTargetImage.gameObject.SetActive(true);
                     tempColor = fadeOutTargetImage.color;
                     startTime = 0f;
                     tempColor.a = Mathf.Lerp(0,1, startTime);

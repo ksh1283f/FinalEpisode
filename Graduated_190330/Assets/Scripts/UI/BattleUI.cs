@@ -22,16 +22,16 @@ public class BattleUI : uiSingletone<BattleUI>
 
     void Start()
     {
-        if (buttonWindow == null)
+        if (buttonWindow==null)
             return;
 
-        if (castWindow == null)
+        if (castWindow==null)
             return;
 
-        if (resourceWindow == null)
+        if (resourceWindow==null)
             return;
 
-        if (statWindow == null)
+        if (statWindow==null)
             return;
 
         phaseLogoWindow.OnEndDirecting += OnEndDirecting;
@@ -79,7 +79,7 @@ public class BattleUI : uiSingletone<BattleUI>
 
     public void ShowBattleLogo()
     {
-        if (phaseLogoWindow == null)
+        if (phaseLogoWindow==null)
             return;
 
         phaseLogoWindow.ShowDirectingLogo();
@@ -106,7 +106,7 @@ public class BattleUI : uiSingletone<BattleUI>
     /// <param name="skillCount"></param>
     public void SetSkillResorce(E_SkillResourceType skillResourceType, bool isGenerate, int skillCount = 0)
     {
-        if (resourceWindow == null)
+        if (resourceWindow== null)
             return;
 
         if (isGenerate)
@@ -122,7 +122,7 @@ public class BattleUI : uiSingletone<BattleUI>
 
     private void SetTimerText(float time)
     {
-        if (RemainText == null)
+        if (RemainText==null)
         {
             Debug.LogError("remainText is null");
             return;

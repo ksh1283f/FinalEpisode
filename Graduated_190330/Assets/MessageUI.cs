@@ -23,10 +23,10 @@ public class MessageUI : uiSingletone<MessageUI>, IBaseUI
         if (titleText == null)
             return;
 
-        if (contentText == null)
+        if (contentText== null)
             return;
 
-        if (btnOK == null)
+        if (btnOK==null)
             return;
 
         btnOK.onClick.AddListener(() => { OnBtnOk(); });

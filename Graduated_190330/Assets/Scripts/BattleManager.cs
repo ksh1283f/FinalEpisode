@@ -69,7 +69,7 @@ public class BattleManager : Singletone<BattleManager> {
     public E_BattlePhase BattlePhase {
         get { return battlePhase; }
         set {
-            if (value == battlePhase)
+            if (value.Equals(battlePhase))
                 return;
 
             battlePhase = value;
@@ -97,7 +97,7 @@ public class BattleManager : Singletone<BattleManager> {
     public float RemainTime {
         get { return remainTime; }
         set {
-            if (value == remainTime)
+            if (value.Equals(remainTime))
                 return;
 
             remainTime = value;
@@ -167,7 +167,7 @@ public class BattleManager : Singletone<BattleManager> {
                 case E_CharacterType.Mage:
                 case E_CharacterType.Warlock:
                 case E_CharacterType.Rogue:
-                    player = Instantiate(playerObjList.Find(x => {return x.CharacterType == item.Value.CharacterType;}),playerPosList[index].position,playerPosList[index].rotation);
+                    player = Instantiate(playerObjList.Find(x => {return x.CharacterType.Equals(item.Value.CharacterType);}),playerPosList[index].position,playerPosList[index].rotation);
                     break;
             }
 
@@ -176,7 +176,7 @@ public class BattleManager : Singletone<BattleManager> {
                 Debug.LogError("Player is null");
                 return;
             }
-            if( player.CharacterType == E_CharacterType.Warrior && !isContainedWarrior)
+            if( player.CharacterType.Equals( E_CharacterType.Warrior) && !isContainedWarrior)
                 isContainedWarrior = true;
 
             player.SetCharacterType (item.Value.CharacterType);
@@ -193,13 +193,13 @@ public class BattleManager : Singletone<BattleManager> {
 
             // 특성 체크ㅋ    
             if (CharacterPropertyManager.Instance.SelectedUtilProperty != null
-            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarlockUtilMaserty_Healing
-            && player.CharacterType == E_CharacterType.Warlock)
+            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType.Equals(E_PropertyEffectType.WarlockUtilMaserty_Healing)
+            && player.CharacterType.Equals(E_CharacterType.Warlock))
                 AllCri += CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue;
 
             PlayerUnitList.Add(player);
 
-            if(index == 0)
+            if(index.Equals(0))
                 mainFollowCam.target = player.transform;
 
             index++;
@@ -211,7 +211,7 @@ public class BattleManager : Singletone<BattleManager> {
             PlayerUnitList[i].speed = averageSpd;
 
         if(CharacterPropertyManager.Instance.SelectedUtilProperty!= null 
-            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense
+            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType.Equals(E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense) 
             && isContainedWarrior)
         {
             int increasedValue = (int)((float)AllDef*((float)CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue/100f));
@@ -246,7 +246,7 @@ public class BattleManager : Singletone<BattleManager> {
         thisBattleRewardData = GameDataManager.Instance.RewardDataDic[dungeonMonsterData.Id];
 
         // 엔딩이 나오는 씬인가?
-        if(dungeonMonsterData.Id == 1)
+        if(dungeonMonsterData.Id.Equals(1))
             isShowEndingDirecting = true;
         
         // 데이터에 맞게 가져오기
@@ -258,7 +258,7 @@ public class BattleManager : Singletone<BattleManager> {
             int enemyId = -1;
             bool isBoss=false;
             
-            if(i == dataLength-1)   // 보스몹의 경우
+            if(i.Equals(dataLength-1))   // 보스몹의 경우
             {
                 enemyId = dungeonMonsterData.BossMonsterId;
                 isBoss = true;
@@ -266,7 +266,7 @@ public class BattleManager : Singletone<BattleManager> {
             else
                 enemyId = dungeonMonsterData.MinionMonsterIds[i];    
             
-            if(enemyId == -1)
+            if(enemyId.Equals( -1))
             {
                 Debug.LogError("enemyId is null");
                 return;
@@ -321,7 +321,7 @@ public class BattleManager : Singletone<BattleManager> {
     {
         Graduate.Unit.Enemy.EnemyUnit tempEnemy = null;
         for (int i = 0; i < EnemyUnitList.Count; i++) {
-            if(EnemyUnitList[i] == null || EnemyUnitList[i].EnemyUnitState == Graduate.Unit.E_UnitState.Death)
+            if(EnemyUnitList[i]==null || EnemyUnitList[i].EnemyUnitState.Equals(Graduate.Unit.E_UnitState.Death) )
             {
                 continue;
             }
@@ -359,7 +359,7 @@ public class BattleManager : Singletone<BattleManager> {
 
     public void GenerateSkillResource (E_SkillResourceType skillResourceType) {
         SoundManager.Instance.PlayButtonSound();
-        if (PhaseType == E_PhaseType.None)
+        if (PhaseType.Equals(E_PhaseType.None))
             return;
 
         if (!IsCooldownComplite)
@@ -374,11 +374,11 @@ public class BattleManager : Singletone<BattleManager> {
 
         switch (skillResourceType) {
             case E_SkillResourceType.Attack:
-                if (AttackResourceCount == MAX_SKILL_RESOURCE_COUNT)
+                if (AttackResourceCount.Equals(MAX_SKILL_RESOURCE_COUNT))
                     return;
 
                 if (CharacterPropertyManager.Instance.SelectedCommonProperty != null &&
-                    CharacterPropertyManager.Instance.SelectedCommonProperty.EffectType == E_PropertyEffectType.AdditionalAtkResource)
+                    CharacterPropertyManager.Instance.SelectedCommonProperty.EffectType.Equals(E_PropertyEffectType.AdditionalAtkResource))
                     createCount++;
 
                 AttackResourceCount += createCount;
@@ -389,11 +389,11 @@ public class BattleManager : Singletone<BattleManager> {
                 break;
 
             case E_SkillResourceType.Util:
-                if (UtilResourceCount == MAX_SKILL_RESOURCE_COUNT)
+                if (UtilResourceCount.Equals(MAX_SKILL_RESOURCE_COUNT))
                     return;
 
                 if (CharacterPropertyManager.Instance.SelectedCommonProperty != null &&
-                    CharacterPropertyManager.Instance.SelectedCommonProperty.EffectType == E_PropertyEffectType.AdditionalUtilResource)
+                    CharacterPropertyManager.Instance.SelectedCommonProperty.EffectType.Equals(E_PropertyEffectType.AdditionalUtilResource))
                     createCount++;
 
                 UtilResourceCount += createCount;
@@ -404,11 +404,11 @@ public class BattleManager : Singletone<BattleManager> {
                 break;
 
             case E_SkillResourceType.Defense:
-                if (DefenseResourceCount == MAX_SKILL_RESOURCE_COUNT)
+                if (DefenseResourceCount.Equals(MAX_SKILL_RESOURCE_COUNT))
                     return;
 
                 if (CharacterPropertyManager.Instance.SelectedCommonProperty != null &&
-                    CharacterPropertyManager.Instance.SelectedCommonProperty.EffectType == E_PropertyEffectType.AdditionalDefResource)
+                    CharacterPropertyManager.Instance.SelectedCommonProperty.EffectType.Equals(E_PropertyEffectType.AdditionalDefResource))
                     createCount++;
 
                 DefenseResourceCount += createCount;
@@ -421,12 +421,12 @@ public class BattleManager : Singletone<BattleManager> {
         BattleUI.Instance.SetSkillResorce (skillResourceType, true, createdCount);
         OnStartCooldown.Execute (Cooltime);
         EffectManager.Instance.StartEffect(E_SkillEffectType.UserGenerateResourceEffect,effectTrans.position);
-        Debug.Log (skillResourceType + ": " + createCount);
+        // Debug.Log (skillResourceType + ": " + createCount);
     }
 
     public void DeleteSkillResource (E_SkillResourceType skillResourceType) {
         SoundManager.Instance.PlayButtonSound();
-        if (PhaseType == E_PhaseType.None)
+        if (PhaseType.Equals(E_PhaseType.None))
             return;
 
         // 쿨타임인지 아닌지
@@ -439,25 +439,25 @@ public class BattleManager : Singletone<BattleManager> {
         int count = 0;
         switch (skillResourceType) {
             case E_SkillResourceType.Attack:
-                if (AttackResourceCount == 0)
+                if (AttackResourceCount.Equals(0))
                     return;
 
                 count = AttackResourceCount;
 
-                Debug.Log (skillResourceType + "," + "used count" + ": " + count + ", remain count: " + AttackResourceCount);
+                // Debug.Log (skillResourceType + "," + "used count" + ": " + count + ", remain count: " + AttackResourceCount);
                 int damage = CalculateAttackDamage ();
                 NowEnemy.GetDamaged (damage);
                 AttackResourceCount = 0;
                 break;
 
             case E_SkillResourceType.Util:
-                if (UtilResourceCount == 0)
+                if (UtilResourceCount.Equals(0))
                     return;
 
                 count = UtilResourceCount;
                 UtilResourceCount = 0;
-                Debug.Log (skillResourceType + "," + "used count" + ": " + count + ", remain count: " + UtilResourceCount);
-                if (thisPattern != null && thisPattern.SkillType == E_UserSkillType.Util) {
+                // Debug.Log (skillResourceType + "," + "used count" + ": " + count + ", remain count: " + UtilResourceCount);
+                if (thisPattern != null && thisPattern.SkillType.Equals(E_UserSkillType.Util)) {
                     isCorrespondPattern = true;
                     correspondCount = count;
                 }
@@ -466,13 +466,13 @@ public class BattleManager : Singletone<BattleManager> {
                 break;
 
             case E_SkillResourceType.Defense:
-                if (DefenseResourceCount == 0)
+                if (DefenseResourceCount.Equals(0))
                     return;
 
                 count = DefenseResourceCount;
                 DefenseResourceCount = 0;
-                Debug.Log (skillResourceType + "," + "used count" + ": " + count + ", remain count: " + DefenseResourceCount);
-                if (thisPattern != null && thisPattern.SkillType == E_UserSkillType.Defense) {
+                // Debug.Log (skillResourceType + "," + "used count" + ": " + count + ", remain count: " + DefenseResourceCount);
+                if (thisPattern != null && thisPattern.SkillType.Equals(E_UserSkillType.Defense)) {
                     isCorrespondPattern = true;
                     correspondCount = count;
                 }
@@ -487,7 +487,7 @@ public class BattleManager : Singletone<BattleManager> {
 
     public void DeleteSkillResource (E_UserSkillType skillType) {
         SoundManager.Instance.PlayButtonSound();
-        if (PhaseType == E_PhaseType.None)
+        if (PhaseType.Equals(E_PhaseType.None))
             return;
 
         // 쿨타임인지 아닌지
@@ -498,17 +498,17 @@ public class BattleManager : Singletone<BattleManager> {
         int countSecond = 0;
         switch (skillType) {
             case E_UserSkillType.AttackAndUtil:
-                if (AttackResourceCount == 0)
+                if (AttackResourceCount.Equals(0))
                     return;
 
-                if (UtilResourceCount == 0)
+                if (UtilResourceCount.Equals(0))
                     return;
 
                 countFirst = AttackResourceCount;
                 countSecond = UtilResourceCount;
                 AttackResourceCount = 0;
                 UtilResourceCount = 0;
-                if (thisPattern != null && thisPattern.SkillType == E_UserSkillType.AttackAndUtil) {
+                if (thisPattern != null && thisPattern.SkillType.Equals(E_UserSkillType.AttackAndUtil) ) {
                     isCorrespondPattern = true;
                     correspondCount = countFirst + countSecond;
                     EffectManager.Instance.StartEffect(E_SkillEffectType.UserUseComplexSkillEffect,effectTrans.position);
@@ -528,7 +528,7 @@ public class BattleManager : Singletone<BattleManager> {
         get {
             int count = 0;
             for (int i = 0; i < EnemyUnitList.Count; i++) {
-                if (EnemyUnitList[i].EnemyUnitState == Graduate.Unit.E_UnitState.Death)
+                if (EnemyUnitList[i].EnemyUnitState.Equals(Graduate.Unit.E_UnitState.Death))
                     continue;
 
                 count++;
@@ -549,7 +549,7 @@ public class BattleManager : Singletone<BattleManager> {
     public Graduate.Unit.E_UnitState PlayerState {
         get { return playerState; }
         set {
-            if (value == playerState)
+            if (value.Equals(playerState))
                 return;
 
             playerState = value;
@@ -565,12 +565,12 @@ public class BattleManager : Singletone<BattleManager> {
         PlayerState = Graduate.Unit.E_UnitState.None;
         if(monsterCasting != null) 
         {
-            Debug.LogError("StopCoroutine(monsterCasting);");
+            // Debug.LogError("StopCoroutine(monsterCasting);");
             StopCoroutine(monsterCasting);
         }
             
         OnCastingEnd.Execute();
-        if (aliveEnemyCount == 0) {
+        if (aliveEnemyCount.Equals(0)) {
             StopCoroutine (CalculateRemainCount ());
             // ui상으로 보여주기
 
@@ -581,9 +581,6 @@ public class BattleManager : Singletone<BattleManager> {
         } else {
             NowEnemy = null;
             for (int i = 0; i < EnemyUnitList.Count; i++) {
-                // if (EnemyUnitList[i].EnemyUnitState == Graduate.Unit.E_UnitState.Death)
-                //     continue;
-
                 if (NowEnemy == null) {
                     // NowEnemy = EnemyUnitList[i];
                     // float hpValue = nowEnemy.HP
@@ -606,18 +603,18 @@ public class BattleManager : Singletone<BattleManager> {
 
     void StartHealOverTime()
     {
-        if(CharacterPropertyManager.Instance.SelectedUtilProperty == null || CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType != E_PropertyEffectType.MageUtilMaserty_HOT)
+        if(CharacterPropertyManager.Instance.SelectedUtilProperty==null || CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType != E_PropertyEffectType.MageUtilMaserty_HOT)
             return;
 
         int mageNum = 0;
         for (int i = 0; i < PlayerUnitList.Count; i++)
         {
-            if(PlayerUnitList[i].CharacterType == E_CharacterType.Mage)
+            if(PlayerUnitList[i].CharacterType.Equals(E_CharacterType.Mage))
                 mageNum++;
         }
 
         // 마법사가 없으면 종료
-        if(mageNum  == 0)
+        if(mageNum.Equals(0))
             return;
 
         string path = CharacterPropertyManager.Instance.SelectedUtilProperty.SkillEffectPath;
@@ -635,7 +632,7 @@ public class BattleManager : Singletone<BattleManager> {
             yield return new WaitForSeconds (1f);
             float healValue = ((float)CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue * mageNum/100);
             healValue *= MaxPlayerHealth;
-            Debug.LogError("HealValue: "+healValue);
+            // Debug.LogError("HealValue: "+healValue);
             DamageFloatManager.Instance.ShowDamageFont (PlayerUnitList[0].gameObject, healValue, E_DamageType.Heal);
             nowplayerHealth += (int)healValue;
             if(nowplayerHealth > MaxPlayerHealth)   // 최대생명력을 넘지 않게
@@ -688,18 +685,18 @@ public class BattleManager : Singletone<BattleManager> {
 
             // 1.아군 앞으로
             ChangeUnitsState (Graduate.Unit.E_UnitState.Move);
-            Debug.Log("1. 캐릭터 이동");
+            // Debug.Log("1. 캐릭터 이동");
 
             // 2.적 조우
             while (!IsEncounterEnemy)
                 yield return null;
-            Debug.Log("2. 적 조우");
+            // Debug.Log("2. 적 조우");
 
-            while (PhaseType == E_PhaseType.None)
+            while (PhaseType.Equals(E_PhaseType.None))
                 yield return null;
 
             ChangeUnitsState(Graduate.Unit.E_UnitState.Idle);
-            Debug.Log("3. 공격대기");
+            // Debug.Log("3. 공격대기");
 
             //todo 튜토리얼 유무: 튜토리얼중이면 대기하기
             // show tutorial simple ui
@@ -709,14 +706,14 @@ public class BattleManager : Singletone<BattleManager> {
                 tutorialUI = UIManager.Instance.LoadUI (E_UIType.TutorialSimpleBattle) as TutorialSimpleUI;
                 tutorialUI.Show (new string[] { "전투 소개" });
                 tutorialUI.SetTutorialType (E_SimpleTutorialType.Battle);
-                Debug.Log("3-1. 전투 튜토리얼");
+                // Debug.Log("3-1. 전투 튜토리얼");
             }
             // if tutorial simple ui is activated, wait for inactivating..
             while (tutorialUI != null && tutorialUI.gameObject.activeSelf)
                 yield return null;
 
             ChangeUnitsState (Graduate.Unit.E_UnitState.Attack);
-            Debug.Log("4. 전투 시작!");
+            // Debug.Log("4. 전투 시작!");
 
             // 3.적 캐스팅
             int index = 0;
@@ -726,20 +723,20 @@ public class BattleManager : Singletone<BattleManager> {
                 Debug.Log("battle...");
                 if (isBattleEnd)
                 {
-                    Debug.Log("전투 끝!");
+                    // Debug.Log("전투 끝!");
                     yield break;
                 }
                 
-                Debug.Log("4-1. 다음 패턴 대기시간 :"+dungeonPattern.PatternTerm);
+                // Debug.Log("4-1. 다음 패턴 대기시간 :"+dungeonPattern.PatternTerm);
                 yield return new WaitForSeconds (dungeonPattern.PatternTerm);
-                if(Target.EnemyUnitState == Graduate.Unit.E_UnitState.Death)
+                if(Target.EnemyUnitState.Equals( Graduate.Unit.E_UnitState.Death))
                     break;
 
                 thisPattern = dungeonPattern.PatternList[index];
                 OnExecuteMonsterCasting.Execute (thisPattern);
-                Debug.Log("4-2. 캐스팅... :"+thisPattern.CastTime);
+                // Debug.Log("4-2. 캐스팅... :"+thisPattern.CastTime);
                 yield return new WaitForSeconds (thisPattern.CastTime);
-                if(Target.EnemyUnitState == Graduate.Unit.E_UnitState.Death)
+                if(Target.EnemyUnitState.Equals( Graduate.Unit.E_UnitState.Death))
                     break;
 
                 // 4.대응
@@ -773,7 +770,7 @@ public class BattleManager : Singletone<BattleManager> {
         float progress = 0;
         while (progress < 1) 
         {
-            if (NowEnemy != null && NowEnemy.EnemyUnitState == Graduate.Unit.E_UnitState.Death) {
+            if (NowEnemy != null && NowEnemy.EnemyUnitState.Equals( Graduate.Unit.E_UnitState.Death)) {
                 OnCastingEnd.Execute ();
                 yield break;
             }
@@ -790,8 +787,8 @@ public class BattleManager : Singletone<BattleManager> {
     [SerializeField] Transform effectTrans;
     void ChangeUnitsState (Graduate.Unit.E_UnitState unitState)
     {
-        Debug.LogError (gameObject.name + unitState);
-        if (PlayerUnitList == null) 
+        // Debug.LogError (gameObject.name + unitState);
+        if (PlayerUnitList == null)
         {
             Debug.LogError ("PlayerUnitList is null");
             return;
@@ -800,7 +797,7 @@ public class BattleManager : Singletone<BattleManager> {
         for (int i = 0; i < PlayerUnitList.Count; i++)
             PlayerUnitList[i].PlayerUnitState = unitState;
 
-        if(unitState == Graduate.Unit.E_UnitState.Attack)
+        if(unitState.Equals(Graduate.Unit.E_UnitState.Attack) )
         {
             effectTrans.position = new Vector3(PlayerUnitList[0].transform.position.x+1,
                             PlayerUnitList[0].transform.position.y,
@@ -834,20 +831,20 @@ public class BattleManager : Singletone<BattleManager> {
         float criValue = (float)AllCri / 100; 
         if (criValue >= cri)
         {
-            Debug.LogError("Critical!");
+            // Debug.LogError("Critical!");
             calculatedDamage *= 2;
         }
             
         // todo 이펙트
         // 생흡 효과 유무
-        if(ActivatedBattleBuff != null && ActivatedBattleBuff.BattleBuffType == E_BattleBuffType.DrainHealthPerDamage)
+        if(ActivatedBattleBuff != null && ActivatedBattleBuff.BattleBuffType.Equals(E_BattleBuffType.DrainHealthPerDamage))
         {
-            if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Warlock) != null)
+            if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType.Equals(E_CharacterType.Warlock)) != null)
             {
                 float percentVal = (float)ActivatedBattleBuff.EffectValue/100f;
                 float healValue = Convert.ToInt32((float)calculatedDamage*percentVal);
                 
-                Debug.LogError("Leech HealValue: "+healValue);
+                // Debug.LogError("Leech HealValue: "+healValue);
                 DamageFloatManager.Instance.ShowDamageFont (PlayerUnitList[0].gameObject, healValue, E_DamageType.Heal);
                 nowplayerHealth += (int)healValue;
                 if(nowplayerHealth > MaxPlayerHealth)   // 최대생명력을 넘지 않게
@@ -864,19 +861,19 @@ public class BattleManager : Singletone<BattleManager> {
             }
         }
 
-        Debug.Log ("[Test]Damage from player: " + calculatedDamage);
+        // Debug.Log ("[Test]Damage from player: " + calculatedDamage);
         EffectManager.Instance.StartEffect(E_SkillEffectType.UserUseAttackSkillEffect,effectTrans.position);
         return calculatedDamage;
     }
 
     void CalculatedEnemyDamaged (int damage) {
-        if (NowEnemy == null)
+        if (NowEnemy== null)
             return;
 
-        if (dungeonPattern == null)
+        if (dungeonPattern ==null)
             return;
 
-        if (NowEnemy.EnemyUnitState == Graduate.Unit.E_UnitState.Death)
+        if (NowEnemy.EnemyUnitState.Equals( Graduate.Unit.E_UnitState.Death))
             return;
 
         // todo  이펙트
@@ -943,13 +940,13 @@ public class BattleManager : Singletone<BattleManager> {
         DamageFloatManager.Instance.ShowDamageFont (PlayerUnitList[0].gameObject, finalDamage, E_DamageType.Normal);
         nowplayerHealth -= finalDamage;
         if (nowplayerHealth <= 0) {
-            if (ActivatedBattleBuff != null && ActivatedBattleBuff.BattleBuffType == E_BattleBuffType.CheatDeath)
+            if (ActivatedBattleBuff != null && ActivatedBattleBuff.BattleBuffType.Equals( E_BattleBuffType.CheatDeath))
             {
                 float percentValue = (float)ActivatedBattleBuff.EffectValue/100f;
                 nowplayerHealth = Convert.ToInt32(MaxPlayerHealth*percentValue);
                 string path = CharacterPropertyManager.Instance.SelectedUtilProperty.SkillEffectPath;
                 EffectManager.Instance.StartEffect(path, effectTrans.position);
-                Debug.LogError("Cheat death is activated!");
+                // Debug.LogError("Cheat death is activated!");
             }
             else
             {
@@ -966,7 +963,7 @@ public class BattleManager : Singletone<BattleManager> {
 
         float playerHealthPer = (float) nowplayerHealth / (float) MaxPlayerHealth;
         OnDamagedPlayer.Execute (playerHealthPer);
-        Debug.Log ("[Test] Damage from monster: " + finalDamage);
+        // Debug.Log ("[Test] Damage from monster: " + finalDamage);
         ActivatedBattleBuff = null;
         if(correspondCount > 0) // 대응 자원개수 초기화
             correspondCount = 0;
@@ -1024,7 +1021,7 @@ public class BattleManager : Singletone<BattleManager> {
                 }
 
                 unitDataList[i].UpdateExp (unitRewardExp);
-                Debug.LogError ("unitId: " + unitDataList[i].Id);
+                // Debug.LogError ("unitId: " + unitDataList[i].Id);
                 UserManager.Instance.SetMyUnitList (unitDataList[i]);
                 
             }
@@ -1036,7 +1033,7 @@ public class BattleManager : Singletone<BattleManager> {
         UserInfo userInfo = UserManager.Instance.UserInfo;
         
         int thisDungeonStep = isClear? thisBattleRewardData.DungeonId + 1 :  thisBattleRewardData.DungeonId;
-        if (thisDungeonStep == userInfo.BestDungeonStep + 1) // 기록단수 보다 높으면 경신 
+        if (thisDungeonStep.Equals(userInfo.BestDungeonStep + 1)) // 기록단수 보다 높으면 경신 
             userInfo.BestDungeonStep++;
 
         UserManager.Instance.SetUserInfo (userInfo);
@@ -1044,6 +1041,8 @@ public class BattleManager : Singletone<BattleManager> {
     }
 
     public void LoadLobbyScene () {
+        TutorialSimpleUI tutorialUI = UIManager.Instance.LoadUI (E_UIType.TutorialSimpleBattle) as TutorialSimpleUI;
+        tutorialUI.Close();
         isBattleEnd = true;
         SoundManager.Instance.PlayButtonSound();
         if(isShowEndingDirecting)
@@ -1069,10 +1068,10 @@ public class BattleManager : Singletone<BattleManager> {
       
         // 적 패스
         if(CharacterPropertyManager.Instance.SelectedUtilProperty != null
-        && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.RogueUtilMaserty_Clocking)
+        && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType.Equals( E_PropertyEffectType.RogueUtilMaserty_Clocking))
         {
             // 해당 용병이 출전했을때만 사용가능
-            if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Rogue) != null)
+            if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType.Equals( E_CharacterType.Rogue)) != null)
             {
                 nowEnemy.EnemyUnitState = Graduate.Unit.E_UnitState.Death;
                 string path = CharacterPropertyManager.Instance.SelectedUtilProperty.SkillEffectPath;
@@ -1100,22 +1099,22 @@ public class BattleManager : Singletone<BattleManager> {
             switch (CharacterPropertyManager.Instance.SelectedHealingProperty.EffectType)
             {
                 case E_PropertyEffectType.WarriorHealingMaserty_DecreaseDamageFromEnemy:
-                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Warrior) != null)
+                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType.Equals( E_CharacterType.Warrior)) != null)
                         buff = new BattleBuff(E_BattleBuffType.DecreasDamage, property.EffectValue);
                     break;
 
                 case E_PropertyEffectType.MageHealingMaserty_Invincible:
-                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Mage) != null)
+                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType.Equals(E_CharacterType.Mage) ) != null)
                         buff = new BattleBuff(E_BattleBuffType.Invincible, property.EffectValue);
                     break;
 
                 case E_PropertyEffectType.WarlockHealingMaserty_DrainHealthPerDamage:
-                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Warlock) != null)
+                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType.Equals(E_CharacterType.Warlock)) != null)
                         buff = new BattleBuff(E_BattleBuffType.DrainHealthPerDamage, property.EffectValue);
                     break;
 
                 case E_PropertyEffectType.RogueHealingMaserty_CheatDeath:
-                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType == E_CharacterType.Rogue) != null)
+                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType.Equals(E_CharacterType.Rogue)) != null)
                         buff = new BattleBuff(E_BattleBuffType.CheatDeath, property.EffectValue);
                     break;
             }
