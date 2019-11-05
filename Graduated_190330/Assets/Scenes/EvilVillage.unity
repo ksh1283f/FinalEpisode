@@ -11370,7 +11370,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -13393,7 +13393,7 @@ PrefabInstance:
     - target: {fileID: 7945387198069401941, guid: fb696386afd7a45378f88211a51e1ee1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7945387198069401941, guid: fb696386afd7a45378f88211a51e1ee1,
         type: 3}
@@ -19743,7 +19743,7 @@ PrefabInstance:
     - target: {fileID: 7945387198069401941, guid: fb696386afd7a45378f88211a51e1ee1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7945387198069401941, guid: fb696386afd7a45378f88211a51e1ee1,
         type: 3}
