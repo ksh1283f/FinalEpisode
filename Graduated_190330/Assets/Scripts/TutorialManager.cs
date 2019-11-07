@@ -82,7 +82,6 @@ public class TutorialManager : Singletone<TutorialManager>
 
             // 4. 대상 ui가 종료되면 다음으로
             LobbyContentsManager.Instance.lobbyContentsDic[serializedDataList[index].lobbyContentsType].IsThisContentsTurnInTutorial = false;
-            Debug.LogError("presentTutorialIndex: "+presentTutorialIndex);
             presentTutorialIndex++;
         }
 
