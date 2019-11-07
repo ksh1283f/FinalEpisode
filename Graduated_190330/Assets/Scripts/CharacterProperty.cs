@@ -9,12 +9,13 @@ public enum E_PropertyEffectType
     AdditionalDefResource,
     WarriorUtilMaserty_AdditionalDefense,
     MageUtilMaserty_HOT,
-    WarlockUtilMaserty_Healing,
+    WarlockUtilMaserty_IncreaseCri,
     RogueUtilMaserty_Clocking,
     WarriorHealingMaserty_DecreaseDamageFromEnemy,
     MageHealingMaserty_Invincible,
     WarlockHealingMaserty_DrainHealthPerDamage,
     RogueHealingMaserty_CheatDeath,
+    WarriorHealingMastery_SpellReflection,
 }
 
 public enum E_DetailPropertyType

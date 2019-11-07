@@ -17,6 +17,7 @@ public enum E_BattleBuffType
     Invincible,
     DrainHealthPerDamage,
     CheatDeath,
+    SpellReflection,
 }
 
 public class BattleBuff

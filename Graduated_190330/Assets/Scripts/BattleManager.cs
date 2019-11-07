@@ -193,7 +193,7 @@ public class BattleManager : Singletone<BattleManager> {
 
             // 특성 체크ㅋ    
             if (CharacterPropertyManager.Instance.SelectedUtilProperty != null
-            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType.Equals(E_PropertyEffectType.WarlockUtilMaserty_Healing)
+            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType.Equals(E_PropertyEffectType.WarlockUtilMaserty_IncreaseCri)
             && player.CharacterType.Equals(E_CharacterType.Warlock))
                 AllCri += CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue;
 
@@ -210,13 +210,13 @@ public class BattleManager : Singletone<BattleManager> {
         for (int i = 0; i < PlayerUnitList.Count; i++)
             PlayerUnitList[i].speed = averageSpd;
 
-        if(CharacterPropertyManager.Instance.SelectedUtilProperty!= null 
-            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType.Equals(E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense) 
-            && isContainedWarrior)
-        {
-            int increasedValue = (int)((float)AllDef*((float)CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue/100f));
-            AllDef += increasedValue;
-        }
+        //if(CharacterPropertyManager.Instance.SelectedUtilProperty!= null 
+        //    && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType.Equals(E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense) 
+        //    && isContainedWarrior)
+        //{
+        //    int increasedValue = (int)((float)AllDef*((float)CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue/100f));
+        //    AllDef += increasedValue;
+        //}
 
         OnUpdatedPlayerSkill.Execute();
 
@@ -1091,22 +1091,43 @@ public class BattleManager : Singletone<BattleManager> {
             return; // 보스는 해당안됨
       
         // 적 패스
-        if(CharacterPropertyManager.Instance.SelectedUtilProperty != null
-        && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType.Equals( E_PropertyEffectType.RogueUtilMaserty_Clocking))
+        if(CharacterPropertyManager.Instance.SelectedUtilProperty != null)
         {
-            // 해당 용병이 출전했을때만 사용가능
-            if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType.Equals( E_CharacterType.Rogue)) != null)
+            switch (CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType)
             {
-                nowEnemy.EnemyUnitState = Graduate.Unit.E_UnitState.Death;
-                string path = CharacterPropertyManager.Instance.SelectedUtilProperty.SkillEffectPath;
-                EffectManager.Instance.StartEffect(path, effectTrans.position);
+                case E_PropertyEffectType.RogueUtilMaserty_Clocking:
+                    if (UserManager.Instance.UserInfo.SelectedUnitList.Find(x => x.CharacterType.Equals(E_CharacterType.Rogue)) != null)
+                    {
+                        nowEnemy.EnemyUnitState = Graduate.Unit.E_UnitState.Death;
+                        string path = CharacterPropertyManager.Instance.SelectedUtilProperty.SkillEffectPath;
+                        EffectManager.Instance.StartEffect(path, effectTrans.position);
 
-                float time = CharacterPropertyManager.Instance.SelectedUtilProperty.CoolTime;
-                StartUtilCoolDown.Execute(time, true);
-            }  
+                        float time = CharacterPropertyManager.Instance.SelectedUtilProperty.CoolTime;
+                        StartUtilCoolDown.Execute(time, true);
+                    }
+                    break;
+
+                case E_PropertyEffectType.WarriorHealingMastery_SpellReflection:
+                    if (UserManager.Instance.UserInfo.SelectedUnitList.Find(x => x.CharacterType.Equals(E_CharacterType.Warrior)) != null)
+                    {
+                        // 주문 반사
+                        BattleBuff buff = null;
+                        if (UserManager.Instance.UserInfo.SelectedUnitList.Find(x => x.CharacterType.Equals(E_CharacterType.Warrior)) != null)
+                            buff = new BattleBuff(E_BattleBuffType.SpellReflection, CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue);
+
+                        string path = CharacterPropertyManager.Instance.SelectedUtilProperty.SkillEffectPath;
+                        EffectManager.Instance.StartEffect(path, effectTrans.position);
+
+                        float time = CharacterPropertyManager.Instance.SelectedUtilProperty.CoolTime;
+                        StartUtilCoolDown.Execute(time, true);
+
+                        if(buff != null)
+                            ActivatedBattleBuff = buff;
+                    }
+                    break;
+                
+            }
         }
-
-        
     }
 
     public void ExecuteHealPropertySkill()
@@ -1122,9 +1143,10 @@ public class BattleManager : Singletone<BattleManager> {
             // 여기서 특성별로 다르게
             switch (CharacterPropertyManager.Instance.SelectedHealingProperty.EffectType)
             {
-                case E_PropertyEffectType.WarriorHealingMaserty_DecreaseDamageFromEnemy:
-                    if(UserManager.Instance.UserInfo.SelectedUnitList.Find(x=>x.CharacterType.Equals( E_CharacterType.Warrior)) != null)
-                        buff = new BattleBuff(E_BattleBuffType.DecreasDamage, property.EffectValue);
+
+                case E_PropertyEffectType.WarriorHealingMastery_SpellReflection:
+                    if (UserManager.Instance.UserInfo.SelectedUnitList.Find(x => x.CharacterType.Equals(E_CharacterType.Warrior)) != null)
+                        buff = new BattleBuff(E_BattleBuffType.SpellReflection, property.EffectValue);
                     break;
 
                 case E_PropertyEffectType.MageHealingMaserty_Invincible:

@@ -71,16 +71,16 @@ public class StatWindow : MonoBehaviour
                 isContainedWarrior = true;
             
             if (CharacterPropertyManager.Instance.SelectedUtilProperty != null
-            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarlockUtilMaserty_Healing
+            && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarlockUtilMaserty_IncreaseCri
             && unitData.CharacterType == E_CharacterType.Warlock)
                 allCri += CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue;
         }
 
-        if(CharacterPropertyManager.Instance.SelectedUtilProperty!= null 
+        if (CharacterPropertyManager.Instance.SelectedUtilProperty != null
             && CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType == E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense
             && isContainedWarrior)
         {
-            int increasedValue = (int)((float)allDef*((float)CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue/100f));
+            int increasedValue = (int)((float)allDef * ((float)CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue / 100f));
             allDef += increasedValue;
         }
 

@@ -73,11 +73,12 @@ public static class HelperUtil
 
             case E_PropertyEffectType.WarriorUtilMaserty_AdditionalDefense:
             case E_PropertyEffectType.MageUtilMaserty_HOT:
-            case E_PropertyEffectType.WarlockUtilMaserty_Healing:
+            case E_PropertyEffectType.WarlockUtilMaserty_IncreaseCri:
             case E_PropertyEffectType.RogueUtilMaserty_Clocking:
                 return E_BattlePropertyType.Util;
 
             case E_PropertyEffectType.WarriorHealingMaserty_DecreaseDamageFromEnemy:
+            case E_PropertyEffectType.WarriorHealingMastery_SpellReflection:
             case E_PropertyEffectType.MageHealingMaserty_Invincible:
             case E_PropertyEffectType.WarlockHealingMaserty_DrainHealthPerDamage:
             case E_PropertyEffectType.RogueHealingMaserty_CheatDeath:
