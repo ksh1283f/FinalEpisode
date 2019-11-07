@@ -350,9 +350,10 @@ public class GameDataManager : Singletone<GameDataManager> {
 
             values = strLineValue.Split (',');
             int dungeonId = Convert.ToInt32 (values[0]);
-            int gold = Convert.ToInt32 (values[1]);
-            int exp = Convert.ToInt32 (values[2]);
-            RewardData data = new RewardData (dungeonId, gold, exp);
+            int gold = Convert.ToInt32 (values[2]);
+            int exp = Convert.ToInt32 (values[3]);
+            string description = values[1];
+            RewardData data = new RewardData (dungeonId, gold, exp, description);
             RewardDataDic.Add (data.DungeonId, data);
         }
     }

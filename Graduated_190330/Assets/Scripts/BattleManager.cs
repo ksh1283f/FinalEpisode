@@ -642,7 +642,7 @@ public class BattleManager : Singletone<BattleManager> {
             OnDamagedPlayer.Execute (playerHealthPer);
         }   
     }
-
+    private const int defaultDotVal = 2; 
     IEnumerator DamageOverTime(int stageNum)
     {
         if (stageNum < 1)   // 2단계부터 적용
@@ -651,7 +651,10 @@ public class BattleManager : Singletone<BattleManager> {
         while (!isBattleEnd || nowplayerHealth >= 0)
         {
             yield return new WaitForSeconds(1f);
-            int damageValue = 10;
+            
+            int damageValue = stageNum;
+            if(stageNum == 1)
+                damageValue++;
             DamageFloatManager.Instance.ShowDamageFont(PlayerUnitList[0].gameObject, damageValue, E_DamageType.Normal);
             nowplayerHealth -= damageValue;
             if (nowplayerHealth < 0)
@@ -954,6 +957,18 @@ public class BattleManager : Singletone<BattleManager> {
                     EffectManager.Instance.StartEffect(InvinciblePath, effectTrans.position);
                     finalDamage = 0;
                     break;
+
+                case E_BattleBuffType.SpellReflection:
+                    int damage = pattern.Damage*ActivatedBattleBuff.EffectValue;
+                    NowEnemy.GetDamaged (damage);
+                    finalDamage = 0;
+                    // 주문 반사
+                    string path = CharacterPropertyManager.Instance.SelectedHealingProperty.SkillEffectPath;
+                    EffectManager.Instance.StartEffect(path, effectTrans.position);
+
+                    float time = CharacterPropertyManager.Instance.SelectedHealingProperty.CoolTime;
+                    StartUtilCoolDown.Execute(time, true);
+                    break;
             }
         }
 
@@ -1090,7 +1105,6 @@ public class BattleManager : Singletone<BattleManager> {
         if(nowEnemy.IsBoss)
             return; // 보스는 해당안됨
       
-        // 적 패스
         if(CharacterPropertyManager.Instance.SelectedUtilProperty != null)
         {
             switch (CharacterPropertyManager.Instance.SelectedUtilProperty.EffectType)
@@ -1106,26 +1120,6 @@ public class BattleManager : Singletone<BattleManager> {
                         StartUtilCoolDown.Execute(time, true);
                     }
                     break;
-
-                case E_PropertyEffectType.WarriorHealingMastery_SpellReflection:
-                    if (UserManager.Instance.UserInfo.SelectedUnitList.Find(x => x.CharacterType.Equals(E_CharacterType.Warrior)) != null)
-                    {
-                        // 주문 반사
-                        BattleBuff buff = null;
-                        if (UserManager.Instance.UserInfo.SelectedUnitList.Find(x => x.CharacterType.Equals(E_CharacterType.Warrior)) != null)
-                            buff = new BattleBuff(E_BattleBuffType.SpellReflection, CharacterPropertyManager.Instance.SelectedUtilProperty.EffectValue);
-
-                        string path = CharacterPropertyManager.Instance.SelectedUtilProperty.SkillEffectPath;
-                        EffectManager.Instance.StartEffect(path, effectTrans.position);
-
-                        float time = CharacterPropertyManager.Instance.SelectedUtilProperty.CoolTime;
-                        StartUtilCoolDown.Execute(time, true);
-
-                        if(buff != null)
-                            ActivatedBattleBuff = buff;
-                    }
-                    break;
-                
             }
         }
     }

@@ -87,7 +87,6 @@ public class DungeonSelectContent : MonoBehaviour
         sb.Append("%");
         sb.AppendLine();
         sb.AppendLine();
-        sb.AppendLine();
 
         sb.Append("<보상 정보>");
         sb.AppendLine();
@@ -96,6 +95,9 @@ public class DungeonSelectContent : MonoBehaviour
         sb.AppendLine();
         sb.Append("gold: ");
         sb.Append(rewardData.Gold);
+        sb.AppendLine();
+        sb.AppendLine();
+        sb.Append(rewardData.Description);
 
         detailInfo = sb.ToString();
     }
