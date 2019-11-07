@@ -97,7 +97,7 @@ public class UserManager : Singletone<UserManager> {
                 TutorialManager.Instance.StartTutorial ();
 
                 // 용병 고용을 위한 100골드 제공
-                SetUserGold (100);
+                SetUserGold (130);
             };
         } else {
             // 튜토리얼이 중간에 끝난 경우?
