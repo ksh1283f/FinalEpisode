@@ -10,3 +10,4 @@
 8,3,ClassIcon/MageIcon,,마법사특화: 몬스터로부터의 피해에 면역이됩니다.(재사용 시간 40초),9,0,1000,40,MagicWall
 9,3,ClassIcon/WarlockIcon,,흑마법사특화: 자신이 입힌 데미지의 50%만큼 체력을 회복합니다.(재사용 시간 20초),10,0,50,20,Butterfly
 10,3,ClassIcon/RogueIcon,,도적특화: 죽음에 이르는 데미지를 입으면 20퍼센트의 체력을 회복합니다.(재사용시간 40초),11,0,20,40,Butterfly
+11,2,ClassIcon/WarriorIcon,,전사특화: 적으로부터 받는 다음 데미지를 반사합니다(1회). 적은 2배 증가된 데미지를 받습니다.,12,0,2,30,MagicWall
