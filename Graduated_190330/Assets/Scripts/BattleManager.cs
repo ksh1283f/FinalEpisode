@@ -643,6 +643,32 @@ public class BattleManager : Singletone<BattleManager> {
         }   
     }
 
+    IEnumerator DamageOverTime(int stageNum)
+    {
+        if (stageNum < 1)   // 2단계부터 적용
+            yield break;
+
+        while (!isBattleEnd || nowplayerHealth >= 0)
+        {
+            yield return new WaitForSeconds(1f);
+            int damageValue = 10;
+            DamageFloatManager.Instance.ShowDamageFont(PlayerUnitList[0].gameObject, damageValue, E_DamageType.Normal);
+            nowplayerHealth -= damageValue;
+            if (nowplayerHealth < 0)
+            {
+                nowplayerHealth = 0;
+                StopCoroutine(CalculateRemainCount());
+                PlayerState = Graduate.Unit.E_UnitState.Death;
+                CalculateReward(false);
+                OnGameEnd.Execute(false, thisBattleRewardData);
+                isBattleEnd = true;
+            }
+
+            float playerHealthPer = (float)nowplayerHealth / (float)MaxPlayerHealth;
+            OnDamagedPlayer.Execute(playerHealthPer);
+        }
+    }
+
     void StartCountTime () {
         StopCoroutine (CalculateRemainCount ());
         StartCoroutine (CalculateRemainCount ());
@@ -670,6 +696,7 @@ public class BattleManager : Singletone<BattleManager> {
         StartCountTime ();
         // 마법사 패시브 
         StartHealOverTime();
+        StartCoroutine(DamageOverTime(thisBattleRewardData.DungeonId));
         StopCoroutine (Battle ());
         StartCoroutine (Battle ());
     }
@@ -875,9 +902,6 @@ public class BattleManager : Singletone<BattleManager> {
 
         if (NowEnemy.EnemyUnitState.Equals( Graduate.Unit.E_UnitState.Death))
             return;
-
-        // todo  이펙트
-        // 뎀증 특성 유무 계산
 
         //ui 갱신
         DamageFloatManager.Instance.ShowDamageFont (NowEnemy.gameObject, damage, E_DamageType.Normal);
