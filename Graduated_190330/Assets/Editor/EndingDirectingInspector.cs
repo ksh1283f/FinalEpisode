@@ -65,5 +65,30 @@ public class EndingDirectingInspector : Editor
             }
         }
         EditorGUILayout.EndHorizontal();
+
+        endingDirecting.AnotherSuccessDataIndex = EditorGUILayout.IntSlider(endingDirecting.AnotherSuccessDataIndex, 0, endingDirecting.AnotherSuccessDataList.Count);
+        EditorGUILayout.BeginHorizontal();
+        {
+            if (GUILayout.Button("Insert anotherData at end"))
+            {
+                endingDirecting.InsertAnotherData();
+            }
+
+            if (GUILayout.Button("Insert anotherData at dataIndex"))
+            {
+                endingDirecting.InsertAnotherDataAtDataIndex();
+            }
+
+            if (GUILayout.Button("Remove anotherData"))
+            {
+                if (EditorUtility.DisplayDialog("유저 메세지",
+                    string.Concat(endingDirecting.FailedDataIndex, "번째 데이터를 정말로 삭제하시겠습니까?\nDataType: ", endingDirecting.FailedDataList[endingDirecting.FailedDataIndex].DirectingDataType),
+                    "예", "아니오"))
+                {
+                    endingDirecting.RemoveAnotherdData();
+                }
+            }
+        }
+        EditorGUILayout.EndHorizontal();
     }
 }

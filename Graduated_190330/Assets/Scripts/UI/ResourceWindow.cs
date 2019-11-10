@@ -11,6 +11,7 @@ public class ResourceWindow : MonoBehaviour
     [SerializeField] SkillBubbleManager defenseManager;
     [SerializeField] Button btnExit;
     [SerializeField] Button btnGotoEnding;
+    [SerializeField] Button btnNextStage;
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class ResourceWindow : MonoBehaviour
 
         btnExit.onClick.AddListener(OnClickedBtnExit);
         btnGotoEnding.onClick.AddListener(OnClickedBtnGotoEnding);
+        btnNextStage.onClick.AddListener(OnClickedBtnGotoNextStage);
     }
 
     void OnClickedBtnExit()
@@ -35,6 +37,15 @@ public class ResourceWindow : MonoBehaviour
         BattleManager.Instance.isShowEndingDirecting = true;
         SoundManager.Instance.PlayButtonSound();
         BattleManager.Instance.LoadLobbyScene();
+    }
+
+    // 심사용
+    void OnClickedBtnGotoNextStage()
+    {
+        BattleManager.Instance.IsClear = true;
+        BattleManager.Instance.isShowEndingDirecting = false;
+        SoundManager.Instance.PlayButtonSound();
+        BattleManager.instance.OnSkippedThisStage();
     }
 
     public void CreateBubble(E_SkillResourceType skillResourceType, int createCount)

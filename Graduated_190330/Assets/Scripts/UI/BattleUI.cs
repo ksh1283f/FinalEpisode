@@ -13,6 +13,7 @@ public class BattleUI : uiSingletone<BattleUI>
     [SerializeField] PhaseLogoWindow phaseLogoWindow;
     [SerializeField] BattleEndUI battleEndWindow;
     [SerializeField] Text RemainText;
+    [SerializeField] Image hitImage;
 
     protected override void Awake()
     {
@@ -60,6 +61,7 @@ public class BattleUI : uiSingletone<BattleUI>
         buttonWindow.OnClickBtnSecondProperty += BattleManager.Instance.ExecuteHealPropertySkill;
         BattleManager.Instance.StartUtilCoolDown += buttonWindow.StartPropertyCoolDown;
         BattleManager.Instance.StartHealCoolDown += buttonWindow.StartPropertyCoolDown;
+        BattleManager.instance.OnHitPlayer += ShowHitImage;
 
         buttonWindow.gameObject.SetActive(false);
         castWindow.ShowCastWindow(false);
@@ -115,11 +117,6 @@ public class BattleUI : uiSingletone<BattleUI>
             resourceWindow.UseBubble(skillResourceType, skillCount);
     }
 
-    private void SetUnitIcon()
-    {
-
-    }
-
     private void SetTimerText(float time)
     {
         if (RemainText==null)
@@ -135,5 +132,32 @@ public class BattleUI : uiSingletone<BattleUI>
     {
         battleEndWindow.gameObject.SetActive(true);
         battleEndWindow.ShowResultWindow(isClear, reward);
+    }
+
+    private void ShowHitImage()
+    {
+        StopCoroutine(directingHit());
+        StartCoroutine(directingHit());
+    }
+
+    IEnumerator directingHit()
+    {
+        if (hitImage == null)
+            yield break;
+
+        Color alpha = hitImage.color;
+        float startTime = 0f;
+        float fadeDuration = 0.8f;
+        float startVal = 0.3f;
+        float endVal = 0f;
+        alpha.a = Mathf.Lerp(startVal, endVal, startTime);
+        while (alpha.a > endVal)
+        {
+            startTime += Time.deltaTime / fadeDuration;
+            alpha.a = Mathf.Lerp(startVal, endVal, startTime);
+            hitImage.color = alpha;
+
+            yield return null;
+        }
     }
 }

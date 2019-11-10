@@ -34,6 +34,10 @@ public class LobbyUI : uiSingletone<LobbyUI>
         UserManager.Instance.OnUpdatedUserInfo += SetUserInfoWithData;
         camScrollBar.onValueChanged.AddListener(OnMovedScrollBar);
 
+        //  battlemanager 체크
+        if (BattleManager.instance != null)
+            BattleManager.Instance.DestroyBattleManager();
+
     }
 
     public override void Show()

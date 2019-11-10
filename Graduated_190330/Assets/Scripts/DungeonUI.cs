@@ -134,6 +134,7 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
     void OnClickedStart()
     {
         SoundManager.Instance.PlayButtonSound();
+        btnStart.interactable = false;
         //todo 던전 단수에 맞게 데이터 조정- battlemanager 안의 initBattle 참조
         if (UserManager.Instance.SelectedDungeonMonsterData == null)
         {

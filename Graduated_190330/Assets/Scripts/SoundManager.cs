@@ -56,7 +56,10 @@ public class SoundManager : Singletone<SoundManager>
     [SerializeField] List<AudioSource> soundList = new List<AudioSource>();
     public AudioSource PresentSound = null;
     public AudioSource buttonEffectSound;
-
+    public AudioSource explosionSound;
+    public AudioSource synthEffectSound;
+    public AudioSource screamSound;
+    public AudioSource playerHitSound;
 
     void Start()
     {
@@ -96,5 +99,37 @@ public class SoundManager : Singletone<SoundManager>
             return;
 
         buttonEffectSound.Play();
+    }
+
+    public void PlayExplosionSound()
+    {
+        if (explosionSound == null)
+            return;
+
+        explosionSound.Play();
+    }
+
+    public void PlaySynthEffectSound()
+    {
+        if (synthEffectSound == null)
+            return;
+
+        synthEffectSound.Play();
+    }
+
+    public void PlayScreamSound()
+    {
+        if (screamSound == null)
+            return;
+
+        screamSound.Play();
+    }
+
+    public void PlayHitSound()
+    {
+        if (playerHitSound == null)
+            return;
+
+        playerHitSound.Play();
     }
 }

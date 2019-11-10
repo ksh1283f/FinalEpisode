@@ -14,6 +14,7 @@ public enum E_EndingDirectingDataType
     PlayersDeathAni,
     EnemiesDeathAni,
     Dialogue,
+    ObjectMoving,
 } 
 
 [Serializable]
@@ -32,18 +33,24 @@ public class EndingDirecting : MonoBehaviour
     [SerializeField] Graduate.Unit.Enemy.EnemyUnit enemy;
     public List<EndingDirectingData> SuccessDataList = new List<EndingDirectingData>();
     public List<EndingDirectingData> FailedDataList = new List<EndingDirectingData>();
+    public List<EndingDirectingData> AnotherSuccessDataList = new List<EndingDirectingData>();
 
     [SerializeField] Dialogue dialogue;
     [SerializeField] Button btnSkip;
     [SerializeField] Button btnFailed;
+    [SerializeField] Transform anotherCamPos;
+
+    Camera mainCam;
 
     /* Inspector */
     public int SuccessDataIndex;
     public int FailedDataIndex;
+    public int AnotherSuccessDataIndex;
 
     void Start()
     {
         DontDestroyOnLoad(this);
+        mainCam = Camera.main;
         if(btnSkip != null)
             btnSkip.onClick.AddListener(OnClickedBtnSkip);
             
@@ -57,10 +64,29 @@ public class EndingDirecting : MonoBehaviour
         StartCoroutine(SceneDirecting());
     }
 
-    List<EndingDirectingData> GetEndingDirectingList(bool isClear)
+    List<EndingDirectingData> GetEndingDirectingList(bool isClear, bool isAnotherEnding)
     {
-        return isClear ? SuccessDataList : FailedDataList;
+        // 반환형이 따른 카메라 위치 조정
+        // 케릭터 위치 조정
+        // todo 다중엔딩 조건체크
+        if (isClear)
+        {
+            if(isAnotherEnding)
+            {
+                int gold = UserManager.Instance.UserInfo.Gold;
+                gold += 1000;
+                UserManager.instance.SetUserGold(gold);
+                mainCam.transform.position = anotherCamPos.transform.position;
+                mainCam.transform.rotation = anotherCamPos.transform.rotation;
+                return AnotherSuccessDataList;
+            }
+
+            return SuccessDataList;
+        }
+
+        return FailedDataList;
     }
+
     public bool isClearTest;
     // 연출에서 인터랙션은 스킵버튼만
     IEnumerator SceneDirecting()
@@ -74,7 +100,7 @@ public class EndingDirecting : MonoBehaviour
        
         #endregion
         int directingIndex = 0;
-        List<EndingDirectingData> directingList = GetEndingDirectingList(BattleManager.instance.IsClear);
+        List<EndingDirectingData> directingList = GetEndingDirectingList(BattleManager.Instance.IsClear, BattleManager.Instance.isAnotherEnding);
         // List<EndingDirectingData> directingList = GetEndingDirectingList(isClearTest);
 
         while (directingIndex < directingList.Count)
@@ -137,18 +163,24 @@ public class EndingDirecting : MonoBehaviour
                     yield return new WaitForSeconds(2f);
                     dialogue.ClearText();
                     break;
+
+                case E_EndingDirectingDataType.ObjectMoving:
+                    DirectingCrypt dc = data.Target.GetComponent<DirectingCrypt>();
+                    if (dc == null)
+                        Debug.LogError("DirectingCrypt is null");
+                    else
+                    {
+                        dc.StartDirecting(data.DirectingValue);
+                        while (!dc.IsDirectingEnd)
+                            yield return null;
+                    }
+                    break;
             }
             Debug.LogError("DataIndex:"+directingIndex+" type: "+data.DirectingDataType);
             directingIndex++;
             yield return new WaitForSeconds(1f);
         }
        
-        // UserManager.Instance.ao  = SceneManager.LoadSceneAsync("NewLobby");
-        // while (!UserManager.Instance.ao.isDone)
-        //     yield return null;
-
-        // UserManager.Instance.UserSituation = E_UserSituation.LoadingLobby;
-        // Destroy(gameObject);
         StartCoroutine(GoToLobby(BattleManager.instance.IsClear));
     }
 
@@ -239,5 +271,36 @@ public class EndingDirecting : MonoBehaviour
         }
 
         FailedDataList.RemoveAt(FailedDataIndex);
+    }
+
+
+    /// <summary>
+    /// 맨 끝에 데이터를 추가
+    /// </summary>
+    public void InsertAnotherData()
+    {
+        AnotherSuccessDataList.Add(new EndingDirectingData());
+    }
+
+    /// <summary>
+    /// 넣고싶은 데이터를 원하는 인덱스의 위치에 추가
+    /// </summary>
+    public void InsertAnotherDataAtDataIndex()
+    {
+        AnotherSuccessDataList.Insert(AnotherSuccessDataIndex, new EndingDirectingData());
+    }
+
+    /// <summary>
+    /// 없애고 싶은 데이터를 제거
+    /// </summary>
+    public void RemoveAnotherdData()
+    {
+        if (AnotherSuccessDataList.Count == 0)
+        {
+            Debug.LogError("AnotherDataList is empty");
+            return;
+        }
+
+        AnotherSuccessDataList.RemoveAt(AnotherSuccessDataIndex);
     }
 }

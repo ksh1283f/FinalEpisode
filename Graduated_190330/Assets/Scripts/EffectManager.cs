@@ -34,29 +34,42 @@ public class EffectManager : Singletone<EffectManager>
         switch (type)
         {
             case E_SkillEffectType.UserGenerateResourceEffect:
+                SoundManager.Instance.PlaySynthEffectSound();
                 StartEffect(generateResourceEffect,pos);
                 break;
 
             case E_SkillEffectType.UserUseAttackSkillEffect:
                 StartEffect(useAttackBasicSkillEffect,pos);
+                SoundManager.Instance.PlayExplosionSound();
                 break;
 
             case E_SkillEffectType.UserUseUtilSkillEffect:
                 StartEffect(useUtilBasicSkillEffect, pos);
+                SoundManager.Instance.PlayExplosionSound();
                 break;
 
             case E_SkillEffectType.UserUseDefendSkillEffect:
                 StartEffect(useDefendBasicSkillEffect, pos);
+                SoundManager.Instance.PlayExplosionSound();
                 break;
 
             case E_SkillEffectType.UserUseComplexSkillEffect:
                 StartEffect(useComplexBasicSkillEffect, pos);
+                SoundManager.Instance.PlayExplosionSound();
                 break;
         }
     }
+
     public void StartEffect(string path, Vector3 pos)
     {
-        Debug.LogWarning(path);
+        GameObject effect = Instantiate(Resources.Load<GameObject>(path)) as GameObject;
+
+        effect.transform.position = pos;
+        effect.SetActive(true);
+    }
+
+    public void StartEffect(string path, Vector3 pos, bool isSound)
+    {
         GameObject effect = Instantiate(Resources.Load<GameObject>(path)) as GameObject;
 
         effect.transform.position = pos;
