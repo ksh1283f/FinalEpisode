@@ -12,6 +12,7 @@ public class ResourceWindow : MonoBehaviour
     [SerializeField] Button btnExit;
     [SerializeField] Button btnGotoEnding;
     [SerializeField] Button btnNextStage;
+    [SerializeField] Button btnHiddenEnding;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class ResourceWindow : MonoBehaviour
         btnExit.onClick.AddListener(OnClickedBtnExit);
         btnGotoEnding.onClick.AddListener(OnClickedBtnGotoEnding);
         btnNextStage.onClick.AddListener(OnClickedBtnGotoNextStage);
+        btnHiddenEnding.onClick.AddListener(OnClickedBtnHiddenStage);
     }
 
     void OnClickedBtnExit()
@@ -44,6 +46,16 @@ public class ResourceWindow : MonoBehaviour
     {
         BattleManager.Instance.IsClear = true;
         BattleManager.Instance.isShowEndingDirecting = false;
+        SoundManager.Instance.PlayButtonSound();
+        BattleManager.instance.OnSkippedThisStage();
+    }
+
+    // 심사용
+    void OnClickedBtnHiddenStage()
+    {
+        BattleManager.Instance.IsClear = true;
+        BattleManager.Instance.isShowEndingDirecting = true;
+        BattleManager.Instance.isAnotherEnding = true;
         SoundManager.Instance.PlayButtonSound();
         BattleManager.instance.OnSkippedThisStage();
     }

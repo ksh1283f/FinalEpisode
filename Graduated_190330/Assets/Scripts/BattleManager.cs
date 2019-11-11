@@ -146,11 +146,11 @@ public class BattleManager : Singletone<BattleManager>
     Follow mainFollowCam;
     Coroutine monsterCasting;
     bool shouldGoToNext = false;
+    Coroutine healOverTime;
 
     // none -> showLogo -> init -> Battle -> end
     void Start()
     {
-        // todo 현재 선택돤 던전의 데이터를 바탕으로 시간 셋팅
         RemainTime = UserManager.Instance.SelectedDungeonMonsterData.LimitTime;
         OnExecuteInit += InitBattle;
         OnExecuteShowLogo += BattleUI.Instance.ShowBattleLogo;
@@ -222,7 +222,7 @@ public class BattleManager : Singletone<BattleManager>
         for (int i = 0; i < PlayerUnitList.Count; i++)
             PlayerUnitList[i].speed = averageSpd;
 
-        OnUpdatedPlayerSkill.Execute();
+
 
         BattlePhase = E_BattlePhase.Init;
         PhaseCheckerList = FindObjectsOfType<PhaseChecker>().ToList();
@@ -233,6 +233,7 @@ public class BattleManager : Singletone<BattleManager>
                 PhaseCheckerList[i].OnStartPhase += StartPhase;
             }
         }
+        OnUpdatedPlayerSkill.Execute();
     }
 
     void InitBattle()
@@ -654,8 +655,9 @@ public class BattleManager : Singletone<BattleManager>
         string path = CharacterPropertyManager.Instance.SelectedUtilProperty.SkillEffectPath;
         EffectManager.Instance.StartEffect(path, effectTrans.position);
 
-        StopCoroutine(HealOverTime(mageNum));
-        StartCoroutine(HealOverTime(mageNum));
+        //StopCoroutine(HealOverTime(mageNum));
+        if (healOverTime == null)
+            healOverTime = StartCoroutine(HealOverTime(mageNum));
     }
 
     IEnumerator HealOverTime(float mageNum)
@@ -1241,6 +1243,7 @@ public class BattleManager : Singletone<BattleManager>
     public void OnSkippedThisStage()
     {
         StopCoroutine(CalculateRemainCount());
+        StopCoroutine(healOverTime);
         // ui상으로 보여주기
 
         OnGameEnd.Execute(true, thisBattleRewardData);

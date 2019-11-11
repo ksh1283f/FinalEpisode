@@ -141,14 +141,16 @@ public class OpeningDirecting : MonoBehaviour
                 yield return null;
             }
             // 1. 지역별 설명(설명이 나올 때 각 지역별 이미지를 띄우면서(이미지가 있는 쪽에서 가운데로 오도록 이동) 설명, 마지막에 가운데 지역 설명)
-            
+
             // 1-1. 각 맵 이미지들이 중앙으로 이동하는 연출
             // 1-2. 다이얼로그 타이핑 연출
+            dialogue.IsCutSceneDirecting = false;
             dialogue.ShowDialogue(dialogue.dialogueDic[dialogue.DialogueDicIndex]);
             while (!dialogue.IsTypingEnd)
                 yield return null;  // 타이핑 연출이 끝날때까지 대기
 
             // 1-3. (FO) 
+            dialogue.IsCutSceneDirecting = true;
             yield return new WaitForSeconds(1f);
             tempColor = mapList[i].color;
             startTime = 0f;
@@ -164,10 +166,12 @@ public class OpeningDirecting : MonoBehaviour
         }
 
         // 2. 게임의 목표 설명(자세히x)    
+        dialogue.IsCutSceneDirecting = false;
         dialogue.ShowDialogue(dialogue.dialogueDic[dialogue.DialogueDicIndex]);
         while (!dialogue.IsTypingEnd)
             yield return null;  // 타이핑 연출이 끝날때까지 대기
 
+        dialogue.IsCutSceneDirecting = true;
         UserManager.Instance.ao  = SceneManager.LoadSceneAsync("NewLobby");
         while (!UserManager.Instance.ao.isDone)
             yield return null;

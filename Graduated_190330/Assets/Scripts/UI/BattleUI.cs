@@ -19,21 +19,25 @@ public class BattleUI : uiSingletone<BattleUI>
     {
         uiType = E_UIType.Battle;
         base.Awake();
-    }
 
-    void Start()
-    {
-        if (buttonWindow==null)
+        if (buttonWindow == null)
             return;
 
-        if (castWindow==null)
+        if (castWindow == null)
             return;
 
-        if (resourceWindow==null)
+        if (resourceWindow == null)
             return;
 
-        if (statWindow==null)
+        if (statWindow == null)
             return;
+
+        buttonWindow.gameObject.SetActive(false);
+        castWindow.ShowCastWindow(false);
+
+        resourceWindow.gameObject.SetActive(false);
+        statWindow.gameObject.SetActive(false);
+        battleEndWindow.gameObject.SetActive(false);
 
         phaseLogoWindow.OnEndDirecting += OnEndDirecting;
         buttonWindow.InitCallBacks();
@@ -63,13 +67,13 @@ public class BattleUI : uiSingletone<BattleUI>
         BattleManager.Instance.StartHealCoolDown += buttonWindow.StartPropertyCoolDown;
         BattleManager.instance.OnHitPlayer += ShowHitImage;
 
-        buttonWindow.gameObject.SetActive(false);
-        castWindow.ShowCastWindow(false);
-
-        resourceWindow.gameObject.SetActive(false);
-        statWindow.gameObject.SetActive(false);
-        battleEndWindow.gameObject.SetActive(false);
+       
     }
+
+    //void Start()
+    //{
+        
+    //}
 
     public void ShowCastWindow(bool isShow)
     {

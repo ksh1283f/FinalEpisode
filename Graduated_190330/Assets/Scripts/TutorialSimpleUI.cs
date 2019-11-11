@@ -10,7 +10,7 @@ public class TutorialSimpleUI : uiSingletone<TutorialSimpleUI> {
     [SerializeField] Button btnPrev;
     [SerializeField] Image image;
 
-    public Dictionary<E_SimpleTutorialType, Dictionary<int, TutorialSimpleData>> presentTutorialDic;
+    public Dictionary<E_SimpleTutorialType, Dictionary<int, TutorialSimpleData>> presentTutorialDic = new Dictionary<E_SimpleTutorialType, Dictionary<int, TutorialSimpleData>>();
     public E_SimpleTutorialType PresentTutorialType {get; private set;}
     private int dicIndex =0;
     private string title;

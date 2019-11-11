@@ -77,8 +77,11 @@ public class TutorialManager : Singletone<TutorialManager>
             && !serializedDataList[index].lobbyContentsUI.gameObject.activeSelf)
                 yield return null;
 
-            while (presentData != null && presentData.lobbyContentsUI.gameObject.activeSelf)
-                yield return null;
+            //if (presentData.lobbyContentsType != E_LobbyContents.ToBattle)
+            //{
+                while (presentData != null && presentData.lobbyContentsUI.gameObject.activeSelf)
+                    yield return null;
+            //}
 
             // 4. 대상 ui가 종료되면 다음으로
             LobbyContentsManager.Instance.lobbyContentsDic[serializedDataList[index].lobbyContentsType].IsThisContentsTurnInTutorial = false;
