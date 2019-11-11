@@ -296,8 +296,17 @@ public class ButtonWindow : MonoBehaviour
         {
             btnFirstProperty.image.sprite =  null;
             btnFirstProperty.interactable = false;
-            firstPropertyCoolDownImage.gameObject.SetActive(false);
-            firstPropertyCoolDownText.gameObject.SetActive(false);
+            if(firstPropertyCoolDownImage == null)          
+                firstPropertyCoolDownImage = GetCooldownImage(btnFirstProperty);
+
+            if(firstPropertyCoolDownText == null)
+                firstPropertyCoolDownText = GetCooldownText(btnFirstProperty);
+
+            if(firstPropertyCoolDownImage != null)
+                firstPropertyCoolDownImage.gameObject.SetActive(false);
+                
+            if(firstPropertyCoolDownText != null)
+                firstPropertyCoolDownText.gameObject.SetActive(false);
         }
 
         if(CharacterPropertyManager.Instance.SelectedHealingProperty != null)
@@ -308,8 +317,17 @@ public class ButtonWindow : MonoBehaviour
         {
             btnSecondProperty.image.sprite = null;
             btnSecondProperty.interactable = false;
-            secondPropertyCoolDownImage.gameObject.SetActive(false);
-            secondPropertyCoolDownText.gameObject.SetActive(false);
+            if(secondPropertyCoolDownImage == null)
+                secondPropertyCoolDownImage = GetCooldownImage(btnSecondProperty);
+
+            if(secondPropertyCoolDownText == null)
+                secondPropertyCoolDownText = GetCooldownText(btnSecondProperty);
+
+            if(secondPropertyCoolDownImage != null)
+                secondPropertyCoolDownImage.gameObject.SetActive(false);
+                
+            if(secondPropertyCoolDownText != null)
+                secondPropertyCoolDownText.gameObject.SetActive(false);
         }
     }
 }
