@@ -20,7 +20,7 @@ public class SaveDataManager : Singletone<SaveDataManager>
 
     void Start()
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN ||UNITY_STANDALONE_OSX
         dataFullPath = string.Concat(Application.dataPath, dataPath);
 #elif UNITY_ANDROID || UNITY_IOS
         dataFullPath = string.Concat(Application.persistentDataPath, dataPath);
