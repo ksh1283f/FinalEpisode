@@ -23299,7 +23299,7 @@ MonoBehaviour:
     delayTime: 0
     IsThisTutorialEnd: 0
   - DetailId: 2
-    lobbyContentsUI: {fileID: 447409537}
+    lobbyContentsUI: {fileID: 1421973880}
     lobbyContentsType: 4
     camXpos: 276.3
     Dialogue: "\uC774\uC81C \uC900\uBE44\uAC00 \uB2E4 \uB418\uC5C8\uC2B5\uB2C8\uB2E4.

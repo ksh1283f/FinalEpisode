@@ -134,7 +134,7 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
     void OnClickedStart()
     {
         SoundManager.Instance.PlayButtonSound();
-        btnStart.interactable = false;
+        
         //todo 던전 단수에 맞게 데이터 조정- battlemanager 안의 initBattle 참조
         if (UserManager.Instance.SelectedDungeonMonsterData == null)
         {
@@ -150,6 +150,7 @@ public class DungeonUI : uiSingletone<DungeonUI>, IBaseUI
             message.Show(new string[] { "유저 메세지", "출전할 용병이 없습니다.\n사무소에서 출전할 용병을 선택해주세요\n용병이 없는 경우 훈련소에서 용병을 고용할 수 있습니다." });
             return;
         }
+        btnStart.interactable = false;
 
         StartCoroutine(BattleSceneLoad());
     }

@@ -18,9 +18,7 @@ public class TutorialSimpleUI : uiSingletone<TutorialSimpleUI> {
     protected override void Awake () {
         uiType = thisTutorialSimpleType;
         base.Awake ();
-    }
 
-    void Start () {
         if (titleText == null)
             return;
 
@@ -33,16 +31,20 @@ public class TutorialSimpleUI : uiSingletone<TutorialSimpleUI> {
         if (btnPrev == null)
             return;
 
-        if(image == null)
+        if (image == null)
             return;
-        
-        presentTutorialDic = new Dictionary<E_SimpleTutorialType, Dictionary<int, TutorialSimpleData>>();
-        btnPrev.onClick.AddListener (() => { OnBtnPrev (); });
-        btnNext.onClick.AddListener (() => { OnBtnNext (); });
-        Close ();
+
+        if(presentTutorialDic == null)
+            presentTutorialDic = new Dictionary<E_SimpleTutorialType, Dictionary<int, TutorialSimpleData>>();
+        btnPrev.onClick.AddListener(() => { OnBtnPrev(); });
+        btnNext.onClick.AddListener(() => { OnBtnNext(); });
+
+        Debug.Log("Tutorial simple ui start");
+        Close();
     }
 
     // 튜토리얼을 켜야하는 상황이면 켠다
+    [ContextMenu("show")]
     public override void Show (string[] dataList) {
 
         base.Show (dataList);
@@ -53,6 +55,9 @@ public class TutorialSimpleUI : uiSingletone<TutorialSimpleUI> {
             Debug.LogError ("dataList's length is wrong, correct data count: " + 2 + " took data count: " + dataList.Length);
             return;
         }
+
+        if (!gameObject.activeSelf)
+            gameObject.SetActive(true);
 
         title = dataList[0];
         dicIndex = 0;
