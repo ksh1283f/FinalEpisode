@@ -18,7 +18,7 @@
 - 서로 다른 특성스킬을 가진 용병들을 각 스테이지의 특성에 맞게 잘 조합하여 공략을 유도
 - 고정된 가격으로 용병을 고용 혹은 인게임 내 특정 이벤트 발생 시 더 저렴한 가격에 고용할 수 있고 혹은 이에 따라 더 비싼 가격으로 판매도 가능하도록 구현
 
-<>
+<실행영상>
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/q3uSfJLIHHw/0.jpg)](https://www.youtube.com/watch?v=q3uSfJLIHHw)
 
 ### 2. 프로그램 기본 구조
