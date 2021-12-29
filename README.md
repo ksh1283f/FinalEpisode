@@ -4,8 +4,7 @@
 
 [![Made with Unity](https://img.shields.io/badge/Made%20with-Unity-57b9d3.svg?style=flat&logo=unity)](https://unity3d.com)         [![Xcode](https://img.shields.io/badge/Xcode-11.0-blue)](https://developer.apple.com/xcode/) ![Platform](https://img.shields.io/badge/iOS-12-green) ![GarageBand](https://img.shields.io/badge/Sound-GarageBand-orange)
 
-<!-- todo insert game title image or battle image-->
-[![Ttitle](./Img/Title.png)]
+![Ttitle](./Img/Title.png)
 
 ### Contents
 1. 개요
@@ -13,7 +12,7 @@
 3. 기능별 상세내역
 
 ### 1. 개요
-[![Lobby](./Img/Lobby.png)]
+![Lobby](./Img/Lobby.png)
 
 - 용병을 고용&육성해서 스테이지를 단계별로 공략해나가는 플레이방식
 - 서로 다른 특성스킬을 가진 용병들을 각 스테이지의 특성에 맞게 잘 조합하여 공략을 유도
@@ -22,7 +21,7 @@
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/q3uSfJLIHHw/0.jpg)](https://www.youtube.com/watch?v=q3uSfJLIHHw)
 
 ### 2. 프로그램 기본 구조
-<!-- todo insert image or table structure -->
+
 #### (1) 유저정보
 - JSON 형식으로 입출력
 - 유저 기본 정보 관리(유저이름 및 보유 재화량)
@@ -64,53 +63,53 @@
 
 ### 3. 기능별 상세내역
 ### (1) 타이틀 화면
-[![Title](./Img/Title.png)]
+![Title](./Img/Title.png)
 - 타이틀 이미지 떨어지는 연출
 - Start 버튼 클릭 시 게임 첫실행 여부를 체크하여 오프닝 씬을 로딩할지 마을씬으로 바로 로딩할지 결정
 - Option: 사운드 음량 조절 기능
 
 ### (2) 오프닝 씬
-[![Opening](./Img/Opening.png)]
+![Opening](./Img/Opening.png)
 - 게임의 시작 스토리 설명
 - 설정된 데이터의 순서에 따라 보여줄 오브젝트 및 움직임 등의 연출
 
 ### (3) 로비 씬
-[![Lobby](./Img/Lobby.png)]
+![Lobby](./Img/Lobby.png)
 - 기본 ui: 유저 이름, 레벨, 경험치, 골드 보유량 표시
 - 텍스트로 표시된(ex.훈련소, 던전) 오브젝트 터치 시 해당 컨텐츠 표시
 - 게임 첫 실행 시 튜토리얼 실행
 
 ### (4) 캐릭터 관리
-[![CharacterManager](./Img/CharacterManager.png)]
+![CharacterManager](./Img/CharacterManager.png)
 - 현재 유저가 보유중인 용병 목록 표시
 - 좌측 용병 목록 터치 시, 해당 용병의 상세정보를 우측에 표시(레벨 등)
 - 전투에 사용할 용병 선택 기능
 
 ### (5) 용병 고용
-[![Hire](./Img/Hire.png)]
+![Hire](./Img/Hire.png)
 - 직업별 용병 고용 기능
 - 좌측 용병 목록 터치 시 터치된 용병의 상세 능력치와 설명을 우측에 표시
 - 보유 골드량 체크하여 구매 가능 여부 표시
 
 ### (6) 용병 특성 스킬
-[![SpecialSkill](./Img/SpecialSkill.png)]
+![SpecialSkill](./Img/SpecialSkill.png)
 - 각 용병별로 다른 특성 스킬제공
 - 각 특성스킬은 해당 용병이 전투 출전 리스트에 포함되었을때만 사용할 수 있도록 구현
 
 ### (7) 용병 시장
-[![Market](./Img/Market.png)]
+![Market](./Img/Market.png)
 - 마을 씬에 들어올때마다(ex. 전투가 끝나고 마을로 돌아왔을 때, 게임을 실행하여 마을로 들어왔을 때) 특정 용병의 판매, 구매와 관련한 이벤트 갱신
 - 현재 보유중인 용병의 판매 기능 및 구매 가능한 용병의 목록 제공
 - 진행중인 이벤트에 따라 용병의 구매/판매 가격 변동
 - '새로운 소식' 버튼을 터치하여 어떤 용병을 타겟으로 이벤트가 진행될지 확인 가능
 
 ### (8) 던전 정보
-[![DungeonInfo](./Img/DungeonInfo.png)]
+![DungeonInfo](./Img/DungeonInfo.png)
 - 유저 데이터를 기반으로 현재 플레이어가 클리어한 스테이지의 목록과 최대 클리어 스테이지보다 1단계 위의 스테이지 표시
 - 스테이지 별 상세정보를 게임 기초데이터로 초기화하여 표시
 
 ### (9) 전투
-[![Battle](./Img/Battle.png)]
+![Battle](./Img/Battle.png)
 - 선택한 용병 리스트를 바탕으로 UI갱신, 모델링 프리팹 생성
 - 선택한 스테이지의 몬스터 정보 셋팅
 - 기본적인 전투 프로세스(횡스크롤 방식으로 자동으로 오른쪽으로 이동 - 적 발견 - 전투 시작 - 전투 종료 및 결과 표시)
@@ -120,11 +119,7 @@
 - 각 용병들은 공격형, 방어형, 치유형 방식으로 특화되어 있어 스테이지를 공략하는 방식에 선택지를 부여
 
 ### (10) 엔딩
-[![Ending](./Img/Ending.png)]
+![Ending](./Img/Ending.png)
 - 클리어 성공/ 실패/ hp가 50% 이상인 상태에서 클리어, 3가지 경우에 따라 다른 엔딩이 나오도록 구현
 - 연출을 편하게 작업할 수 있도록 연출 데이터를 관리하는 클래스의 인스펙터를 커스터마이징하여 데이터를 더 편하게 삽입/삭제 기능 추가
-
-
-
-
 
